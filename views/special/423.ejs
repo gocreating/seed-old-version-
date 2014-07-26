@@ -1,0 +1,16 @@
+<%- contentFor('body') %>
+<p>
+	You have been authorized.<br>
+	If you want to switch identity, please 
+	<% if (isCustomer) { %>
+		<a href="/user/logout">Logout</a>
+	<% } else if (isManager) { %>
+		<a href="/manager/logout">Logout</a>
+	<% } else if (isAdmin) { %>
+		<a href="/admin/logout">Logout</a>
+	<% } else { %>
+		logout
+	<% } %>
+	 first.
+</p>
+<a href="/">Go Home</a>

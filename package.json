@@ -1,0 +1,27 @@
+{
+  "name": "seed",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": ">=4",
+
+    "serve-favicon": "*",
+    "morgan": "*",
+    "body-parser": "*",
+    "method-override": "*",
+    "cookie-parser": "*",
+    "express-session":"*",
+
+    "errorhandler": "*",
+
+    "ejs": "*",
+    "express-ejs-layouts": "*",
+    "nodemailer": "*",
+    "validator": "*",
+    "mysql": "*",
+    "express-mysql-session": "*"
+  }
+}
