@@ -1,4 +1,4 @@
 module.exports = function (req, res, next) {
-	res.render404()
-	next();
+	// Redirect to the URL that angular can accept
+	res.redirect('/#' + req.path);
 };

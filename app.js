@@ -12,7 +12,6 @@ var expressLayouts = require('express-ejs-layouts'),
 	favicon        = require('serve-favicon'),
 	morgan         = require('morgan'),
 	bodyParser     = require('body-parser'),
-	methodOverride = require('method-override'),
 	cookieParser   = require('cookie-parser'),
 	session        = require('express-session');
 
@@ -41,8 +40,10 @@ app.use(expressLayouts);                             // view layout
 app.use(express.static(__dirname + '/public'));      // serving static files
 app.use(morgan('dev'));                              // log every request to the console
 app.use(favicon(__dirname + '/public/favicon.ico')); // favicon.ico
-app.use(bodyParser.urlencoded({extended: true}));    // body parsing (req.body)
-app.use(methodOverride());                           // rewrite PUT and DELETE methods (app.put, app.delete)
+app.use(bodyParser.urlencoded({                      // body parsing (req.body)
+	extended: true
+}));
+app.use(bodyParser.json());
 app.use(cookieParser(config.secret.cookieSecret));   // parse cookie header (req.cookies)
 app.use(session({                                    // parse session (req.session)
 	secret: config.secret.sessionSecret,
@@ -63,8 +64,10 @@ app.use(session({                                    // parse session (req.sessi
  *                                                            *
  **************************************************************/
 
+var router = express.Router();
 app.use(require('./routes/middlewares/reply'));
 app.use(require('./routes/middlewares/specialPage'));
+app.use(router);
 app.use(require('./routes/middlewares/pageNotFound'));
 
 // // Authentication
@@ -86,7 +89,8 @@ if ('development' === env) {
  *                                                            *
  **************************************************************/
 
-require('./routes/main/general')(app);
+// require('./routes/main/general')(app);
+require('./routes/main/user')(router);
 
 /**************************************************************
  *                                                            *

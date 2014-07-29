@@ -1,7 +1,6 @@
 # Seed
-A seed project for building a website using nodejs (back-end), angularjs (front-end) and mysql (database) 
-
-----------
+A seed project for building a website using nodejs (back-end), angularjs (front-end) and mysql (database)  
+  
 
 ## Tutorial
 
@@ -33,11 +32,14 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
     }
   };
   ```
-2. Install dependencies
+2. Install dependencies  
+
   ```
   $ npm install
   ```
-3. Start server
+
+3. Start server  
+
   ```
   $ node app.js
   ```

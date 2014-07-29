@@ -1,0 +1,139 @@
+Register
+
+<!-- novalidate prevents HTML5 validation since we will be validating ourselves -->
+<form name="fm" ng-submit="submit(fm.$valid)" novalidate>
+	<p>
+		<label>
+			E-mail*
+			<input
+				name="email" type="email" placeholder="your_email@example.com"
+				ng-model="form.email" ng-minlength="3" ng-maxlength="63" required
+				ng-class="{
+					'validation-error': (fm.email.$dirty && fm.email.$invalid) || error.isEmailExist,
+					'validation-succ': fm.email.$dirty && fm.email.$valid
+				}"
+				ng-change="error.isEmailExist=false">
+		</label>
+		<span ng-show="fm.email.$dirty">
+			<span ng-show="fm.email.$valid">V</span>
+			<span ng-show="fm.email.$invalid">X</span>
+			<span ng-show="fm.email.$error.required">Required</span>
+			<span ng-show="fm.email.$error.minlength">Too short</span>
+			<span ng-show="fm.email.$error.maxlength">Too long</span>
+		</span>
+		<span ng-show="error.isEmailExist">{{error.msg}}</span>
+	</p>
+	<p>
+		<label>
+			Password*
+			<input
+				name="password" type="password" placeholder="Password"
+				ng-model="form.password" ng-minlength="8" ng-maxlength="20" required
+				ng-class="{
+					'validation-error': fm.password.$dirty && fm.password.$invalid,
+					'validation-succ': fm.password.$dirty && fm.password.$valid
+				}">
+		</label>
+		<span ng-show="fm.password.$dirty">
+			<span ng-show="fm.password.$valid">V</span>
+			<span ng-show="fm.password.$invalid">X</span>
+			<span ng-show="fm.password.$error.required">Required</span>
+			<span ng-show="fm.password.$error.minlength">Too short</span>
+			<span ng-show="fm.password.$error.maxlength">Too long</span>
+		</span>
+	</p>
+	<p>
+		<label>
+			Password Confirm*
+			<input
+				name="confirm" type="password" placeholder="Confirm"
+				ng-model="form.confirm" ng-minlength="8" ng-maxlength="20" required
+				ng-class="{
+					'validation-error': fm.confirm.$dirty && (fm.password.$invalid || (form.confirm != form.password)),
+					'validation-succ': fm.confirm.$dirty && fm.password.$valid && (form.confirm == form.password)
+				}">
+		</label>
+		<span ng-show="fm.confirm.$dirty">
+			<span ng-show="fm.password.$valid && (form.confirm == form.password)">V</span>
+			<span ng-show="fm.password.$invalid || (form.confirm != form.password)">X</span>
+			<span ng-show="fm.password.$invalid || (form.confirm != form.password)">Conflict with password</span>
+		</span>
+		</label>
+	</p>
+	<p>
+		<label>
+			Name*
+			<input
+				name="name" type="text" placeholder="Name"
+				ng-model="form.name" ng-minlength="2" ng-maxlength="16" required
+				ng-class="{
+					'validation-error': fm.name.$dirty && fm.name.$invalid,
+					'validation-succ': fm.name.$dirty && fm.name.$valid
+				}">
+		</label>
+		<span ng-show="fm.name.$dirty">
+			<span ng-show="fm.name.$valid">V</span>
+			<span ng-show="fm.name.$invalid">X</span>
+			<span ng-show="fm.name.$error.required">Required</span>
+			<span ng-show="fm.name.$error.minlength">Too short</span>
+			<span ng-show="fm.name.$error.maxlength">Too long</span>
+		</span>
+	</p>
+	<p>
+		<label>Sex*</label>
+		<label><input type="radio" value="0" ng-model="form.sex">Male</label>
+		<label><input type="radio" value="1" ng-model="form.sex">Female</label>
+	</p>
+	<p>
+		<label>
+			Birthday
+			<input type="date" ng-model="form.birthday">
+		</label>
+	</p>
+	<p>
+		<label>
+			Phone
+			<input
+				name="phone" type="text" placeholder="Phone"
+				ng-model="form.phone" ng-maxlength="20"
+				ng-class="{
+					'validation-error': fm.phone.$dirty && fm.phone.$invalid,
+					'validation-succ': fm.phone.$dirty && fm.phone.$valid
+				}">
+		</label>
+		<span ng-show="fm.phone.$dirty">
+			<span ng-show="fm.phone.$valid">V</span>
+			<span ng-show="fm.phone.$invalid">X</span>
+			<span ng-show="fm.phone.$error.maxlength">Too long</span>
+		</span>
+	</p>
+	<p>
+		<label>
+			Address
+			<input
+				name="address" type="text" placeholder="Address"
+				ng-model="form.address" ng-maxlength="127"
+				ng-class="{
+					'validation-error': fm.address.$dirty && fm.address.$invalid,
+					'validation-succ': fm.address.$dirty && fm.address.$valid
+				}">
+		</label>
+		<span ng-show="fm.address.$dirty">
+			<span ng-show="fm.address.$valid">V</span>
+			<span ng-show="fm.address.$invalid">X</span>
+			<span ng-show="fm.address.$error.maxlength">Too long</span>
+		</span>
+	</p>
+	<p>
+		<label>
+			<input name="agree" type="checkbox" ng-model="isAgree" required>*I agree the <a href="/policies/terms" target="_new">terms</a>
+		</label>
+		<span ng-show="fm.agree.$dirty">
+			<span ng-show="fm.agree.$invalid">X</span>
+			<span ng-show="fm.agree.$error.required">You must agree before signing up</span>
+		</span>
+	</p>
+	<p>
+		<input type="submit" value="Register" ng-disabled="fm.$invalid || (form.password != form.confirm)">
+	</p>
+</form>

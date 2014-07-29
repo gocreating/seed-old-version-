@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = function (app) {
 	// Landing page / Home page
 	// app.route('/')
 	// 	.get(function (req, res) {
