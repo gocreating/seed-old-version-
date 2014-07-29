@@ -32,13 +32,23 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
     }
   };
   ```
-2. Install dependencies  
+
+2. Create SSL files  
+
+  ```
+  $ openssl genrsa 1024 > secrets/ssl_key.pem
+  $ openssl req -x509 -new -key secrets/ssl_key.pem > secrets/ssl_key_cert.pem
+
+  ```
+  In the second command, please fill in your own information
+
+3. Install dependencies  
 
   ```
   $ npm install
   ```
 
-3. Start server  
+4. Start server  
 
   ```
   $ node app.js
