@@ -4,7 +4,7 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
 
 ## Tutorial
 
-1. Create `config.js` :  
+1. Create `config.js` in root folder:  
 
   ```
   module.exports = {
@@ -38,7 +38,6 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
   ```
   $ openssl genrsa 1024 > secrets/ssl_key.pem
   $ openssl req -x509 -new -key secrets/ssl_key.pem > secrets/ssl_key_cert.pem
-
   ```
   In the second command, please fill in your own information
 

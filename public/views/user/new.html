@@ -28,7 +28,7 @@ Register
 			Password*
 			<input
 				name="password" type="password" placeholder="Password"
-				ng-model="form.password" ng-minlength="8" ng-maxlength="20" required
+				ng-model="form.password" ng-minlength="7" ng-maxlength="20" required
 				ng-class="{
 					'validation-error': fm.password.$dirty && fm.password.$invalid,
 					'validation-succ': fm.password.$dirty && fm.password.$valid
@@ -47,7 +47,7 @@ Register
 			Password Confirm*
 			<input
 				name="confirm" type="password" placeholder="Confirm"
-				ng-model="form.confirm" ng-minlength="8" ng-maxlength="20" required
+				ng-model="form.confirm" ng-minlength="7" ng-maxlength="20" required
 				ng-class="{
 					'validation-error': fm.confirm.$dirty && (fm.password.$invalid || (form.confirm != form.password)),
 					'validation-succ': fm.confirm.$dirty && fm.password.$valid && (form.confirm == form.password)

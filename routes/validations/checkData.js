@@ -1,4 +1,5 @@
 var validator = require('validator');
+var status = require('../../status');
 
 /**
  * Default Validation Function Configurations
@@ -15,18 +16,9 @@ exports.checker = {
 	personName: [
 		{func: validator.isLength, args: [1, 15], msg: 'Length must between 1 to 15'}
 	],
-	shopName: [
-		{func: validator.isLength, args: [1, 31], msg: 'Length must between 1 to 31'}
-	],
-	profile: [
-		{func: validator.isLength, args: [1, 1023], msg: 'Length must between 1 to 1023'}
-	],
 	sex: [
 		{func: validator.isLength, args: [1], msg: 'You must select an option'},
 		{func: validator.isIn, args: [['0', '1', '2']], msg: 'Error format'}
-	],
-	idNumber: [
-		{func: validator.isLength, args: [10, 15], msg: 'Length must between 10 to 15'}
 	],
 	birthday: [
 		{func: validator.isLength, args: [1, 31], msg: 'Length must between 1 to 31'},
@@ -38,21 +30,6 @@ exports.checker = {
 	],
 	address: [
 		{func: validator.isLength, args: [1, 127], msg: 'Length must between 1 to 127'}
-	],
-	brandName: [
-		{func: validator.isLength, args: [1, 31], msg: 'Length must between 1 to 31'}
-	],
-	class_id: [
-		{func: validator.isNumeric, msg: 'Must contain only numbers'}
-	],
-	stockName: [
-		{func: validator.isLength, args: [1, 31], msg: 'Length must between 1 to 31'}
-	],
-	price: [
-		{func: validator.isNumeric, msg: 'Must contain only numbers'}
-	],
-	amount: [
-		{func: validator.isNumeric, msg: 'Must contain only numbers'}
 	],
 	id: [
 		{func: validator.isLength, args: [1, 31], msg: 'Length must between 1 to 31'},
@@ -115,34 +92,26 @@ exports.check = function (checkItems, cb) {
 
 	// Return result
 	if (isErr) {
-		cb({
-			error: true,
-			msg: 'validation error',
-			detail: errMsg
-		});
+		cb(true, errMsg);
 	} else {
-		cb({
-			error: false,
-			msg: 'validation pass',
-			detail: null
-		});
+		cb(false);
 	}
 };
 
 exports.checkCallBack = function (req, res, next) {
-	return function (result) {
-		if (result.error) {
+	return function (isInvalid, detail) {
+		if (isInvalid) {
 			// Validation error
 
 			// http://expressjs.com/4x/api.html#req.get
 			if (req.is('json')) {
 				// respond with json
-				res.send(result);
+				res.reply(detail, status.ERR_VALIDATION, 'validation error');
 				return;
 			} else {
 				// respond with html page
-				req.session.err = result;
-				res.redirect(req.url);
+				// req.session.err = result;
+				// res.redirect(req.url);
 				return;
 			}
 		} else {

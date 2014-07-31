@@ -7,7 +7,11 @@ var extract = function () {
 };
 
 app
-	.value('version', '0.1');
+	.constant('status', {
+		ERR_SERVER: 0x00000001,
+		ERR_VALIDATION: 0x00000002,
+		ERR_USER_EMAIL_EXIST:  0x00000003
+	});
 
 // ref: http://weblogs.asp.net/dwahlin/using-an-angularjs-factory-to-interact-with-a-restful-service
 app
