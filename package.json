@@ -21,6 +21,7 @@
     "nodemailer": "*",
     "validator": "*",
     "mysql": "*",
-    "express-mysql-session": "*"
+    "express-mysql-session": "*",
+    "jwt-simple": "*"
   }
 }

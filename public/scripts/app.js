@@ -8,6 +8,12 @@ var app = angular.module('seed', [
 	'myApp.controllers'
 ]);
 
+/**************************************************************
+ *                                                            *
+ * Configuration                                              *
+ *                                                            *
+ **************************************************************/
+
 app.config(['$httpProvider', function ($httpProvider) {
 	// delete $httpProvider.defaults.headers.common['X-Requested-With'];
 	// $httpProvider.defaults.headers.post['Accept'] = 'application/json, text/javascript';
@@ -21,13 +27,29 @@ app.config(['$httpProvider', function ($httpProvider) {
 	// $httpProvider.defaults.headers.common['responseType'] = 'json';
 }]);
 
+/**************************************************************
+ *                                                            *
+ * Routing                                                    *
+ *                                                            *
+ **************************************************************/
+
 // general
 app.config(['$routeProvider', function ($routeProvider) {
-	$routeProvider.when('/',                 {templateUrl: 'views/general/home.html'});
-	$routeProvider.when('/about',            {templateUrl: 'views/general/about.html'});
-	$routeProvider.when('/contact',          {templateUrl: 'views/general/contact.html'});
-	$routeProvider.when('/policies/terms',   {templateUrl: 'views/general/policies/terms.html'});
-	$routeProvider.when('/policies/privacy', {templateUrl: 'views/general/policies/privacy.html'});
+	$routeProvider.when('/',                  {templateUrl: 'views/general/home.html'});
+	$routeProvider.when('/contact',           {templateUrl: 'views/general/contact.html'});
+
+	// policies
+	$routeProvider.when('/policies/pricing',  {templateUrl: 'views/general/policies/pricing.html'});
+	$routeProvider.when('/policies/support',  {templateUrl: 'views/general/policies/support.html'});
+	$routeProvider.when('/policies/security', {templateUrl: 'views/general/policies/security.html'});
+	$routeProvider.when('/policies/terms',    {templateUrl: 'views/general/policies/terms.html'});
+	$routeProvider.when('/policies/privacy',  {templateUrl: 'views/general/policies/privacy.html'});
+	$routeProvider.when('/faq',               {templateUrl: 'views/general/faq.html'});
+
+	// about
+	$routeProvider.when('/about/company',     {templateUrl: 'views/general/about/company.html'});
+	$routeProvider.when('/about/team',        {templateUrl: 'views/general/about/team.html'});
+	$routeProvider.when('/about/service',     {templateUrl: 'views/general/about/service.html'});
 }]);
 
 // user
