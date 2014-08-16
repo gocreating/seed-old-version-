@@ -101,8 +101,8 @@ require('./routes/main/user')(router);
 // http server
 http
 	.createServer(app)
-	.listen(3000, function(){
-		console.log('HTTP  server listening on port ' + 3000);
+	.listen(config.app.port.http, function(){
+		console.log('HTTP  server listening on port ' + config.app.port.http);
 	});
 
 // https server
@@ -115,6 +115,6 @@ var credentials = {
 };
 https
 	.createServer(credentials, app)
-	.listen(3001, function () {
-		console.log('HTTPS server listening on port ' + 3001);
+	.listen(config.app.port.https, function () {
+		console.log('HTTPS server listening on port ' + config.app.port.https);
 	});
