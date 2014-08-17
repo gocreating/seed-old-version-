@@ -1,6 +1,37 @@
 # Seed
+
 A seed project for building a website using nodejs (back-end), angularjs (front-end) and mysql (database)  
-  
+
+## Features
+
+1. NodeJs + Express  
+  Back-end
+
+2. Angular  
+  Front-end
+
+3. MySQL  
+  Database
+
+4. Support HTTPS  
+  Server
+
+. Rendering view on front-end
+  Reduce server overhead
+
+. Ajax & Json  
+  Nothing special :)
+
+## To Be Build
+
+. Support LESS  
+  Using less on back-end
+
+. i18n
+  Support multiple languages
+
+. Open Id
+  Login with Facebook, Twitter, Github, LinkedIn, and etc.
 
 ## Tutorial
 
@@ -8,6 +39,12 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
 
   ```
   module.exports = {
+    app: {
+      port: {
+        http: 4000,
+        https: 4001
+      }
+    },
     db: {
       host: 'localhost',
       port: 3306,

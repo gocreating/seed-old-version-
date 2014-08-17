@@ -61,13 +61,6 @@
 		.factory('authService', ['$cookieStore', function ($cookieStore) {
 			var store = {};
 
-			// store.isAuth = function () {
-			// 	return $cookieStore.get('isAuth');
-			// };
-
-			// store.getUser = function () {
-			// 	return $cookieStore.get('user');
-			// };
 			store.isAuth = $cookieStore.get('isAuth');
 			store.user = $cookieStore.get('user');
 
