@@ -1,0 +1,71 @@
+<div class="row">
+	<div class="col-md-offset-3 col-md-6">
+		<div class="page-header">
+			<h1>Login <small>login blablabla</small></h1>
+		</div>
+
+		<form class="form-horizontal" role="form" name="fm" ng-submit="submit(fm)" novalidate>
+			<!-- Error message -->
+			<div class="alert alert-danger alert-dismissible" role="alert" ng-show="error.isLoginFail">
+				<!-- <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
+				<strong>Rejection</strong> {{error.msg}}
+			</div>
+
+			<!-- Email -->
+			<div
+				class="form-group has-feedback"
+				ng-class="{
+					'has-error': error.email.isInvalid
+				}">
+				<label for="email" class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-10">
+					<input
+						name="email" id="email" type="email" placeholder="YourEmail@example.com"
+						ng-model="form.email" ng-minlength="3" ng-maxlength="63" required
+						ng-change="resetVlidation('email')"
+						class="form-control">
+					<span ng-show="error.email.isInvalid">
+						<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+						<span class="help-block">
+							<span ng-show="fm.email.$error.required">Required</span>
+							<span ng-show="fm.email.$error.email">Not an email</span>
+							<span ng-show="!fm.email.$error.email && fm.email.$error.minlength">Too short</span>
+							<span ng-show="!fm.email.$error.email && fm.email.$error.maxlength">Too long</span>
+						</span>
+					</span>
+				</div>
+			</div>
+
+			<!-- Password -->
+			<div
+				class="form-group has-feedback"
+				ng-class="{
+					'has-error': error.password.isInvalid
+				}">
+				<label for="password" class="col-sm-2 control-label">Password</label>
+				<div class="col-sm-10">
+					<input
+						name="password" id="password" type="password" placeholder="Password"
+						ng-model="form.password" ng-minlength="8" ng-maxlength="20" required
+						ng-change="resetVlidation('password')"
+						class="form-control">
+					<span ng-show="error.password.isInvalid">
+						<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+						<span class="help-block">
+							<span ng-show="fm.password.$error.required">Required</span>
+							<span ng-show="fm.password.$error.minlength">Too short</span>
+							<span ng-show="fm.password.$error.maxlength">Too long</span>
+						</span>
+					</span>
+				</div>
+			</div>
+			<!-- Login -->
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button class="btn btn-default" type="submit">Login</button>
+					or <a href="/user/new">Register a new account</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

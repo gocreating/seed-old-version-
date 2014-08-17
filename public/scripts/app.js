@@ -2,6 +2,7 @@
 
 var app = angular.module('seed', [
 	'ngRoute',
+	'ngCookies',
 	'myApp.filters',
 	'myApp.services',
 	'myApp.directives',
@@ -14,17 +15,22 @@ var app = angular.module('seed', [
  *                                                            *
  **************************************************************/
 
+// handling communicaiton information and behavior
 app.config(['$httpProvider', function ($httpProvider) {
-	// delete $httpProvider.defaults.headers.common['X-Requested-With'];
-	// $httpProvider.defaults.headers.post['Accept'] = 'application/json, text/javascript';
-	// $httpProvider.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
-	// $httpProvider.defaults.headers.post['Access-Control-Max-Age'] = '1728000';
-	// $httpProvider.defaults.headers.common['Access-Control-Max-Age'] = '1728000';
-	// $httpProvider.defaults.headers.common['Accept'] = 'application/json, text/javascript';
-	// $httpProvider.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
-	// $httpProvider.defaults.useXDomain = true;
-	
-	// $httpProvider.defaults.headers.common['responseType'] = 'json';
+	$httpProvider.interceptors.push('httpErrorHandle');
+	$httpProvider.interceptors.push('tokenInjector');
+}]);
+
+// remove the default hashtag(#) on URL
+app.config(['$locationProvider', function ($locationProvider) {
+	$locationProvider.html5Mode(true);
+}]);
+
+// apply authService to the whole scope
+app.run(['$rootScope', 'authService', function ($rootScope, authService) {
+	$rootScope.authService = authService;
+	$rootScope.$watch('authService', function (newValue, oldValue) {
+	});
 }]);
 
 /**************************************************************
@@ -54,15 +60,12 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 // user
 app.config(['$routeProvider', function ($routeProvider) {
-	$routeProvider.when('/user/new', {controller: 'userNewCtrl', templateUrl: 'views/user/new.html'});
+	$routeProvider.when('/user/new',    {controller: 'userNewCtrl',    templateUrl: 'views/user/new.html'});
+	$routeProvider.when('/user/login',  {controller: 'userLoginCtrl',  templateUrl: 'views/user/login.html'});
+	$routeProvider.when('/user/logout', {controller: 'userLogoutCtrl', template: ' '});
 }]);
 
+// 404
 app.config(['$routeProvider', function ($routeProvider) {
-	$routeProvider.otherwise({
-		templateUrl: 'views/special/404.html'
-	});
-}]);
-
-app.config(['$locationProvider', function ($locationProvider) {
-	$locationProvider.html5Mode(true);
+	$routeProvider.otherwise({templateUrl: 'views/special/404.html'});
 }]);

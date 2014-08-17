@@ -1,5 +1,6 @@
 var User = require('../../models/user');
 var pswd = require('../../models/passwordHandle');
+var status = require('../../status');
 
 module.exports = function (router) {
 	router.route('/api/user')
@@ -11,7 +12,7 @@ module.exports = function (router) {
 		.post(function (req, res) {
 			User.checkExist(req.body.email, function (err, isExist) {
 				if (isExist) {
-					res.reply(null, err || 2, 'email already exist');
+					res.reply(null, status.ERR_USER_EMAIL_EXIST, 'email already exist');
 				} else {
 					User.create({
 						email: req.body.email,
@@ -28,6 +29,33 @@ module.exports = function (router) {
 					});
 				}
 			});
+		});
+
+	router.route('/api/user/login')
+		.post(function (req, res) {
+			User.login({
+				email: req.body.email,
+				password_hash: pswd.hash(req.body.password)
+			}, function (err, readUser) {
+				if (!readUser) {
+					res.reply(null, status.ERR_USER_LOGIN, 'wrong email or password');
+				} else {
+					req.session.isAuth = true;
+					req.session.user = {
+						user_id: readUser.user_id,
+						email: readUser.email,
+						name: readUser.name
+					};
+					res.reply(req.session.user, err, 'cannot login the user');
+				}
+			});
+		});
+
+	router.route('/api/user/logout')
+		.get(function (req, res) {
+			req.session.isAuth = false;
+			delete req.session.user;
+			res.reply(null, null, 'logout successfully');
 		});
 
 	router.route('/api/user/:user_id')

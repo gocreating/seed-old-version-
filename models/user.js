@@ -23,10 +23,17 @@ exports.checkExist = function (email, cb) {
 };
 
 exports.create = function (item, cb) {
-	db.query('INSERT INTO users SET ?', item, function (err) {
+	db.query('INSERT INTO ' + tableName + ' SET ?', item, function (err) {
 		if (err) cb(err, null);
 		db.query('SELECT LAST_INSERT_ID() AS id', function (err, rows) {
 			cb(err, rows[0].id);
 		});
+	});
+};
+
+exports.login = function (item, cb) {
+	db.query('SELECT * FROM ' + tableName + ' WHERE email = ? AND password_hash = ?', [item.email, item.password_hash], function (err, rows) {
+		if (err) cb(err, null);
+		cb(err, rows[0]);
 	});
 };
