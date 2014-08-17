@@ -24,7 +24,8 @@ var http           = require('http'),
 
 // other modules
 var SessionStore   = require('express-mysql-session'), // Store session in mysql database
-	fs             = require("fs");                    // To read ssl key and cert
+	fs             = require("fs"),                    // To read ssl key and cert
+	lessMiddleware = require('less-middleware');
 
 /**************************************************************
  *                                                            *
@@ -37,6 +38,9 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('layout', 'layout/default');
 app.use(expressLayouts);                             // view layout
+app.use(lessMiddleware(__dirname + '/public', {
+	force: true
+}));
 app.use(express.static(__dirname + '/public'));      // serving static files
 app.use(morgan('dev'));                              // log every request to the console
 app.use(favicon(__dirname + '/public/favicon.ico')); // favicon.ico

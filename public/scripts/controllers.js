@@ -82,6 +82,7 @@ app
 				userFactory
 					.login($scope.form)
 					.success(function (data) {
+						console.log(data);
 						if (data.error) {
 							switch (data.errCode) {
 								case status.ERR_USER_LOGIN: {

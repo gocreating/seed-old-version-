@@ -40,21 +40,17 @@ module.exports = function (router) {
 				if (!readUser) {
 					res.reply(null, status.ERR_USER_LOGIN, 'wrong email or password');
 				} else {
-					req.session.isAuth = true;
-					req.session.user = {
+					res.reply({
 						user_id: readUser.user_id,
 						email: readUser.email,
 						name: readUser.name
-					};
-					res.reply(req.session.user, err, 'cannot login the user');
+					}, err, 'cannot login the user');
 				}
 			});
 		});
 
 	router.route('/api/user/logout')
 		.get(function (req, res) {
-			req.session.isAuth = false;
-			delete req.session.user;
 			res.reply(null, null, 'logout successfully');
 		});
 

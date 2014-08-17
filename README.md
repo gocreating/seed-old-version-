@@ -16,21 +16,21 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
 4. Support HTTPS  
   Server
 
-. Rendering view on front-end
+5. Rendering view on front-end
   Reduce server overhead
 
-. Ajax & Json  
+6. Ajax & Json  
   Nothing special :)
 
 ## To Be Build
 
-. Support LESS  
+1. Support LESS  
   Using less on back-end
 
-. i18n
+2. i18n
   Support multiple languages
 
-. Open Id
+3. Open Id
   Login with Facebook, Twitter, Github, LinkedIn, and etc.
 
 ## Tutorial
@@ -84,7 +84,9 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
   $ npm install
   ```
 
-4. Start server  
+4. Turn off the force compile option of lessMiddleware in `app.js`  
+
+5. Start server  
 
   ```
   $ node app.js

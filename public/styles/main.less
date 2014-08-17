@@ -1,0 +1,56 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+nav {
+	border-bottom: 1px solid #000;
+	padding: 10px;
+
+	div {
+		float: left;
+		margin-right: 20px;
+
+		ul {
+			list-style-type: none;
+		}
+	}
+
+	&:after {
+		content: '';
+		display: block;
+		visibility: hidden;
+		clear: both;
+	}
+}
+
+footer {
+	border-top: 1px solid #000;
+	padding: 10px;
+
+	div {
+		float: left;
+		margin-right: 20px;
+
+		ul {
+			list-style-type: none;
+		}
+
+		&:last-child {
+			float: right;
+			margin-right: 0px;
+		}
+	}
+}
+
+.page-wrapper {
+	padding: 10px;
+}
+
+.validation-succ {
+	border: 3px solid green;
+}
+
+.validation-error {
+	border: 3px solid red;
+}
