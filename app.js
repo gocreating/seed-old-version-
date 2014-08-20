@@ -48,19 +48,19 @@ app.use(bodyParser.urlencoded({                      // body parsing (req.body)
 	extended: true
 }));
 app.use(bodyParser.json());
-app.use(cookieParser(config.secret.cookieSecret));   // parse cookie header (req.cookies)
-app.use(session({                                    // parse session (req.session)
-	secret: config.secret.sessionSecret,
-	resave: true,
-	saveUninitialized: true,
-	store: new SessionStore({
-		host: config.db.host,
-	    port: config.db.port,
-	    user: config.db.user,
-	    password: config.db.password,
-	    database: config.db.database
-	})
-}));
+// app.use(cookieParser(config.secret.cookieSecret));   // parse cookie header (req.cookies)
+// app.use(session({                                    // parse session (req.session)
+// 	secret: config.secret.sessionSecret,
+// 	resave: true,
+// 	saveUninitialized: true,
+// 	store: new SessionStore({
+// 		host: config.db.host,
+// 	    port: config.db.port,
+// 	    user: config.db.user,
+// 	    password: config.db.password,
+// 	    database: config.db.database
+// 	})
+// }));
 
 /**************************************************************
  *                                                            *
@@ -70,6 +70,7 @@ app.use(session({                                    // parse session (req.sessi
 
 var router = express.Router();
 app.use(require('./routes/middlewares/reply'));
+app.use(require('./routes/middlewares/token'));
 app.use(require('./routes/middlewares/specialPage'));
 app.use(router);
 app.use(require('./routes/middlewares/pageNotFound'));

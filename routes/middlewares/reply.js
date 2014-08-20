@@ -1,35 +1,41 @@
+var status = require('../../status');
+
 module.exports = function (req, res, next) {
-	res.reply = function (_customValue, _errCode, _msg, _status) {
-		// _customValue = _customValue || {};
-		// _errCode = _errCode || 0;
-		// _msg = _msg || getMsg(_errCode);
-		// _status = _status || getStatus(_errCode);
-		// res.status(_status);
-		if (_errCode instanceof Error) {
+	res.reply = function (isErr, _msgErr, _msgNoErr, _statusErr, _statusNoErr, _data, _code) {
+		if (isErr instanceof Error) {
 			res.status(500);
 			res.send({
-				error: true,
-				errCode: 1,
-				msg: _msg || 'server error',
-				value: _customValue || {}
+				status: 500,
+				code: status.INTERNAL_SERVER_ERROR,
+				message: 'internal server error: ' + _msgErr,
+				data: null
 			});
 		} else {
-			if (_errCode) {
+			_statusErr = _statusErr || 200;
+			_statusNoErr = _statusNoErr || 200;
+			_data = _data || null;
+			_code = _code || status.OK;
+
+			if (isErr) {
+				_msgErr = _msgErr || 'error';
+				res.status(_statusErr);
 				res.send({
-					error: true,
-					errCode: _errCode,
-					msg: _msg,
-					value: _customValue || {}
+					status: _statusErr,
+					code: _code,
+					message: _msgErr,
+					data: _data
 				});
 			} else {
+				_msgNoErr = _msgNoErr || 'success';
+				res.status(_statusNoErr);
 				res.send({
-					error: false,
-					errCode: 0,
-					msg: 'OK',
-					value: _customValue || {}
+					status: _statusNoErr,
+					code: _code,
+					message: _msgNoErr,
+					data: _data
 				});
 			}
 		}
-	}
+	};
 	next();
 };

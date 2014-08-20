@@ -1,18 +1,21 @@
 var User = require('../../models/user');
 var pswd = require('../../models/passwordHandle');
 var status = require('../../status');
+var jwt = require('jwt-simple');
+var moment = require('moment');
+var config = require('../../config');
 
 module.exports = function (router) {
 	router.route('/api/user')
 		.get(function (req, res) {
 			User.readAll(function (err, readUsers) {
-				res.reply(readUsers, err, 'cannot read users');
+				res.reply(err, 'cannot read users', 'read user successfully', null, null, readUsers);
 			});
 		})
 		.post(function (req, res) {
 			User.checkExist(req.body.email, function (err, isExist) {
 				if (isExist) {
-					res.reply(null, status.ERR_USER_EMAIL_EXIST, 'email already exist');
+					res.reply(err || true, 'email already exist', '', null, null, null, status.USER_EMAIL_EXIST);
 				} else {
 					User.create({
 						email: req.body.email,
@@ -25,7 +28,7 @@ module.exports = function (router) {
 						register_at: new Date(),
 						update_at: new Date()
 					}, function (err, readUserId) {
-						res.reply(readUserId, err, 'cannot create the new user');
+						res.reply(err, 'cannot create the new user', 'create successfully', null, null, readUserId);
 					});
 				}
 			});
@@ -38,26 +41,41 @@ module.exports = function (router) {
 				password_hash: pswd.hash(req.body.password)
 			}, function (err, readUser) {
 				if (!readUser) {
-					res.reply(null, status.ERR_USER_LOGIN, 'wrong email or password');
+					res.reply(err || true, 'wrong email or password', '', null, null, null, status.USER_WRONG_ACCOUNT);
 				} else {
-					res.reply({
+					var expiration = moment().add('days', 7).valueOf();
+					var user = {
 						user_id: readUser.user_id,
 						email: readUser.email,
 						name: readUser.name
-					}, err, 'cannot login the user');
+					};
+					var token = jwt.encode({
+						user: user,
+						expiration: expiration
+					}, config.secret.tokenSecret);
+
+					res.reply(err, 'cannot login the user', 'login successfully', null, null, {
+						token: token,
+						user: user
+					});
 				}
 			});
 		});
 
 	router.route('/api/user/logout')
 		.get(function (req, res) {
-			res.reply(null, null, 'logout successfully');
+			res.reply(null, '', 'logout successfully');
 		});
 
 	router.route('/api/user/:user_id')
 		.get(function (req, res) {
 			User.read(req.params.user_id, function (err, readUser) {
-				res.reply(readUser, err, 'cannot read the user');
+				res.reply(err, 'cannot read the user', 'read user successfully', null, null, {
+					user_id: readUser.user_id,
+					email: readUser.email,
+					name: readUser.name,
+					sex: readUser.sex
+				});
 			});
 		})
 		.put(function (req, res) {

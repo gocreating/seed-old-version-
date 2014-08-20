@@ -39,17 +39,16 @@ app
 		$scope.submit = function() {
 			userFactory
 				.create($scope.form)
-				.success(function (data) {
-					if (data.error) {
-						switch (data.errCode) {
-							case status.ERR_USER_EMAIL_EXIST: {
-								$scope.error.isEmailExist = true;
-								$scope.error.msg = data.msg;
-							}
+				.success(function (res) {
+					switch (res.code) {
+						case status.USER_EMAIL_EXIST: {
+							$scope.error.isEmailExist = true;
+							$scope.error.msg = res.message;
+							break;
 						}
-					} else {
-						console.log(data.value);
-						$location.path('/user/login');
+						case status.OK: {
+							$location.path('/user/login');
+						}
 					}
 				});
 		};		
@@ -67,8 +66,8 @@ app
 		};
 
 		$scope.form = {
-			email:    'gocreating@gmail.com',
-			password: '11111111'
+			email:    'test@test.testt',
+			password: 'testtest'
 		};
 
 		$scope.resetVlidation = function (key) {
@@ -81,18 +80,20 @@ app
 			if (fm.$valid) {
 				userFactory
 					.login($scope.form)
-					.success(function (data) {
-						console.log(data);
-						if (data.error) {
-							switch (data.errCode) {
-								case status.ERR_USER_LOGIN: {
-									$scope.error.isLoginFail = true;
-									$scope.error.msg = data.msg;
-								}
+					.success(function (res) {
+						switch (res.code) {
+							case status.USER_WRONG_ACCOUNT: {
+								$scope.error.isLoginFail = true;
+								$scope.error.msg = res.message;
+								break;
 							}
-						} else {
-							authService.login(data.value);
-							$location.path('/');
+							case status.OK: {
+								console.log('login');
+								console.log(res);
+								authService.login(res.data.user);
+								authService.setToken(res.data.token);
+								$location.path('/');
+							}
 						}
 					});
 			}
@@ -101,10 +102,14 @@ app
 	.controller('userLogoutCtrl', ['$scope', 'userFactory', '$location', 'status', 'authService', function ($scope, userFactory, $location, status, authService) {
 		userFactory
 			.logout()
-			.success(function (data) {
-				if (!data.error) {
-					authService.logout()
-					$location.path('/user/login');
+			.success(function (res) {
+				switch (res.code) {
+					case status.OK: {
+						console.log('logout');
+						console.log(res);
+						authService.logout()
+						$location.path('/user/login');
+					}
 				}
 			});
 	}]);

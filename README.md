@@ -16,28 +16,30 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
 4. Support HTTPS  
   Server
 
-5. Rendering view on front-end
+5. Rendering view on front-end  
   Reduce server overhead
 
 6. Ajax & Json  
   Nothing special :)
 
-## To Be Build
-
-1. Support LESS  
+7. Support LESS  
   Using less on back-end
 
-2. i18n
+## To Be Build
+
+8. i18n
   Support multiple languages
 
-3. Open Id
+9. Open Id
   Login with Facebook, Twitter, Github, LinkedIn, and etc.
+
+10. Global Alert Message
 
 ## Tutorial
 
 1. Create `config.js` in root folder:  
 
-  ```
+  ```javascript
   module.exports = {
     app: {
       port: {

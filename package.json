@@ -23,6 +23,7 @@
     "mysql": "*",
     "express-mysql-session": "*",
     "less-middleware": "*",
-    "jwt-simple": "*"
+    "jwt-simple": "*",
+    "moment": "*"
   }
 }

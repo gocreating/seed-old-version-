@@ -1,3 +1,8 @@
+@screen-sm-min: 768px;
+@screen-md-min: 992px;
+@screen-lg-min: 1200px;
+
+/* Extra small devices (phones, less than 768px) */
 * {
 	margin: 0;
 	padding: 0;
@@ -29,16 +34,10 @@ footer {
 	padding: 10px;
 
 	div {
-		float: left;
-		margin-right: 20px;
+		margin: 0 20px 20px 0;
 
 		ul {
 			list-style-type: none;
-		}
-
-		&:last-child {
-			float: right;
-			margin-right: 0px;
 		}
 	}
 }
@@ -53,4 +52,28 @@ footer {
 
 .validation-error {
 	border: 3px solid red;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: @screen-sm-min) {
+	footer {
+		div {
+			float: left;
+
+			&:last-child {
+				float: right;
+				margin-right: 0px;
+			}
+		}
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: @screen-md-min) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: @screen-lg-min) {
+
 }

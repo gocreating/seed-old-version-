@@ -4,10 +4,13 @@
 	var app = angular.module('myApp.services', []);
 
 	var status = {
-		ERR_SERVER:		   0x00000001,
-		ERR_VALIDATION:	   0x00000002,
-		ERR_USER_EMAIL_EXIST: 0x00000003,
-		ERR_USER_LOGIN: 0x00000004
+		OK:                    200,
+		INTERNAL_SERVER_ERROR: 500,
+		ERR_VALIDATION:        0x10000002,
+		USER_EMAIL_EXIST:      0x10000003,
+		USER_WRONG_ACCOUNT:    0x10000004,
+		TOKEN_WRONG_FORMAT:    0x10000005,
+		TOKEN_EXPIRATION:      0x10000006
 	};
 
 	app
@@ -49,9 +52,13 @@
 		.factory('tokenInjector', ['authService', function (authService) {
 			return {
 				request: function (config) {
+					console.log('request ' + config.url);
 					var token = authService.getToken();
-					if (token) {
-						config.headers['x-session-token'] = token;
+					// restrict to api scope
+					// console.log(config.url.substr(0, 3));
+					if (config.url.substr(0, 4) === '/api' && token) {
+						console.log('add token');
+						config.headers['x-access-token'] = token;
 					}
 					return config;
 				}
@@ -59,30 +66,64 @@
 		}])
 		// ref: http://stackoverflow.com/questions/17408475/how-to-keep-login-status-after-refresh-using-angular-js
 		// ref: http://maffrigby.com/maintaining-session-info-in-angularjs-when-you-refresh-the-page/
-		.factory('authService', ['$cookieStore', function ($cookieStore) {
+		// .factory('authService', ['$cookieStore', function ($cookieStore) {
+		// 	var store = {};
+
+		// 	store.isAuth = $cookieStore.get('isAuth');
+		// 	store.user = $cookieStore.get('user');
+		// 	store.token = $cookieStore.get('token');
+
+		// 	store.setToken = function (token) {
+		// 		return $cookieStore.put('token', token);
+		// 	};
+
+		// 	store.getToken = function () {
+		// 		return $cookieStore.get('token');
+		// 	};
+
+		// 	store.login = function (user) {
+		// 		$cookieStore.put('isAuth', true);
+		// 		$cookieStore.put('user', user);
+		// 		store.isAuth = true;
+		// 		store.user = user;
+		// 	};
+
+		// 	store.logout = function () {
+		// 		$cookieStore.remove('isAuth');
+		// 		$cookieStore.remove('user');
+		// 		$cookieStore.remove('token');
+		// 		store.isAuth = false;
+		// 		store.user = null;
+		// 	};
+
+		// 	return store;
+		// }])
+		.factory('authService', ['$window', function ($window) {
 			var store = {};
 
-			store.isAuth = $cookieStore.get('isAuth');
-			store.user = $cookieStore.get('user');
+			store.isAuth = $window.localStorage['isAuth'];
+			store.user = $window.localStorage['user'];
+			store.token = $window.localStorage['token'];
 
 			store.setToken = function (token) {
-				return $cookieStore.put('token', token);
+				return $window.localStorage['token'] = token;
 			};
 
 			store.getToken = function () {
-				return $cookieStore.get('token');
+				return $window.localStorage['token'];
 			};
 
 			store.login = function (user) {
-				$cookieStore.put('isAuth', true);
-				$cookieStore.put('user', user);
+				$window.localStorage['isAuth'] = true;
+				$window.localStorage['user'] = user;
 				store.isAuth = true;
 				store.user = user;
 			};
 
 			store.logout = function () {
-				$cookieStore.remove('isAuth');
-				$cookieStore.remove('user');
+				$window.localStorage.removeItem('isAuth');
+				$window.localStorage.removeItem('user');
+				$window.localStorage.removeItem('token');
 				store.isAuth = false;
 				store.user = null;
 			};
