@@ -25,17 +25,20 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
 7. Support LESS  
   Using less on back-end
 
+8. Global Alert Message  
+  Add/Push global messages, and it will stack on top of website
+
 ## To Be Build
 
-8. i18n
+9. i18n
   Support multiple languages
 
-9. Open Id
+10. Open Id
   Login with Facebook, Twitter, Github, LinkedIn, and etc.
 
-10. Global Alert Message
-
 11. Captcha
+  It would be a third party captcha, because a native captcha build with node package requires lots of dependencies to be installed, which is really a bothering thing
+
 
 ## Tutorial
 

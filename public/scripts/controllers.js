@@ -10,7 +10,12 @@ app
  *                                                            *
  **************************************************************/
 
-	.controller('rootCtrl', ['$scope', 'authService', function ($scope, authService) {
+	.controller('rootCtrl', ['$scope', function ($scope) {
+	}])
+
+	.controller('alertCtrl', ['$scope', 'alertService', function ($scope, alertService) {
+		$scope.messages = alertService.getMessages();
+		$scope.deleteMessage = alertService.deleteMessage;
 	}])
 
 /**************************************************************
@@ -19,7 +24,7 @@ app
  *                                                            *
  **************************************************************/
 
-	.controller('userNewCtrl', ['$scope', 'userFactory', '$location', 'status', function ($scope, userFactory, $location, status) {
+	.controller('userNewCtrl', ['$scope', 'userFactory', '$location', 'status', 'alertService', function ($scope, userFactory, $location, status, alertService) {
 		$scope.error = {
 			isEmailExist: false,
 			msg: ''
@@ -48,13 +53,14 @@ app
 							break;
 						}
 						case status.OK: {
+							alertService.addMessage(res.code, 'Registration', res.message);
 							$location.path('/user/login');
 						}
 					}
 				});
 		};		
 	}])
-	.controller('userLoginCtrl', ['$scope', 'userFactory', '$location', 'status', 'authService', function ($scope, userFactory, $location, status, authService) {
+	.controller('userLoginCtrl', ['$scope', '$rootScope', 'userFactory', '$location', 'status', 'authService', 'alertService', function ($scope, $rootScope, userFactory, $location, status, authService, alertService) {
 		$scope.error = {
 			isLoginFail: false,
 			email: {
@@ -91,6 +97,7 @@ app
 							case status.OK: {
 								console.log('login');
 								console.log(res);
+								alertService.addMessage(res.code, 'Login', res.message);
 								authService.login(res.data.user);
 								authService.setToken(res.data.token);
 								$location.path('/');
@@ -100,7 +107,7 @@ app
 			}
 		};		
 	}])
-	.controller('userLogoutCtrl', ['$scope', 'userFactory', '$location', 'status', 'authService', function ($scope, userFactory, $location, status, authService) {
+	.controller('userLogoutCtrl', ['$scope', 'userFactory', '$location', 'status', 'authService', 'alertService', function ($scope, userFactory, $location, status, authService, alertService) {
 		userFactory
 			.logout()
 			.success(function (res) {
@@ -108,6 +115,7 @@ app
 					case status.OK: {
 						console.log('logout');
 						console.log(res);
+						alertService.addMessage(res.code, 'Logout', res.message);
 						authService.logout()
 						$location.path('/user/login');
 					}

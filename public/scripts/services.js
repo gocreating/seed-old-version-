@@ -18,7 +18,7 @@
 
 	// ref: http://stackoverflow.com/questions/11956827/angularjs-intercept-all-http-json-responses
 	app
-		.factory('httpErrorHandle', [function ($q) {
+		.factory('httpErrorHandle', ['$q', 'alertService', function ($q, alertService) {
 			return {
 				// on success
 				response: function (config) {
@@ -37,7 +37,8 @@
 								}
 								errMsg += '\n';
 							}
-							alert(errMsg);
+							// alert(errMsg);
+							alertService.addMessage(res.code, 'Server-side validation error', errMsg);
 							break;
 						}
 					}
@@ -66,40 +67,25 @@
 				}
 			};
 		}])
-		// ref: http://stackoverflow.com/questions/17408475/how-to-keep-login-status-after-refresh-using-angular-js
-		// ref: http://maffrigby.com/maintaining-session-info-in-angularjs-when-you-refresh-the-page/
-		// .factory('authService', ['$cookieStore', function ($cookieStore) {
-		// 	var store = {};
+		.factory('alertService', [function () {
+			var messages = [];
 
-		// 	store.isAuth = $cookieStore.get('isAuth');
-		// 	store.user = $cookieStore.get('user');
-		// 	store.token = $cookieStore.get('token');
-
-		// 	store.setToken = function (token) {
-		// 		return $cookieStore.put('token', token);
-		// 	};
-
-		// 	store.getToken = function () {
-		// 		return $cookieStore.get('token');
-		// 	};
-
-		// 	store.login = function (user) {
-		// 		$cookieStore.put('isAuth', true);
-		// 		$cookieStore.put('user', user);
-		// 		store.isAuth = true;
-		// 		store.user = user;
-		// 	};
-
-		// 	store.logout = function () {
-		// 		$cookieStore.remove('isAuth');
-		// 		$cookieStore.remove('user');
-		// 		$cookieStore.remove('token');
-		// 		store.isAuth = false;
-		// 		store.user = null;
-		// 	};
-
-		// 	return store;
-		// }])
+			return {
+				getMessages: function () {
+					return messages;
+				},
+				addMessage: function (type, title, content) {
+					messages.push({
+						type: type,
+						title: title,
+						content: content
+					});
+				},
+				deleteMessage: function (idx) {
+					messages.splice(idx, 1);
+				}
+			};
+		}])
 		.factory('authService', ['$window', function ($window) {
 			var store = {};
 

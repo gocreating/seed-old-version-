@@ -9,6 +9,16 @@
     <base href="/">
 </head>
 <body ng-app="seed" ng-controller="rootCtrl">
+	<div ng-controller="alertCtrl" ng-cloak class="ng-cloak">
+		<ul>
+			<li ng-repeat="message in messages">
+				<span ng-bind="message.type"></span>
+				<span ng-bind="message.title"></span>
+				<span ng-bind="message.content"></span>
+				<a href="" ng-click="deleteMessage($index)">X</a>
+			</li>
+		</ul>
+	</div>
 	<nav>
 		<div>
 			<h4>General</h4>
@@ -19,7 +29,7 @@
 		</div>
 		<div>
 			<h4>User</h4>
-			<ul>
+			<ul ng-cloak class="ng-cloak">
 				<li ng-hide="authService.isAuth"><a href="/user/new">Register</a></li>
 				<li ng-hide="authService.isAuth"><a href="/user/login">Login</a></li>
 				<li ng-show="authService.isAuth"><a href="/user/logout">Logout</a></li>
