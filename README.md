@@ -30,15 +30,14 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
 
 ## To Be Build
 
-9. i18n
+9. i18n  
   Support multiple languages
 
-10. Open Id
+10. Open Id  
   Login with Facebook, Twitter, Github, LinkedIn, and etc.
 
-11. Captcha
+11. Captcha  
   It would be a third party captcha, because a native captcha build with node package requires lots of dependencies to be installed, which is really a bothering thing
-
 
 ## Tutorial
 
