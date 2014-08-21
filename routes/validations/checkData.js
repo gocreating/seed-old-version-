@@ -106,7 +106,7 @@ exports.checkCallBack = function (req, res, next) {
 			// http://expressjs.com/4x/api.html#req.get
 			if (req.is('json')) {
 				// respond with json
-				res.reply(detail, status.ERR_VALIDATION, 'validation error');
+				res.reply(true, 'validation error', '', null, null, detail, status.ERR_VALIDATION);
 				return;
 			} else {
 				// respond with html page

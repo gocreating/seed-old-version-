@@ -21,30 +21,32 @@
 		.factory('httpErrorHandle', [function ($q) {
 			return {
 				// on success
-				response: function (res) {
-					var sts = res.status;
-					var data = res.data;
+				response: function (config) {
+					var res = config.data;
 
-					if (data.error && data.errCode == status.ERR_VALIDATION) {
-						var errMsg = '';
-						var inputs = data.value;
-						for (var i in inputs) {
-							errMsg += inputs[i].field + '\n';
-							errMsg += '=====================\n';
-							var msgs = inputs[i].msg;
-							for (var j in msgs) {
-								errMsg += msgs[j] + '\n';
+					switch (res.code) {
+						case status.ERR_VALIDATION: {
+							var errMsg = '';
+							var inputs = res.data;
+							for (var i in inputs) {
+								errMsg += inputs[i].field + '\n';
+								errMsg += '=====================\n';
+								var msgs = inputs[i].msg;
+								for (var j in msgs) {
+									errMsg += msgs[j] + '\n';
+								}
+								errMsg += '\n';
 							}
-							errMsg += '\n';
+							alert(errMsg);
+							break;
 						}
-						alert(errMsg);	
 					}
-					return res;
+					return config;
 				},
 
 				// on error
-				responseError: function (res) {
-					return $q.reject(res);
+				responseError: function (config) {
+					return $q.reject(config);
 				}
 			};
 		}])

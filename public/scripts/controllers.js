@@ -40,6 +40,7 @@ app
 			userFactory
 				.create($scope.form)
 				.success(function (res) {
+					console.log(res);
 					switch (res.code) {
 						case status.USER_EMAIL_EXIST: {
 							$scope.error.isEmailExist = true;

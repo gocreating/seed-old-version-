@@ -35,6 +35,8 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
 
 10. Global Alert Message
 
+11. Captcha
+
 ## Tutorial
 
 1. Create `config.js` in root folder:  
