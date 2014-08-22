@@ -1,0 +1,10 @@
+<div ng-controller="alertCtrl" ng-cloak class="ng-cloak">
+	<ul>
+		<li ng-repeat="message in messages">
+			<span ng-bind="message.type"></span>
+			<span ng-bind="message.title"></span>
+			<span ng-bind="message.content"></span>
+			<a href="" ng-click="deleteMessage($index)">X</a>
+		</li>
+	</ul>
+</div>

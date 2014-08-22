@@ -1,0 +1,17 @@
+<nav>
+	<div>
+		<h4>General</h4>
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/contact">Contact</a></li>
+		</ul>
+	</div>
+	<div>
+		<h4>User</h4>
+		<ul ng-cloak class="ng-cloak">
+			<li ng-hide="authService.isAuth"><a href="/user/new">Register</a></li>
+			<li ng-hide="authService.isAuth"><a href="/user/login">Login</a></li>
+			<li ng-show="authService.isAuth"><a href="/user/logout">Logout</a></li>
+		</ul>
+	</div>	
+</nav>

@@ -39,6 +39,14 @@ A seed project for building a website using nodejs (back-end), angularjs (front-
 11. Captcha  
   It would be a third party captcha, because a native captcha build with node package requires lots of dependencies to be installed, which is really a bothering thing
 
+12. Socket.io  
+  You can build a chat room, broadcast messages from admin dashboard, or just push data from server, it's up to you
+
+13. ng-material design  
+  A front-end UI framework based on google material design and angular
+
+14. Google Analysis  
+
 ## Tutorial
 
 1. Create `config.js` in root folder:  

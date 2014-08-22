@@ -2,7 +2,8 @@
 
 var app = angular.module('seed', [
 	'ngRoute',
-	'ngCookies',
+	/*'ngCookies',*/
+	'ui.router',
 	'myApp.filters',
 	'myApp.services',
 	'myApp.directives',
@@ -35,37 +36,142 @@ app.run(['$rootScope', 'authService', function ($rootScope, authService) {
 
 /**************************************************************
  *                                                            *
- * Routing                                                    *
+ * Nested Routing                                             *
  *                                                            *
  **************************************************************/
 
-// general
-app.config(['$routeProvider', function ($routeProvider) {
-	$routeProvider.when('/',                  {templateUrl: 'views/general/home.html'});
-	$routeProvider.when('/contact',           {templateUrl: 'views/general/contact.html'});
-
-	// policies
-	$routeProvider.when('/policies/pricing',  {templateUrl: 'views/general/policies/pricing.html'});
-	$routeProvider.when('/policies/support',  {templateUrl: 'views/general/policies/support.html'});
-	$routeProvider.when('/policies/security', {templateUrl: 'views/general/policies/security.html'});
-	$routeProvider.when('/policies/terms',    {templateUrl: 'views/general/policies/terms.html'});
-	$routeProvider.when('/policies/privacy',  {templateUrl: 'views/general/policies/privacy.html'});
-	$routeProvider.when('/faq',               {templateUrl: 'views/general/faq.html'});
-
-	// about
-	$routeProvider.when('/about/company',     {templateUrl: 'views/general/about/company.html'});
-	$routeProvider.when('/about/team',        {templateUrl: 'views/general/about/team.html'});
-	$routeProvider.when('/about/service',     {templateUrl: 'views/general/about/service.html'});
+app.run(['$rootScope', 'authService', function ($rootScope, authService) {
+	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+		if (toState.requireAuth && !authService.isAuth) {
+			toState.templateUrl = 'views/special/403.html';
+		}
+	});
 }]);
 
-// user
-app.config(['$routeProvider', function ($routeProvider) {
-	$routeProvider.when('/user/new',    {controller: 'userNewCtrl',    templateUrl: 'views/user/new.html'});
-	$routeProvider.when('/user/login',  {controller: 'userLoginCtrl',  templateUrl: 'views/user/login.html'});
-	$routeProvider.when('/user/logout', {controller: 'userLogoutCtrl', template: ' '});
-}]);
+app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+	$stateProvider
+	.state('root', {
+		url: '',
+		views: {
+			'menu': {
+				templateUrl: 'views/menu.html'
+			},
+			'container':{
+				abstract: true,
+				template: '<ui-view />'
+			},
+			'footer': {
+				templateUrl: 'views/footer.html'
+			}
+		}
+	})
 
-// 404
-app.config(['$routeProvider', function ($routeProvider) {
-	$routeProvider.otherwise({templateUrl: 'views/special/404.html'});
+		// general
+		.state('root.general', {
+			abstract: true,
+			template: '<ui-view />'
+		})
+			.state('root.general.home', {
+				url: '/',
+				templateUrl: 'views/general/home.html'
+			})
+			.state('root.general.contact', {
+				url: '/contact',
+				views: {
+					'container@': {
+						templateUrl: 'views/general/contact.html'
+					}
+				}
+			})
+			.state('root.general.faq', {
+				url: '/faq',
+				templateUrl: 'views/general/faq.html'
+			})
+
+		// policies
+		.state('root.policies', {
+			url: '/policies',
+			templateUrl: 'views/general/policies/index.html'
+		})
+			.state('root.policies.pricing', {
+				url: '/pricing',
+				templateUrl: 'views/general/policies/pricing.html'
+			})
+			.state('root.policies.support', {
+				url: '/support',
+				templateUrl: 'views/general/policies/support.html'
+			})
+			.state('root.policies.security', {
+				url: '/security',
+				templateUrl: 'views/general/policies/security.html'
+			})
+			.state('root.policies.terms', {
+				url: '/terms',
+				templateUrl: 'views/general/policies/terms.html'
+			})
+			.state('root.policies.privacy', {
+				url: '/privacy',
+				templateUrl: 'views/general/policies/privacy.html'
+			})
+
+		// about
+		.state('root.about', {
+			url: '/about',
+			templateUrl: 'views/general/about/index.html'
+		})
+			.state('root.about.company', {
+				url: '/company',
+				templateUrl: 'views/general/about/company.html'
+			})
+			.state('root.about.team', {
+				url: '/team',
+				templateUrl: 'views/general/about/team.html'
+			})
+			.state('root.about.service', {
+				url: '/service',
+				templateUrl: 'views/general/about/service.html'
+			})
+
+		// user
+		.state('root.user', {
+			abstract: true,
+			template: '<ui-view />'
+		})
+			.state('root.user.new', {
+				url: '/user/new',
+				templateUrl: 'views/user/new.html',
+				controller: 'userNewCtrl'
+			})
+			.state('root.user.login', {
+				url: '/user/login',
+				templateUrl: 'views/user/login.html',
+				controller: 'userLoginCtrl'
+			})
+			.state('root.user.logout', {
+				url: '/user/logout',
+				controller: 'userLogoutCtrl'
+			})
+
+		// special
+		.state('root.special', {
+			abstract: true,
+			views: {
+				'container@': {
+					template: '<ui-view />'
+				},
+				'footer@': {
+					template: ''
+				}
+			}
+		})
+			.state('root.special.403', {
+				url: '/403',
+				templateUrl: 'views/special/403.html'
+			})
+			.state('root.special.404', {
+				url: '/404',
+				templateUrl: 'views/special/404.html'
+			});
+
+	$urlRouterProvider.otherwise('/404');
 }]);

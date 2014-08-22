@@ -55,7 +55,6 @@
 		.factory('tokenInjector', ['authService', function (authService) {
 			return {
 				request: function (config) {
-					console.log('request ' + config.url);
 					var token = authService.getToken();
 					// restrict to api scope
 					// console.log(config.url.substr(0, 3));
