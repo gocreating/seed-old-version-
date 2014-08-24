@@ -27,6 +27,7 @@
     "moment": "*",
 
     "passport": "*",
-    "passport-facebook": "*"
+    "passport-facebook": "*",
+    "passport-twitter": "*"
   }
 }

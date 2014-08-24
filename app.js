@@ -50,19 +50,20 @@ app.use(bodyParser.urlencoded({                      // body parsing (req.body)
 }));
 app.use(bodyParser.json());
 // app.use(cookieParser(config.secret.cookieSecret));   // parse cookie header (req.cookies)
-// app.use(session({                                    // parse session (req.session)
-// 	secret: config.secret.sessionSecret,
-// 	resave: true,
-// 	saveUninitialized: true,
-// 	store: new SessionStore({
-// 		host: config.db.host,
-// 	    port: config.db.port,
-// 	    user: config.db.user,
-// 	    password: config.db.password,
-// 	    database: config.db.database
-// 	})
-// }));
+app.use(session({                                    // parse session (req.session)
+	secret: config.secret.sessionSecret,
+	resave: true,
+	saveUninitialized: true,
+	store: new SessionStore({
+		host: config.db.host,
+	    port: config.db.port,
+	    user: config.db.user,
+	    password: config.db.password,
+	    database: config.db.database
+	})
+}));
 app.use(passport.initialize());
+app.use(passport.session());
 
 /**************************************************************
  *                                                            *
