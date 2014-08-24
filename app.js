@@ -25,7 +25,8 @@ var http           = require('http'),
 // other modules
 var SessionStore   = require('express-mysql-session'), // Store session in mysql database
 	fs             = require("fs"),                    // To read ssl key and cert
-	lessMiddleware = require('less-middleware');
+	lessMiddleware = require('less-middleware'),
+	passport       = require('passport');
 
 /**************************************************************
  *                                                            *
@@ -61,6 +62,7 @@ app.use(bodyParser.json());
 // 	    database: config.db.database
 // 	})
 // }));
+app.use(passport.initialize());
 
 /**************************************************************
  *                                                            *

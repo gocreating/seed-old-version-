@@ -24,6 +24,9 @@
     "express-mysql-session": "*",
     "less-middleware": "*",
     "jwt-simple": "*",
-    "moment": "*"
+    "moment": "*",
+
+    "passport": "*",
+    "passport-facebook": "*"
   }
 }

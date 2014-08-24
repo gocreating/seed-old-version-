@@ -2,7 +2,6 @@
 
 var app = angular.module('seed', [
 	'ngRoute',
-	/*'ngCookies',*/
 	'ui.router',
 	'myApp.filters',
 	'myApp.services',
@@ -34,6 +33,11 @@ app.run(['$rootScope', 'authService', function ($rootScope, authService) {
 	});
 }]);
 
+// app
+// 	.config(['FacebookProvider', function (FacebookProvider) {
+// 		FacebookProvider.init('1491303634446526');
+// 	}]);
+
 /**************************************************************
  *                                                            *
  * Nested Routing                                             *
@@ -53,6 +57,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	.state('root', {
 		url: '',
 		views: {
+			'alert': {
+				templateUrl: 'views/alert.html'
+			},
 			'menu': {
 				templateUrl: 'views/menu.html'
 			},
@@ -65,7 +72,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			}
 		}
 	})
-
 		// general
 		.state('root.general', {
 			abstract: true,

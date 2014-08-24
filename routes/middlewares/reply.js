@@ -37,5 +37,16 @@ module.exports = function (req, res, next) {
 			}
 		}
 	};
+
+	res.replyByRedirect = function (_path, _msg, _status, _data, _code) {
+		var response = {
+			path: _path,
+			status: _status || 200,
+			code: _code,
+			message: _msg,
+			data: _data
+		};
+		res.redirect('/#/?data=' + JSON.stringify(response));
+	};
 	next();
 };

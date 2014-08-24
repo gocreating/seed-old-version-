@@ -10,7 +10,24 @@ app
  *                                                            *
  **************************************************************/
 
-	.controller('rootCtrl', ['$scope', function ($scope) {
+	.controller('rootCtrl', ['$scope', '$location', 'alertService', 'authService', 'status', function ($scope, $location, alertService, authService, status) {
+		if ($location.search().data) {
+			var res = JSON.parse($location.search().data);
+			$location.path(res.path);
+			switch (res.code) {
+				case status.ERR_SOCIAL_LOGIN: {
+					alertService.addMessage(0, 'social login', res.message);
+					break;
+				}
+				case status.SUCC_SOCIAL_LOGIN: {
+					alertService.addMessage(0, 'social login', res.message);
+					authService.login(res.data.user);
+					authService.setToken(res.data.token);
+				}
+			}
+			// clear search
+			$location.url($location.path());
+		}
 	}])
 
 	.controller('alertCtrl', ['$scope', 'alertService', function ($scope, alertService) {
@@ -92,6 +109,7 @@ app
 							case status.USER_WRONG_ACCOUNT: {
 								$scope.error.isLoginFail = true;
 								$scope.error.msg = res.message;
+								$scope.form.password = '';
 								break;
 							}
 							case status.OK: {
