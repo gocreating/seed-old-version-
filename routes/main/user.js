@@ -6,7 +6,8 @@ var moment = require('moment');
 var config = require('../../config');
 var passport = require('passport'),
 	FacebookStrategy = require('passport-facebook').Strategy,
-	TwitterStrategy = require('passport-twitter').Strategy;
+	TwitterStrategy = require('passport-twitter').Strategy,
+	GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 passport.serializeUser(function (user, done) {
 	done(null, user.user_id);
@@ -68,6 +69,33 @@ passport.use(new TwitterStrategy({
 	});
 }));
 
+// Google OAuth2Strategy
+passport.use(new GoogleStrategy({
+	clientID: '5517069943-ebsc4topj4432oob1pjq582hq48084e2.apps.googleusercontent.com',
+    clientSecret: 'xId_LkuGLPpktRC_QGBKE-bC',
+    callbackURL: 'http://entrepreneurclub.tw:5000/auth/google/callback'
+}, function (accessToken, refreshToken, profile, done) {
+	// only verified email can be used to register a new account
+	if (profile._json.verified_email) {
+		User.socialLogin({
+			user_type: User.USER_TYPE.GOOGLE,
+			open_id: profile.id,
+			email: profile._json.email,
+			password_hash: '',
+			name: profile.displayName,
+			sex: (profile._json.gender==='male'? User.SEX_TYPE.MALE: (profile._json.gender==='female'? User.SEX_TYPE.FEMALE: User.SEX_TYPE.UNKNOWN)),
+			birthday: '',
+			extra: profile._raw,
+			create_at: new Date(),
+			update_at: new Date()
+		}, function (err, readUser) {
+			return done(err, readUser);
+		});
+	} else {
+		return done(null, null);
+	}
+}));
+
 module.exports = function (router) {
 	router.get('/auth/facebook',
 		passport.authenticate('facebook', {
@@ -108,11 +136,38 @@ module.exports = function (router) {
 		});
 
 	router.get('/auth/twitter',
-		passport.authenticate('twitter', {session: false}));
+		passport.authenticate('twitter'));
 
 	router.route('/auth/twitter/callback')
 		.get(function (req, res, next) {
 			passport.authenticate('twitter', function (err, readUser, info) {
+				if (!readUser) {
+					res.replyByRedirect('/user/login', 'cannot login the user', 200, null, status.ERR_SOCIAL_LOGIN);
+				} else {
+					var user = {
+						user_id: readUser.user_id,
+						email: readUser.email,
+						name: readUser.name
+					};
+					var token = jwt.encode({
+						user: user,
+						expiration: moment().add('days', 7).valueOf()
+					}, config.secret.tokenSecret);
+
+					res.replyByRedirect('/', 'login successfully', 200, {
+						token: token,
+						user: user
+					}, status.SUCC_SOCIAL_LOGIN);
+				}
+			}) (req, res, next)
+		});
+
+	router.get('/auth/google',
+		passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']}));
+
+	router.route('/auth/google/callback')
+		.get(function (req, res, next) {
+			passport.authenticate('google', function (err, readUser, info) {
 				if (!readUser) {
 					res.replyByRedirect('/user/login', 'cannot login the user', 200, null, status.ERR_SOCIAL_LOGIN);
 				} else {

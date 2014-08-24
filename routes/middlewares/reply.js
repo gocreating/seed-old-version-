@@ -46,7 +46,8 @@ module.exports = function (req, res, next) {
 			message: _msg,
 			data: _data
 		};
-		res.redirect('/#/?data=' + JSON.stringify(response));
+		var encode = new Buffer(JSON.stringify(response)).toString('base64');
+		res.redirect('/#/?data=' + encode);
 	};
 	next();
 };

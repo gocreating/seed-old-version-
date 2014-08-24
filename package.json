@@ -28,6 +28,7 @@
 
     "passport": "*",
     "passport-facebook": "*",
-    "passport-twitter": "*"
+    "passport-twitter": "*",
+    "passport-google-oauth": "*"
   }
 }

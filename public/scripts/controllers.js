@@ -12,7 +12,8 @@ app
 
 	.controller('rootCtrl', ['$scope', '$location', 'alertService', 'authService', 'status', function ($scope, $location, alertService, authService, status) {
 		if ($location.search().data) {
-			var res = JSON.parse($location.search().data);
+			var res = JSON.parse(atob($location.search().data));
+			console.log(res);
 			$location.path(res.path);
 			switch (res.code) {
 				case status.ERR_SOCIAL_LOGIN: {
