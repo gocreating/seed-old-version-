@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('seed', [
-	'ngRoute',
+	// 'ngRoute',
 	'ui.router',
 	'myApp.filters',
 	'myApp.services',
@@ -33,10 +33,16 @@ app.run(['$rootScope', 'authService', function ($rootScope, authService) {
 	});
 }]);
 
-// app
-// 	.config(['FacebookProvider', function (FacebookProvider) {
-// 		FacebookProvider.init('1491303634446526');
-// 	}]);
+app.config(function($controllerProvider,$compileProvider,$filterProvider,$provide){
+    app.register =
+        {
+            controller: $controllerProvider.register,
+            directive: $compileProvider.directive,
+            filter: $filterProvider.register,
+            factory: $provide.factory,
+            service: $provide.service
+        };
+});
 
 /**************************************************************
  *                                                            *

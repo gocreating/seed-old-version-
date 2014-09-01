@@ -1,3 +1,9 @@
+See the lastest [documentation](https://docs.google.com/document/d/1Cl9_SjRa5HK6sfvtGhhENEiCwVVoRR3EgvM5gvuEeQM/edit?usp=sharing)  
+
+Please `IGNORE` the documentation below  
+It may contain something wrong  
+用markdown寫文件時在太麻煩了，所以移到google docs
+
 # Seed
 
 A seed project for building a website using nodejs (back-end), angularjs (front-end) and mysql (database)  

@@ -45,6 +45,7 @@ app
 	.controller('userNewCtrl', ['$scope', 'userFactory', '$location', 'status', 'alertService', function ($scope, userFactory, $location, status, alertService) {
 		$scope.error = {
 			isEmailExist: false,
+			isWrongCaptcha: false,
 			msg: ''
 		};
 
@@ -60,11 +61,23 @@ app
 		};
 
 		$scope.submit = function() {
+			$scope.form['captcha'] = {
+				challenge: $('#recaptcha_challenge_field').val(),
+				response: $('#recaptcha_response_field').val()
+			};
+
 			userFactory
 				.create($scope.form)
 				.success(function (res) {
 					console.log(res);
 					switch (res.code) {
+						case status.WRONG_CAPTCHA: {
+							$scope.error.isWrongCaptcha = true;
+							$scope.error.msg = res.message;
+							Recaptcha.reload();
+							Recaptcha.focus_response_field();
+							break;
+						}
 						case status.USER_EMAIL_EXIST: {
 							$scope.error.isEmailExist = true;
 							$scope.error.msg = res.message;

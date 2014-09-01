@@ -9,27 +9,28 @@
     <base href="/">
 </head>
 <body ng-app="seed" ng-controller="rootCtrl">
-	<div ui-view="alert"></div>
-	<div ui-view="menu"></div>
-	<!-- <div ng-view class="page-wrapper"></div> -->
-	<div ui-view="container" class="page-wrapper"></div>
-	<div ui-view="footer"></div>
 	<!-- 
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
 	 -->
 	
 	<script src="libraries/angular/angular.js"></script>
-	<script src="libraries/angular/angular-route.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
+	<!-- // <script src="libraries/angular/angular-route.js"></script> -->
 
-	<!-- // <script src="http://rawgithub.com/Ciul/angular-facebook/master/lib/angular-facebook.js"></script> -->
-	<!-- // <script src="libraries/angular/angular-cookies.js"></script> -->
+	<!-- Include the JS ReCaptcha API -->
+	<script type="text/javascript" src="//www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
 	<script src="scripts/app.js"></script>
 	<script src="scripts/services.js"></script>
 	<script src="scripts/controllers.js"></script>
 	<script src="scripts/filters.js"></script>
 	<script src="scripts/directives.js"></script>
-	
+
+	<div ui-view="alert"></div>
+	<div ui-view="menu"></div>
+	<div ui-view="container" class="page-wrapper"></div>
+	<div ui-view="footer"></div>
+
 	<script>
 		// (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		// (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

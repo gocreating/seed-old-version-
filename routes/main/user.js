@@ -8,6 +8,7 @@ var passport = require('passport'),
 	FacebookStrategy = require('passport-facebook').Strategy,
 	TwitterStrategy = require('passport-twitter').Strategy,
 	GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var Recaptcha = require('recaptcha').Recaptcha;
 
 passport.serializeUser(function (user, done) {
 	done(null, user.user_id);
@@ -21,10 +22,10 @@ passport.deserializeUser(function (id, done) {
 
 // Facebook Strategy
 passport.use(new FacebookStrategy({
-	clientID:     '1491303634446526',
-	clientSecret: 'd76344f1ecffb497055eb29383fca8e9',
-	callbackURL:  'http://entrepreneurclub.tw:5000/auth/facebook/callback',
-	enableProof:  false
+	clientID: config.social.facebook.clientID,
+	clientSecret: config.social.facebook.clientSecret,
+	callbackURL: config.social.callback_root + '/auth/facebook/callback',
+	enableProof: config.social.facebook.enableProof
 }, function (accessToken, refreshToken, profile, done) {
 	// only verified email can be used to register a new account
 	if (profile._json.verified) {
@@ -49,9 +50,9 @@ passport.use(new FacebookStrategy({
 
 // Twitter Strategy
 passport.use(new TwitterStrategy({
-	consumerKey: 'J6z8XxiyJNoQpyRu3FFDqWPCn',
-	consumerSecret: 'OSAkafF4BiDww1zI8iLNEOjdxw5qwW4ghiKoZ5SK7ShnpeCc2c',
-	callbackURL: 'http://entrepreneurclub.tw:5000/auth/twitter/callback'
+	consumerKey: config.social.twitter.consumerKey,
+	consumerSecret: config.social.twitter.consumerSecret,
+	callbackURL: config.social.callback_root + '/auth/twitter/callback'
 }, function (token, tokenSecret, profile, done) {
 	User.socialLogin({
 		user_type: User.USER_TYPE.TWITTER,
@@ -71,9 +72,9 @@ passport.use(new TwitterStrategy({
 
 // Google OAuth2Strategy
 passport.use(new GoogleStrategy({
-	clientID: '5517069943-ebsc4topj4432oob1pjq582hq48084e2.apps.googleusercontent.com',
-    clientSecret: 'xId_LkuGLPpktRC_QGBKE-bC',
-    callbackURL: 'http://entrepreneurclub.tw:5000/auth/google/callback'
+	clientID: config.social.google.clientID,
+    clientSecret: config.social.google.clientSecret,
+    callbackURL: config.social.callback_root + '/auth/google/callback'
 }, function (accessToken, refreshToken, profile, done) {
 	// only verified email can be used to register a new account
 	if (profile._json.verified_email) {
@@ -196,30 +197,42 @@ module.exports = function (router) {
 			});
 		})
 		.post(function (req, res) {
-			User.checkExist(req.body.email, function (err, existUser) {
-				if (existUser) {
-					res.reply(err || true, 'email already exist', '', null, null, null, status.USER_EMAIL_EXIST);
+			var recaptcha = new Recaptcha(null, config.recaptcha.private_key, {
+				remoteip:  req.connection.remoteAddress,
+				challenge: req.body.captcha.challenge,
+				response:  req.body.captcha.response
+			});
+
+			recaptcha.verify(function (success, error_code) {
+				if (!success) {
+					res.reply(true, 'wrong captcha', '', null, null, null, status.WRONG_CAPTCHA);
 				} else {
-					User.create({
-						user_type: User.USER_TYPE.LOCAL,
-						open_id: 0,
-						email: req.body.email,
-						password_hash: pswd.hash(req.body.password),
-						name: req.body.name,
-						sex: req.body.sex,
-						birthday: req.body.birthday,
-						extra: JSON.stringify({
-							phone: req.body.phone,
-							address: req.body.address
-						}),
-						create_at: new Date(),
-						update_at: new Date()
-					}, function (err, readUser) {
-						res.reply(err, 'cannot create the new user', 'create successfully', null, null, {
-							user_id: readUser.user_id,
-							email: readUser.email,
-							name: readUser.name
-						});
+					User.checkExist(req.body.email, function (err, existUser) {
+						if (existUser) {
+							res.reply(err || true, 'email already exist', '', null, null, null, status.USER_EMAIL_EXIST);
+						} else {
+							User.create({
+								user_type: User.USER_TYPE.LOCAL,
+								open_id: 0,
+								email: req.body.email,
+								password_hash: pswd.hash(req.body.password),
+								name: req.body.name,
+								sex: req.body.sex,
+								birthday: req.body.birthday,
+								extra: JSON.stringify({
+									phone: req.body.phone,
+									address: req.body.address
+								}),
+								create_at: new Date(),
+								update_at: new Date()
+							}, function (err, readUser) {
+								res.reply(err, 'cannot create the new user', 'create successfully', null, null, {
+									user_id: readUser.user_id,
+									email: readUser.email,
+									name: readUser.name
+								});
+							});
+						}
 					});
 				}
 			});
@@ -274,4 +287,33 @@ module.exports = function (router) {
 		.delete(function (req, res) {
 			console.log('delete');
 		});
+
+	router.get('/mail', function (res, req) {
+		var nodemailer = require('nodemailer');
+		var transporter = nodemailer.createTransport();
+
+		transporter.sendMail({
+		    from: 'no-reply@entrepreneurclub.tw',
+		    to: 'gocreating@gmail.com',
+		    subject: 'Test',
+		    text: 'text',
+		    html: 'html'
+		}, function (err, response){
+		    if (err) {
+		    	console.log(err);
+		    	if (err.name == 'RecipientError') {
+		    		// req.session.err = 'Wrong email address.';
+		    	} else if (err.name == 'AuthError') {
+		    		// Remember to set up email user and password in config.js
+		    		// req.session.err = 'Sender account auth error.';
+		    	} else {
+		    		// req.session.err = 'Unexpected error.';
+		    	}
+		    } else {
+		        // req.session.succ = 'Thanks for your contact';
+		        console.log('succ');
+		    }
+        	// res.redirect('/contact');
+		});
+	});
 };

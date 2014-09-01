@@ -29,6 +29,8 @@
     "passport": "*",
     "passport-facebook": "*",
     "passport-twitter": "*",
-    "passport-google-oauth": "*"
+    "passport-google-oauth": "*",
+
+    "recaptcha": "*"
   }
 }

@@ -1,3 +1,11 @@
+<script type="text/javascript">
+	$.getScript('http://www.google.com/recaptcha/api/js/recaptcha_ajax.js', function() {
+		Recaptcha.create('6LeVgfkSAAAAAL3-W5fDL0gbngKaFzqs4Aw7KVWn', 'recaptcha_display', {
+			theme: 'red'
+		});
+	});
+</script>
+
 Register
 
 <form name="fm" ng-submit="submit()" novalidate>
@@ -131,6 +139,10 @@ Register
 			<span ng-show="fm.agree.$invalid">X</span>
 			<span ng-show="fm.agree.$error.required">You must agree before signing up</span>
 		</span>
+	</p>
+	<p>
+		<div id="recaptcha_display"></div>
+		<span ng-show="error.isWrongCaptcha">{{error.msg}}</span>
 	</p>
 	<p>
 		<input type="submit" value="Register" ng-disabled="fm.$invalid || (form.password != form.confirm)">
