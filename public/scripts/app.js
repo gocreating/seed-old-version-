@@ -33,17 +33,6 @@ app.run(['$rootScope', 'authService', function ($rootScope, authService) {
 	});
 }]);
 
-app.config(function($controllerProvider,$compileProvider,$filterProvider,$provide){
-    app.register =
-        {
-            controller: $controllerProvider.register,
-            directive: $compileProvider.directive,
-            filter: $filterProvider.register,
-            factory: $provide.factory,
-            service: $provide.service
-        };
-});
-
 /**************************************************************
  *                                                            *
  * Nested Routing                                             *
