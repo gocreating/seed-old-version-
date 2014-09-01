@@ -50,7 +50,7 @@ app
 		};
 
 		$scope.form = {
-			email:    'test@test.test',
+			email:    'gocreating@gmail.com',
 			password: 'testtest',
 			confirm:  'testtest',
 			name:     'test',
@@ -59,6 +59,8 @@ app
 			phone:    '',
 			address:  ''
 		};
+
+		$scope.isAgree = true;
 
 		$scope.submit = function() {
 			$scope.form['captcha'] = {
@@ -104,7 +106,7 @@ app
 		};
 
 		$scope.form = {
-			email:    'test@test.testt',
+			email:    'gocreating@gmail.com',
 			password: 'testtest'
 		};
 
@@ -120,7 +122,8 @@ app
 					.login($scope.form)
 					.success(function (res) {
 						switch (res.code) {
-							case status.USER_WRONG_ACCOUNT: {
+							case status.USER_WRONG_ACCOUNT:
+							case status.USER_NOT_VERIFIED: {
 								$scope.error.isLoginFail = true;
 								$scope.error.msg = res.message;
 								$scope.form.password = '';

@@ -19,7 +19,7 @@ exports.SEX_TYPE = {
 	NO_NEED:  3
 };
 
-exports.read = function (id, cb) {
+exports.readById = function (id, cb) {
 	db.query('SELECT * FROM ' + tableName + ' WHERE user_id = ?', [id], function (err, rows) {
 		cb(err, rows[0]);
 	});
@@ -40,9 +40,6 @@ exports.checkExist = function (email, cb) {
 exports.create = function (item, cb) {
 	db.query('INSERT INTO ' + tableName + ' SET ?', item, function (err) {
 		if (err) cb(err, null);
-		// db.query('SELECT LAST_INSERT_ID() AS id', function (err, rows) {
-		// 	cb(err, rows[0].id);
-		// });
 		db.query('SELECT * FROM ' + tableName + ' WHERE email = ?', [item.email], function (err, rows) {
 			cb(err, rows && rows[0]);
 		});
@@ -65,5 +62,17 @@ exports.socialLogin = function (item, cb) {
 		} else {
 			cb(err, existUser);
 		}
+	});
+};
+
+exports.updateById = function (id, item, cb) {
+	db.query('UPDATE ' + tableName + ' SET ? WHERE user_id = ?', [item, id], function (err) {
+		cb(err);
+	});
+};
+
+exports.deleteById = function (id, cb) {
+	db.query('DELETE FROM ' + tableName + ' WHERE user_id = ?', [id], function (err) {
+		cb(err);
 	});
 };
