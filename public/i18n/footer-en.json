@@ -1,3 +1,18 @@
 {
-	"TITLE_GET_STARTED": "GET STARTED"
+	"TITLE_GET_STARTED": "GET STARTED",
+	"TITLE_ABOUT": "ABOUT",
+	"TITLE_CONNECT": "CONNECT",
+
+	"MENU_PRICING": "Pricing",
+	"MENU_SUPPORT": "Support",
+	"MENU_SECURITY": "Security",
+	"MENU_TERMS": "Terms",
+	"MENU_PRIVACY": "Privacy",
+	"MENU_FAQ": "FAQ",
+
+	"MENU_COMPANY": "Company",
+	"MENU_TEAM": "Team",
+	"MENU_SERVICE": "Service",
+
+	"COPYRIGHT": "All rights reserved."
 }

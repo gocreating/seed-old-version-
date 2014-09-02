@@ -24,9 +24,10 @@
 		<span ng-show="fm.email.$dirty">
 			<span ng-show="fm.email.$valid">V</span>
 			<span ng-show="fm.email.$invalid">X</span>
-			<span ng-show="fm.email.$error.required">Required</span>
-			<span ng-show="fm.email.$error.minlength">Too short</span>
-			<span ng-show="fm.email.$error.maxlength">Too long</span>
+			<span ng-show="fm.email.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+			<span ng-show="fm.email.$error.email">{{'MSG_NOT_AN_EMAIL'|translate}}</span>
+			<span ng-show="fm.email.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+			<span ng-show="fm.email.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
 		</span>
 		<span ng-show="error.isEmailExist">{{error.msg}}</span>
 	</p>
@@ -44,9 +45,9 @@
 		<span ng-show="fm.password.$dirty">
 			<span ng-show="fm.password.$valid">V</span>
 			<span ng-show="fm.password.$invalid">X</span>
-			<span ng-show="fm.password.$error.required">Required</span>
-			<span ng-show="fm.password.$error.minlength">Too short</span>
-			<span ng-show="fm.password.$error.maxlength">Too long</span>
+			<span ng-show="fm.password.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+			<span ng-show="fm.password.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+			<span ng-show="fm.password.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
 		</span>
 	</p>
 	<p>
@@ -63,7 +64,7 @@
 		<span ng-show="fm.confirm.$dirty">
 			<span ng-show="fm.password.$valid && (form.confirm == form.password)">V</span>
 			<span ng-show="fm.password.$invalid || (form.confirm != form.password)">X</span>
-			<span ng-show="fm.password.$invalid || (form.confirm != form.password)">Conflict with password</span>
+			<span ng-show="fm.password.$invalid || (form.confirm != form.password)">{{'MSG_PASSWORD_CONFLICT'|translate}}</span>
 		</span>
 		</label>
 	</p>
@@ -81,9 +82,9 @@
 		<span ng-show="fm.name.$dirty">
 			<span ng-show="fm.name.$valid">V</span>
 			<span ng-show="fm.name.$invalid">X</span>
-			<span ng-show="fm.name.$error.required">Required</span>
-			<span ng-show="fm.name.$error.minlength">Too short</span>
-			<span ng-show="fm.name.$error.maxlength">Too long</span>
+			<span ng-show="fm.name.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+			<span ng-show="fm.name.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+			<span ng-show="fm.name.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
 		</span>
 	</p>
 	<p>
@@ -111,7 +112,7 @@
 		<span ng-show="fm.phone.$dirty">
 			<span ng-show="fm.phone.$valid">V</span>
 			<span ng-show="fm.phone.$invalid">X</span>
-			<span ng-show="fm.phone.$error.maxlength">Too long</span>
+			<span ng-show="fm.phone.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
 		</span>
 	</p>
 	<p>
@@ -128,16 +129,16 @@
 		<span ng-show="fm.address.$dirty">
 			<span ng-show="fm.address.$valid">V</span>
 			<span ng-show="fm.address.$invalid">X</span>
-			<span ng-show="fm.address.$error.maxlength">Too long</span>
+			<span ng-show="fm.address.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
 		</span>
 	</p>
 	<p>
 		<label>
-			<input name="agree" type="checkbox" ng-model="isAgree" required>*{{'FORM_AGREE'|translate}} <a href="/policies/terms" target="_new">terms</a>
+			<input name="agree" type="checkbox" ng-model="isAgree" required>*{{'FORM_AGREE_DES'|translate}}<a href="/policies/terms" target="_new">{{'FORM_AGREE_LINK'|translate}}</a>
 		</label>
 		<span ng-show="fm.agree.$dirty">
 			<span ng-show="fm.agree.$invalid">X</span>
-			<span ng-show="fm.agree.$error.required">You must agree before signing up</span>
+			<span ng-show="fm.agree.$error.required">{{'MSG_MUST_AGREE'|translate}}</span>
 		</span>
 	</p>
 	<p>
@@ -145,6 +146,6 @@
 		<span ng-show="error.isWrongCaptcha">{{error.msg}}</span>
 	</p>
 	<p>
-		<input type="submit" value="Register" ng-disabled="fm.$invalid || (form.password != form.confirm)">
+		<input type="submit" value="{{'FORM_SUBMIT'|translate}}" ng-disabled="fm.$invalid || (form.password != form.confirm)">
 	</p>
 </form>

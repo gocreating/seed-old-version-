@@ -1,0 +1,20 @@
+{
+	"TITLE": "Login",
+
+	"FORM_EMAIL": "E-mail",
+	"FORM_PASSWORD": "Password",
+	"FORM_SUBMIT": "Login",
+
+	"MSG_REQUIRED": "Required",
+	"MSG_TOO_SHORT": "Too short",
+	"MSG_TOO_LONG": "Too long",
+	"MSG_NOT_AN_EMAIL": "Not an email",
+	"MSG_REJECTION": "Rejection",
+
+	"TXT_OR": " or ",
+	"LINK_REGISTER": "Register a new account",
+
+	"LINK_FB": "Login with facebook",
+	"LINK_TWITTER": "Login with twitter",
+	"LINK_GOOGLE": "Login with google"
+}

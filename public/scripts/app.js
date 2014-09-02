@@ -49,7 +49,7 @@ function loadTranslate (loader, name) {
 
 	while (nameArr.length) {
 		var part = nameArr.join('/');
-		console.log('load: ' + part);
+		// console.log('load: ' + part);
 		loader.addPart(part);
 		nameArr.pop();
 	}

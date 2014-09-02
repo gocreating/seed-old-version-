@@ -1,5 +1,6 @@
 {
 	"TITLE": "Register",
+
 	"FORM_EMAIL": "E-mail",
 	"FORM_PASSWORD": "Password",
 	"FORM_CONFIRM": "Password Confirm",
@@ -10,5 +11,14 @@
 	"FORM_BIRTHDAY": "Birthday",
 	"FORM_PHONE": "Phone",
 	"FORM_ADDRESS": "Address",
-	"FORM_AGREE": "I agree the"
+	"FORM_AGREE_DES": "I agree the ",
+	"FORM_AGREE_LINK": "terms",
+	"FORM_SUBMIT": "Register",
+
+	"MSG_REQUIRED": "Required",
+	"MSG_TOO_SHORT": "Too short",
+	"MSG_TOO_LONG": "Too long",
+	"MSG_NOT_AN_EMAIL": "Not an email",
+	"MSG_PASSWORD_CONFLICT": "Conflict with password",
+	"MSG_MUST_AGREE": "You must agree before signing up"
 }

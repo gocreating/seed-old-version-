@@ -1,0 +1,20 @@
+{
+	"TITLE": "登入",
+
+	"FORM_EMAIL": "電子信箱",
+	"FORM_PASSWORD": "密碼",
+	"FORM_SUBMIT": "登入",
+
+	"MSG_REQUIRED": "必填項目",
+	"MSG_TOO_SHORT": "過短",
+	"MSG_TOO_LONG": "過長",
+	"MSG_NOT_AN_EMAIL": "格式有誤",
+	"MSG_REJECTION": "拒絕登入",
+
+	"TXT_OR": " 或者 ",
+	"LINK_REGISTER": "註冊新帳號",
+
+	"LINK_FB": "Facebook登入",
+	"LINK_TWITTER": "Twitter登入",
+	"LINK_GOOGLE": "Google登入"
+}

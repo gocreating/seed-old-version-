@@ -1,5 +1,6 @@
 {
 	"TITLE": "註冊",
+
 	"FORM_EMAIL": "電子信箱",
 	"FORM_PASSWORD": "密碼",
 	"FORM_CONFIRM": "確認密碼",
@@ -10,5 +11,14 @@
 	"FORM_BIRTHDAY": "生日",
 	"FORM_PHONE": "電話",
 	"FORM_ADDRESS": "住址",
-	"FORM_AGREE": "我同意"
+	"FORM_AGREE_DES": "我同意",
+	"FORM_AGREE_LINK": "服務條款",
+	"FORM_SUBMIT": "註冊",
+
+	"MSG_REQUIRED": "必填項目",
+	"MSG_TOO_SHORT": "過短",
+	"MSG_TOO_LONG": "過長",
+	"MSG_NOT_AN_EMAIL": "格式有誤",
+	"MSG_PASSWORD_CONFLICT": "與密碼不符",
+	"MSG_MUST_AGREE": "您必須同意才能註冊"
 }

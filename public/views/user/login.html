@@ -1,13 +1,13 @@
 <div class="row">
 	<div class="col-md-offset-3 col-md-6">
 		<div class="page-header">
-			<h1>Login</h1>
+			<h1>{{'TITLE'|translate}}</h1>
 		</div>
 
 		<form class="form-horizontal" role="form" name="fm" ng-submit="submit(fm)" novalidate>
 			<!-- Error message -->
 			<div class="alert alert-danger alert-dismissible" role="alert" ng-show="error.isLoginFail">
-				<strong>Rejection</strong> {{error.msg}}
+				<strong>{{'MSG_REJECTION'|translate}}</strong> {{error.msg}}
 			</div>
 
 			<!-- Email -->
@@ -16,7 +16,7 @@
 				ng-class="{
 					'has-error': error.email.isInvalid
 				}">
-				<label for="email" class="col-sm-2 control-label">Email</label>
+				<label for="email" class="col-sm-2 control-label">{{'FORM_EMAIL'|translate}}</label>
 				<div class="col-sm-10">
 					<input
 						name="email" id="email" type="email" placeholder="YourEmail@example.com"
@@ -26,10 +26,10 @@
 					<span ng-show="error.email.isInvalid">
 						<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						<span class="help-block">
-							<span ng-show="fm.email.$error.required">Required</span>
-							<span ng-show="fm.email.$error.email">Not an email</span>
-							<span ng-show="!fm.email.$error.email && fm.email.$error.minlength">Too short</span>
-							<span ng-show="!fm.email.$error.email && fm.email.$error.maxlength">Too long</span>
+							<span ng-show="fm.email.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+							<span ng-show="fm.email.$error.email">{{'MSG_NOT_AN_EMAIL'|translate}}</span>
+							<span ng-show="!fm.email.$error.email && fm.email.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+							<span ng-show="!fm.email.$error.email && fm.email.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
 						</span>
 					</span>
 				</div>
@@ -41,7 +41,7 @@
 				ng-class="{
 					'has-error': error.password.isInvalid
 				}">
-				<label for="password" class="col-sm-2 control-label">Password</label>
+				<label for="password" class="col-sm-2 control-label">{{'FORM_PASSWORD'|translate}}</label>
 				<div class="col-sm-10">
 					<input
 						name="password" id="password" type="password" placeholder="Password"
@@ -51,9 +51,9 @@
 					<span ng-show="error.password.isInvalid">
 						<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						<span class="help-block">
-							<span ng-show="fm.password.$error.required">Required</span>
-							<span ng-show="fm.password.$error.minlength">Too short</span>
-							<span ng-show="fm.password.$error.maxlength">Too long</span>
+							<span ng-show="fm.password.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+							<span ng-show="fm.password.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+							<span ng-show="fm.password.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
 						</span>
 					</span>
 				</div>
@@ -61,15 +61,16 @@
 			<!-- Login -->
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button class="btn btn-default" type="submit">Login</button>
-					or <a href="/user/new">Register a new account</a>
+					<button class="btn btn-default" type="submit">{{'FORM_SUBMIT'|translate}}</button>
+					{{'TXT_OR'|translate}}
+					<a href="/user/new">{{'LINK_REGISTER'|translate}}</a>
 				</div>
 			</div>
 		</form>
 
 		<!-- http://stackoverflow.com/questions/16837704/angularjs-normal-links-with-html5mode -->
-		<p><a href="/auth/facebook" target="_self">Login with facebook</a></p>
-		<p><a href="/auth/twitter" target="_self">Login with twitter</a></p>
-		<p><a href="/auth/google" target="_self">Login with google</a></p>
+		<p><a href="/auth/facebook" target="_self">{{'LINK_FB'|translate}}</a></p>
+		<p><a href="/auth/twitter" target="_self">{{'LINK_TWITTER'|translate}}</a></p>
+		<p><a href="/auth/google" target="_self">{{'LINK_GOOGLE'|translate}}</a></p>
 	</div>
 </div>

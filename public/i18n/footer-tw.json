@@ -1,3 +1,18 @@
 {
-	"TITLE_GET_STARTED": "開始"
+	"TITLE_GET_STARTED": "開始使用",
+	"TITLE_ABOUT": "關於",
+	"TITLE_CONNECT": "連結",
+
+	"MENU_PRICING": "費用",
+	"MENU_SUPPORT": "支持",
+	"MENU_SECURITY": "安全性",
+	"MENU_TERMS": "服務條款",
+	"MENU_PRIVACY": "隱私權政策",
+	"MENU_FAQ": "常見問題",
+
+	"MENU_COMPANY": "公司",
+	"MENU_TEAM": "團隊",
+	"MENU_SERVICE": "服務",
+
+	"COPYRIGHT": "版權所有"
 }
