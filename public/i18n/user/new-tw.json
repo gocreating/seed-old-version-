@@ -1,0 +1,14 @@
+{
+	"TITLE": "註冊",
+	"FORM_EMAIL": "電子信箱",
+	"FORM_PASSWORD": "密碼",
+	"FORM_CONFIRM": "確認密碼",
+	"FORM_NAME": "姓名",
+	"FORM_SEX": "性別",
+	"FORM_SEX_MALE": "男",
+	"FORM_SEX_FEMALE": "女",
+	"FORM_BIRTHDAY": "生日",
+	"FORM_PHONE": "電話",
+	"FORM_ADDRESS": "住址",
+	"FORM_AGREE": "我同意"
+}

@@ -1,0 +1,14 @@
+{
+	"TITLE": "Register",
+	"FORM_EMAIL": "E-mail",
+	"FORM_PASSWORD": "Password",
+	"FORM_CONFIRM": "Password Confirm",
+	"FORM_NAME": "Name",
+	"FORM_SEX": "Gender",
+	"FORM_SEX_MALE": "Male",
+	"FORM_SEX_FEMALE": "Female",
+	"FORM_BIRTHDAY": "Birthday",
+	"FORM_PHONE": "Phone",
+	"FORM_ADDRESS": "Address",
+	"FORM_AGREE": "I agree the"
+}

@@ -6,12 +6,12 @@
 	});
 </script>
 
-Register
+{{'TITLE'|translate}}
 
 <form name="fm" ng-submit="submit()" novalidate>
 	<p>
 		<label>
-			E-mail*
+			{{'FORM_EMAIL'|translate}}*
 			<input
 				name="email" type="email" placeholder="your_email@example.com"
 				ng-model="form.email" ng-minlength="3" ng-maxlength="63" required
@@ -32,7 +32,7 @@ Register
 	</p>
 	<p>
 		<label>
-			Password*
+			{{'FORM_PASSWORD'|translate}}*
 			<input
 				name="password" type="password" placeholder="Password"
 				ng-model="form.password" ng-minlength="7" ng-maxlength="20" required
@@ -51,7 +51,7 @@ Register
 	</p>
 	<p>
 		<label>
-			Password Confirm*
+			{{'FORM_CONFIRM'|translate}}*
 			<input
 				name="confirm" type="password" placeholder="Confirm"
 				ng-model="form.confirm" ng-minlength="7" ng-maxlength="20" required
@@ -69,7 +69,7 @@ Register
 	</p>
 	<p>
 		<label>
-			Name*
+			{{'FORM_NAME'|translate}}*
 			<input
 				name="name" type="text" placeholder="Name"
 				ng-model="form.name" ng-minlength="2" ng-maxlength="16" required
@@ -87,19 +87,19 @@ Register
 		</span>
 	</p>
 	<p>
-		<label>Sex*</label>
-		<label><input type="radio" value="0" ng-model="form.sex">Male</label>
-		<label><input type="radio" value="1" ng-model="form.sex">Female</label>
+		<label>{{'FORM_SEX'|translate}}*</label>
+		<label><input type="radio" value="0" ng-model="form.sex">{{'FORM_SEX_MALE'|translate}}</label>
+		<label><input type="radio" value="1" ng-model="form.sex">{{'FORM_SEX_FEMALE'|translate}}</label>
 	</p>
 	<p>
 		<label>
-			Birthday
+			{{'FORM_BIRTHDAY'|translate}}
 			<input type="date" ng-model="form.birthday">
 		</label>
 	</p>
 	<p>
 		<label>
-			Phone
+			{{'FORM_PHONE'|translate}}
 			<input
 				name="phone" type="text" placeholder="Phone"
 				ng-model="form.phone" ng-maxlength="20"
@@ -116,7 +116,7 @@ Register
 	</p>
 	<p>
 		<label>
-			Address
+			{{'FORM_ADDRESS'|translate}}
 			<input
 				name="address" type="text" placeholder="Address"
 				ng-model="form.address" ng-maxlength="127"
@@ -133,7 +133,7 @@ Register
 	</p>
 	<p>
 		<label>
-			<input name="agree" type="checkbox" ng-model="isAgree" required>*I agree the <a href="/policies/terms" target="_new">terms</a>
+			<input name="agree" type="checkbox" ng-model="isAgree" required>*{{'FORM_AGREE'|translate}} <a href="/policies/terms" target="_new">terms</a>
 		</label>
 		<span ng-show="fm.agree.$dirty">
 			<span ng-show="fm.agree.$invalid">X</span>

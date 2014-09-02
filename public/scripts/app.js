@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('seed', [
-	// 'ngRoute',
+	'pascalprecht.translate',
 	'ui.router',
 	'myApp.filters',
 	'myApp.services',
@@ -33,6 +33,41 @@ app.run(['$rootScope', 'authService', function ($rootScope, authService) {
 	});
 }]);
 
+// i18n configuration
+app.config(['$translateProvider', '$translatePartialLoaderProvider', function ($translateProvider, $translatePartialLoaderProvider) {
+	$translateProvider
+		.useLoader('$translatePartialLoader', {
+			urlTemplate: '/i18n/{part}-{lang}.json'
+		})
+		.preferredLanguage('en')
+		.fallbackLanguage('en');
+}]);
+
+function loadTranslate (loader, name) {
+	var nameArr = name.split('.');
+	nameArr.shift();
+
+	while (nameArr.length) {
+		var part = nameArr.join('/');
+		console.log('load: ' + part);
+		loader.addPart(part);
+		nameArr.pop();
+	}
+}
+
+app.run(['$rootScope', '$translatePartialLoader', '$translate', function ($rootScope, $translatePartialLoader, $translate) {
+	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+		// var viewPath = String(toState.templateUrl);
+		// var part = viewPath.substr(6, viewPath.length - 11);
+		// $translatePartialLoader.addPart(part);
+		loadTranslate($translatePartialLoader, toState.name);
+	});
+
+	$rootScope.$on('$translatePartialLoaderStructureChanged', function () {
+		$translate.refresh();
+	});
+}]);
+
 /**************************************************************
  *                                                            *
  * Nested Routing                                             *
@@ -55,8 +90,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			'alert': {
 				templateUrl: 'views/alert.html'
 			},
-			'menu': {
-				templateUrl: 'views/menu.html'
+			'header': {
+				templateUrl: 'views/header.html'
 			},
 			'container':{
 				abstract: true,
@@ -78,11 +113,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			})
 			.state('root.general.contact', {
 				url: '/contact',
-				views: {
-					'container@': {
-						templateUrl: 'views/general/contact.html'
-					}
-				}
+				templateUrl: 'views/general/contact.html'
 			})
 			.state('root.general.faq', {
 				url: '/faq',

@@ -6,7 +6,7 @@ module.exports = function (req, res, next) {
 	var token = (req.body && req.body.token) ||
 				(req.query && req.query.token) ||
 				req.headers['x-access-token'];
-	console.log('token: ' + token);
+	// console.log('token: ' + token);
 	if (token) {
 		try {
 			var decoded = jwt.decode(token, config.secret.tokenSecret);

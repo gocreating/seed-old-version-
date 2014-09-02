@@ -10,7 +10,7 @@ app
  *                                                            *
  **************************************************************/
 
-	.controller('rootCtrl', ['$scope', '$location', 'alertService', 'authService', 'status', function ($scope, $location, alertService, authService, status) {
+	.controller('rootCtrl', ['$scope', '$location', 'alertService', 'authService', 'status', '$translatePartialLoader', function ($scope, $location, alertService, authService, status, $translatePartialLoader) {
 		if ($location.search().data) {
 			var res = JSON.parse(atob($location.search().data));
 			console.log(res);
@@ -29,11 +29,20 @@ app
 			// clear search
 			$location.url($location.path());
 		}
+		$translatePartialLoader.addPart('alert');
+		$translatePartialLoader.addPart('header');
+		$translatePartialLoader.addPart('footer');
 	}])
 
 	.controller('alertCtrl', ['$scope', 'alertService', function ($scope, alertService) {
 		$scope.messages = alertService.getMessages();
 		$scope.deleteMessage = alertService.deleteMessage;
+	}])
+
+	.controller('langCtrl', ['$scope', '$translate', function ($scope, $translate) {
+		$scope.changeLanguage = function (langKey) {
+			$translate.use(langKey);
+		};
 	}])
 
 /**************************************************************
