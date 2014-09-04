@@ -1,0 +1,11 @@
+{
+	"TITLE_RECOVERY": "Forgot Password",
+
+	"FORM_EMAIL": "E-mail",
+	"FORM_SEND": "Send Me Recovery Mail",
+
+	"MSG_REQUIRED": "Required",
+	"MSG_TOO_SHORT": "Too short",
+	"MSG_TOO_LONG": "Too long",
+	"MSG_NOT_AN_EMAIL": "Not an email"
+}

@@ -6,7 +6,7 @@
 	});
 </script>
 
-{{'TITLE'|translate}}
+{{'TITLE_REGISTER'|translate}}
 
 <form name="fm" ng-submit="submit()" novalidate>
 	<p>
@@ -146,6 +146,6 @@
 		<span ng-show="error.isWrongCaptcha">{{error.msg}}</span>
 	</p>
 	<p>
-		<input type="submit" value="{{'FORM_SUBMIT'|translate}}" ng-disabled="fm.$invalid || (form.password != form.confirm)">
+		<input type="submit" value="{{'FORM_REGISTER'|translate}}" ng-disabled="fm.$invalid || (form.password != form.confirm)">
 	</p>
 </form>

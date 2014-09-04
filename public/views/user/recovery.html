@@ -1,0 +1,41 @@
+<script type="text/javascript">
+	$.getScript('http://www.google.com/recaptcha/api/js/recaptcha_ajax.js', function() {
+		Recaptcha.create('6LeVgfkSAAAAAL3-W5fDL0gbngKaFzqs4Aw7KVWn', 'recaptcha_display', {
+			theme: 'red'
+		});
+	});
+</script>
+
+{{'TITLE_RECOVERY'|translate}}
+
+<form name="fm" ng-submit="submit()" novalidate>
+	<p>
+		<label>
+			{{'FORM_EMAIL'|translate}}*
+			<input
+				name="email" type="email" placeholder="your_email@example.com"
+				ng-model="form.email" ng-minlength="3" ng-maxlength="63" required
+				ng-class="{
+					'validation-error': (fm.email.$dirty && fm.email.$invalid) || error.isEmailExist,
+					'validation-succ': fm.email.$dirty && fm.email.$valid
+				}"
+				ng-change="error.isEmailExist=false">
+		</label>
+		<span ng-show="fm.email.$dirty">
+			<span ng-show="fm.email.$valid">V</span>
+			<span ng-show="fm.email.$invalid">X</span>
+			<span ng-show="fm.email.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+			<span ng-show="fm.email.$error.email">{{'MSG_NOT_AN_EMAIL'|translate}}</span>
+			<span ng-show="fm.email.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+			<span ng-show="fm.email.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+		</span>
+		<span ng-show="error.isEmailExist">{{error.msg}}</span>
+	</p>
+	<p>
+		<div id="recaptcha_display"></div>
+		<span ng-show="error.isWrongCaptcha">{{error.msg}}</span>
+	</p>
+	<p>
+		<input type="submit" value="{{'FORM_SEND'|translate}}" ng-disabled="fm.$invalid || (form.password != form.confirm)">
+	</p>
+</form>

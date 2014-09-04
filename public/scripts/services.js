@@ -17,8 +17,7 @@
 		USER_NOT_VERIFIED:     0x1000000A
 	};
 
-	app
-		.constant('status', status);
+	app.constant('status', status);
 
 	// ref: http://stackoverflow.com/questions/11956827/angularjs-intercept-all-http-json-responses
 	app
@@ -143,6 +142,12 @@
 
 			fac.logout = function () {
 				return $http.get(urlBase + '/logout');
+			};
+
+			fac.recovery = function (_email) {
+				return $http.post(urlBase + '/recovery', {
+					email: _email
+				});
 			};
 
 			fac.update = function (user) {

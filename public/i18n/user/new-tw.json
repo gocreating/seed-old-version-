@@ -1,5 +1,5 @@
 {
-	"TITLE": "註冊",
+	"TITLE_REGISTER": "註冊",
 
 	"FORM_EMAIL": "電子信箱",
 	"FORM_PASSWORD": "密碼",
@@ -13,7 +13,7 @@
 	"FORM_ADDRESS": "住址",
 	"FORM_AGREE_DES": "我同意",
 	"FORM_AGREE_LINK": "服務條款",
-	"FORM_SUBMIT": "註冊",
+	"FORM_REGISTER": "註冊",
 
 	"MSG_REQUIRED": "必填項目",
 	"MSG_TOO_SHORT": "過短",

@@ -140,7 +140,6 @@ app
 							}
 							case status.OK: {
 								console.log('login');
-								console.log(res);
 								alertService.addMessage(res.code, 'Login', res.message);
 								authService.login(res.data.user);
 								authService.setToken(res.data.token);
@@ -158,10 +157,23 @@ app
 				switch (res.code) {
 					case status.OK: {
 						console.log('logout');
-						console.log(res);
 						alertService.addMessage(res.code, 'Logout', res.message);
 						authService.logout()
 						$location.path('/user/login');
+					}
+				}
+			});
+	}])
+	.controller('userRecoveryCtrl', ['$scope', 'userFactory', '$location', 'status', function ($scope, userFactory, $location, status) {
+		$scope.form = {
+			email:    'gocreating@gmail.com'
+		};
+		userFactory
+			.recovery($scope.form.email)
+			.success(function (res) {
+				switch (res.code) {
+					case status.OK: {
+						
 					}
 				}
 			});

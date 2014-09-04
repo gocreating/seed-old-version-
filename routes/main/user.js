@@ -5,6 +5,21 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var config = require('../../config');
 var Recaptcha = require('recaptcha').Recaptcha;
+var nodemailer = require('nodemailer');
+
+var sendMail = function (_to, _subject, _content, cb) {
+	var transporter = nodemailer.createTransport();
+
+	transporter.sendMail({
+		from: 'no-reply@entrepreneurclub.tw',
+		to: _to,
+		subject: _subject,
+		text: '',
+		html: _content
+	}, function (err, response) {
+		cb(err, response);
+	});
+};
 
 module.exports = function (router) {
 	router.route('/api/user')
@@ -47,7 +62,6 @@ module.exports = function (router) {
 								create_at: new Date(),
 								update_at: new Date()
 							}, function (err, readUser) {
-								var nodemailer = require('nodemailer');
 								var transporter = nodemailer.createTransport();
 								var token = jwt.encode({
 									user_id: readUser.user_id,
@@ -71,24 +85,11 @@ module.exports = function (router) {
 										  '<br>' +
 										  'If you didn\'t sign up for [Product Name], please ignore this email.'
 								}, function (err, response){
-									if (err) {
-										console.log(err);
-										res.reply(true, 'cannot send verification mail: ' + err.name);
-										if (err.name == 'RecipientError') {
-											// req.session.err = 'Wrong email address.';
-										} else if (err.name == 'AuthError') {
-											// Remember to set up email user and password in config.js
-											// req.session.err = 'Sender account auth error.';
-										} else {
-											// req.session.err = 'Unexpected error.';
-										}
-									} else {
-										res.reply(err, 'cannot create the new user', 'create successfully, please verify your email in 5 minutes', null, null, {
-											user_id: readUser.user_id,
-											email: readUser.email,
-											name: readUser.name
-										});
-									}
+									res.reply(err, 'cannot send verification mail: ' + err.name, 'create successfully, please verify your email in 5 minutes', null, null, {
+										user_id: readUser.user_id,
+										email: readUser.email,
+										name: readUser.name
+									});
 								});
 							});
 						}
@@ -131,6 +132,13 @@ module.exports = function (router) {
 	router.route('/api/user/logout')
 		.get(function (req, res) {
 			res.reply(null, '', 'logout successfully');
+		});
+
+	router.route('/api/user/recovery')
+		.post(function (req, res) {
+			
+			console.log(req.body.email);
+			// sendMail(req.body.email);
 		});
 
 	router.route('/api/user/:user_id')

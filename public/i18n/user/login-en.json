@@ -1,9 +1,9 @@
 {
-	"TITLE": "Login",
+	"TITLE_LOGIN": "Login",
 
 	"FORM_EMAIL": "E-mail",
 	"FORM_PASSWORD": "Password",
-	"FORM_SUBMIT": "Login",
+	"FORM_LOGIN": "Login",
 
 	"MSG_REQUIRED": "Required",
 	"MSG_TOO_SHORT": "Too short",

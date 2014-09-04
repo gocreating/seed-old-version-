@@ -24,6 +24,7 @@ app.config(['$httpProvider', function ($httpProvider) {
 // remove the default hashtag(#) on URL
 app.config(['$locationProvider', function ($locationProvider) {
 	$locationProvider.html5Mode(true);
+	$locationProvider.hashPrefix('!');
 }]);
 
 // apply authService to the whole scope
@@ -49,7 +50,6 @@ function loadTranslate (loader, name) {
 
 	while (nameArr.length) {
 		var part = nameArr.join('/');
-		// console.log('load: ' + part);
 		loader.addPart(part);
 		nameArr.pop();
 	}
@@ -58,6 +58,7 @@ function loadTranslate (loader, name) {
 app.run(['$rootScope', '$translatePartialLoader', '$translate', function ($rootScope, $translatePartialLoader, $translate) {
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 		// var viewPath = String(toState.templateUrl);
+		// console.log(viewPath);
 		// var part = viewPath.substr(6, viewPath.length - 11);
 		// $translatePartialLoader.addPart(part);
 		loadTranslate($translatePartialLoader, toState.name);
@@ -182,6 +183,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			.state('root.user.logout', {
 				url: '/user/logout',
 				controller: 'userLogoutCtrl'
+			})
+			.state('root.user.recovery', {
+				url: '/user/recovery',
+				templateUrl: 'views/user/recovery.html',
+				controller: 'userRecoveryCtrl'
 			})
 
 		// special
