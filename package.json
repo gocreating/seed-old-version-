@@ -19,6 +19,7 @@
     "ejs": "*",
     "express-ejs-layouts": "*",
     "nodemailer": "*",
+    "nodemailer-ses-transport": "*",
     "validator": "*",
     "mysql": "*",
     "express-mysql-session": "*",

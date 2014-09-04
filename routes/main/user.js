@@ -6,23 +6,16 @@ var moment = require('moment');
 var config = require('../../config');
 var nodemailer = require('nodemailer');
 
-// var sendMail = function (_to, _subject, _content, cb) {
-// 	var transporter = nodemailer.createTransport();
-
-// 	transporter.sendMail({
-// 		from: 'no-reply@entrepreneurclub.tw',
-// 		to: _to,
-// 		subject: _subject,
-// 		text: '',
-// 		html: _content
-// 	}, function (err, response) {
-// 		cb(err, response);
-// 	});
-// };
-
 var sendVerificationMail = function (res, err, readUser, cb) {
-	console.log('sending verification mail...');
-	var transporter = nodemailer.createTransport();
+	// Send with SES
+	var ses = require('nodemailer-ses-transport');
+	var transporter = nodemailer.createTransport(ses({
+		accessKeyId: config.email.ses.accessKeyId,
+		secretAccessKey: config.email.ses.secretAccessKey
+	}));
+
+	// Send with Default SMTP
+	// var transporter = nodemailer.createTransport();
 
 	var token = jwt.encode({
 		user_id: readUser.user_id,
@@ -82,7 +75,7 @@ module.exports = function (router) {
 								});
 							} else {
 								console.log('email sended');
-								res.reply(false, '', 'We have sent you an email, please verify it in 5 minutes', null, null, {
+								res.reply(false, '', 'We have sent you an email, please verify it in 3 hours', null, null, {
 									user_id: readUser.user_id,
 									email: readUser.email,
 									name: readUser.name
@@ -103,25 +96,21 @@ module.exports = function (router) {
 				if (!readUser) {
 					res.reply(err || true, 'wrong email or password', '', null, null, null, status.USER_WRONG_ACCOUNT);
 				} else {
-					// if (!readUser.is_verified) {
-					// 	res.reply(err || true, 'please verify your email before logging in', '', null, null, null, status.USER_NOT_VERIFIED);
-					// } else {
-						var user = {
-							user_id: readUser.user_id,
-							is_verified: readUser.is_verified,
-							email: readUser.email,
-							name: readUser.name
-						};
-						var token = jwt.encode({
-							user: user,
-							expiration: moment().add(config.expiration.loginToken[0], config.expiration.loginToken[1]).valueOf()
-						}, config.secret.tokenSecret);
+					var user = {
+						user_id: readUser.user_id,
+						is_verified: readUser.is_verified,
+						email: readUser.email,
+						name: readUser.name
+					};
+					var token = jwt.encode({
+						user: user,
+						expiration: moment().add(config.expiration.loginToken[0], config.expiration.loginToken[1]).valueOf()
+					}, config.secret.tokenSecret);
 
-						res.reply(err, 'cannot login the user', 'login successfully', null, null, {
-							token: token,
-							user: user
-						});
-					// }
+					res.reply(err, 'cannot login the user', 'login successfully', null, null, {
+						token: token,
+						user: user
+					});
 				}
 			});
 		});
@@ -131,18 +120,63 @@ module.exports = function (router) {
 			res.reply(null, '', 'logout successfully');
 		});
 
+	router.route('/user/verification')
+		.get(function (req, res) {
+			try {
+				var decoded = jwt.decode(req.query.verifyToken, config.secret.tokenSecret);
+				if (decoded.expiration <= Date.now()) {
+					res.replyByRedirect(
+						'/user/login',
+						'Token has expired. Please login and resend verification mail',
+						null,
+						null,
+						status.TOKEN_EXPIRATION
+					);
+				} else {
+					User.readById(decoded.user_id, function (err, readUser) {
+						if (err) throw err;
+						if (readUser.is_verified) {
+							res.replyByRedirect(
+								'/',
+								'You have been verified',
+								null,
+								null,
+								status.ERR_RE_VERIFICATION
+							);
+						} else {
+							User.updateById(readUser.user_id, {
+								is_verified: true
+							}, function (err) {
+								if (err) throw err;
+								res.replyByRedirect(
+									'/user/login',
+									'Thanks for your registration, you can login now',
+									null,
+									null,
+									status.SUCC_VERIFICATION
+								);
+							});
+						}
+					});
+				}
+			} catch (err) {
+				res.send('Token format error');
+			}
+		});
+
 	router.route('/api/user/reverify')
 		.post(function (req, res) {
-			// User.readById(req.user.user_id, function (err, readUser) {
-			console.log(req.user);
-			sendVerificationMail(res, nul, req.user, function (err, response) {
-				if (err) {
-					res.reply(true, '', '', null, null, null, status.ERR_EMAIL_SEND);
-				} else {
-					res.reply(false, '', 'We have sent you an email, please verify it in 5 minutes');
-				}
-			});
-			// });
+			if (req.user.is_verified) {
+				res.reply(true, 'You have been verified');
+			} else {
+				sendVerificationMail(res, null, req.user, function (err, response) {
+					if (err) {
+						res.reply(true, '', '', null, null, null, status.ERR_EMAIL_SEND);
+					} else {
+						res.reply(false, '', 'We have sent you an email, please verify it in 3 hours');
+					}
+				});
+			}
 		});
 
 	router.route('/api/user/recovery')
@@ -168,30 +202,5 @@ module.exports = function (router) {
 		})
 		.delete(function (req, res) {
 			console.log('delete');
-		});
-
-	router.route('/user/verification')
-		.get(function (req, res) {
-			try {
-				var decoded = jwt.decode(req.query.verifyToken, config.secret.tokenSecret);
-				if (decoded.expiration <= Date.now()) {
-					res.replyByRedirect(
-						'/user/login',
-						'Token has expired. Please login and resend verification mail',
-						null,
-						null,
-						status.TOKEN_EXPIRATION
-					);
-				} else {
-					User.updateById(decoded.user_id, {
-						is_verified: true
-					}, function (err) {
-						if (err) throw err;
-						res.send('Thanks for your registration, you can login now');
-					});
-				}
-			} catch (err) {
-				res.send('Token format error');
-			}
 		});
 };

@@ -6,7 +6,6 @@ module.exports = function (req, res, next) {
 	var token = (req.body && req.body.token) ||
 				(req.query && req.query.token) ||
 				req.headers['x-access-token'];
-	// console.log('token: ' + token);
 	if (token) {
 		try {
 			var decoded = jwt.decode(token, config.secret.tokenSecret);
@@ -14,6 +13,7 @@ module.exports = function (req, res, next) {
 				res.reply(true, 'token has expired', '', 400, null, null, status.TOKEN_EXPIRATION);
 				return;
 			} else {
+				console.log('=== user decoded ===');
 				req.user = decoded.user;
 			}
 		} catch (err) {

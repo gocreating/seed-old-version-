@@ -16,8 +16,29 @@ app
 			console.log(res);
 			$location.path(res.path);
 			switch (res.code) {
-				case status.TOKEN_EXPIRATION: {
+				// duplicate verification
+				case status.ERR_RE_VERIFICATION: {
 					alertService.addMessage(0, 'Verification', res.message);
+					break;
+				}
+				// verification token expiration
+				case status.TOKEN_EXPIRATION: {
+					if (!authService.isAuth) {
+						alertService.addMessage(0, 'Verification', 'Token has expired. Just login and you can resend verification mail');
+					} else {
+						alertService.addMessage(0, 'Verification', 'Token has expired. You can resend verification mail');
+						$location.path('/user/reverify');
+					}
+					break;
+				}
+				// verification success
+				case status.SUCC_VERIFICATION: {
+					if (!authService.isAuth) {
+						alertService.addMessage(0, 'Verification', res.message);
+					} else {
+						alertService.addMessage(0, 'Verification', 'Please login again to apply new settings');
+						$location.path('/user/logout');
+					}
 					break;
 				}
 				case status.ERR_SOCIAL_LOGIN: {

@@ -15,7 +15,9 @@
 		ERR_SOCIAL_LOGIN:      0x10000008,
 		WRONG_CAPTCHA:         0x10000009,
 		USER_NOT_VERIFIED:     0x1000000A,
-		ERR_EMAIL_SEND:        0x1000000B
+		ERR_EMAIL_SEND:        0x1000000B,
+		SUCC_VERIFICATION:     0x0000000C,
+		ERR_RE_VERIFICATION:   0x0000000D
 	};
 
 	app.constant('status', status);
@@ -120,6 +122,37 @@
 			};
 
 			return store;
+
+			// var store = {};
+
+			// store.isAuth = $window.localStorage.getItem('isAuth');
+			// store.user = JSON.parse($window.localStorage.getItem('user'));
+			// store.token = $window.localStorage.getItem('token');
+
+			// store.setToken = function (token) {
+			// 	return $window.localStorage.setItem('token', token);
+			// };
+
+			// store.getToken = function () {
+			// 	return $window.localStorage.getItem('token');
+			// };
+
+			// store.login = function (user) {
+			// 	$window.localStorage.setItem('isAuth', true);
+			// 	$window.localStorage.setItem('user', JSON.stringify(user));
+			// 	store.isAuth = true;
+			// 	store.user = user;
+			// };
+
+			// store.logout = function () {
+			// 	$window.localStorage.removeItem('isAuth');
+			// 	$window.localStorage.removeItem('user');
+			// 	$window.localStorage.removeItem('token');
+			// 	store.isAuth = false;
+			// 	store.user = null;
+			// };
+
+			// return store;
 		}])
 		.factory('userFactory', ['$http', function ($http) {
 			var urlBase = '/api/user';
