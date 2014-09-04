@@ -8,7 +8,7 @@
 
 {{'TITLE_REGISTER'|translate}}
 
-<form name="fm" ng-submit="submit()" novalidate>
+<form name="fm" ng-submit="submit(fm)" novalidate>
 	<p>
 		<label>
 			{{'FORM_EMAIL'|translate}}*
@@ -28,6 +28,7 @@
 			<span ng-show="fm.email.$error.email">{{'MSG_NOT_AN_EMAIL'|translate}}</span>
 			<span ng-show="fm.email.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
 			<span ng-show="fm.email.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+			<span ng-show="fm.email.$error.failsend">Send Fail</span>
 		</span>
 		<span ng-show="error.isEmailExist">{{error.msg}}</span>
 	</p>

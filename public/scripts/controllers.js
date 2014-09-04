@@ -71,7 +71,7 @@ app
 
 		$scope.isAgree = true;
 
-		$scope.submit = function() {
+		$scope.submit = function(fm) {
 			$scope.form['captcha'] = {
 				challenge: $('#recaptcha_challenge_field').val(),
 				response: $('#recaptcha_response_field').val()
@@ -89,9 +89,15 @@ app
 							Recaptcha.focus_response_field();
 							break;
 						}
+						case status.ERR_EMAIL_SEND: {
+							$scope.error.msg = res.message;
+							fm.email.$error.failsend = true;
+							break;
+						}
 						case status.USER_EMAIL_EXIST: {
 							$scope.error.isEmailExist = true;
 							$scope.error.msg = res.message;
+							Recaptcha.reload();
 							break;
 						}
 						case status.OK: {

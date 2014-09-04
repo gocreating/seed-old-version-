@@ -1,7 +1,8 @@
 var checkData = require('./checkData');
+var captcha = require('../middlewares/captcha');
 
 module.exports = function (router) {
-	router.post('/api/user', function (req, res, next) {
+	router.post('/api/user', captcha, function (req, res, next) {
 		checkData.check([
 			{field: 'email',     value: req.body.email,     checkers: checkData.checker.email,      required: true},
 			{field: 'password',  value: req.body.password,  checkers: checkData.checker.password,   required: true},
