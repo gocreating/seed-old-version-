@@ -13,6 +13,8 @@ module.exports = function (req, res, next) {
 			if (decoded.expiration <= Date.now()) {
 				res.reply(true, 'token has expired', '', 400, null, null, status.TOKEN_EXPIRATION);
 				return;
+			} else {
+				req.user = decoded.user;
 			}
 		} catch (err) {
 			res.reply(true, 'cannot decode token', '', 400, null, null, status.TOKEN_WRONG_FORMAT);

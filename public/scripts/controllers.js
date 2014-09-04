@@ -16,6 +16,10 @@ app
 			console.log(res);
 			$location.path(res.path);
 			switch (res.code) {
+				case status.TOKEN_EXPIRATION: {
+					alertService.addMessage(0, 'Verification', res.message);
+					break;
+				}
 				case status.ERR_SOCIAL_LOGIN: {
 					alertService.addMessage(0, 'social login', res.message);
 					break;
@@ -53,7 +57,6 @@ app
 
 	.controller('userNewCtrl', ['$scope', 'userFactory', '$location', 'status', 'alertService', function ($scope, userFactory, $location, status, alertService) {
 		$scope.error = {
-			isEmailExist: false,
 			isWrongCaptcha: false,
 			msg: ''
 		};
@@ -70,6 +73,11 @@ app
 		};
 
 		$scope.isAgree = true;
+
+		$scope.resetEmail = function (fm) {
+			fm.email.$setValidity('exist', true);
+			fm.email.$setValidity('sending', true);
+		};
 
 		$scope.submit = function(fm) {
 			$scope.form['captcha'] = {
@@ -91,12 +99,11 @@ app
 						}
 						case status.ERR_EMAIL_SEND: {
 							$scope.error.msg = res.message;
-							fm.email.$error.failsend = true;
+							fm.email.$setValidity('sending', false);
 							break;
 						}
 						case status.USER_EMAIL_EXIST: {
-							$scope.error.isEmailExist = true;
-							$scope.error.msg = res.message;
+							fm.email.$setValidity('exist', false);
 							Recaptcha.reload();
 							break;
 						}
@@ -169,6 +176,46 @@ app
 					}
 				}
 			});
+	}])
+	.controller('userReverifyCtrl', ['$scope', 'userFactory', 'status', 'alertService', function ($scope, userFactory, status, alertService) {
+		$scope.error = {
+			isWrongCaptcha: false,
+			msg: ''
+		};
+
+		$scope.form = {
+		};
+
+		$scope.submit = function() {
+			$scope.form['captcha'] = {
+				challenge: $('#recaptcha_challenge_field').val(),
+				response: $('#recaptcha_response_field').val()
+			};
+
+			userFactory
+				.reverify($scope.form)
+				.success(function (res) {
+					switch (res.code) {
+						case status.WRONG_CAPTCHA: {
+							$scope.error.isWrongCaptcha = true;
+							$scope.error.msg = res.message;
+							Recaptcha.reload();
+							Recaptcha.focus_response_field();
+							break;
+						}
+						case status.ERR_EMAIL_SEND: {
+							Recaptcha.reload();
+							Recaptcha.focus_response_field();
+							alertService.addMessage(res.code, 'Verification', res.message);
+							break;
+						}
+						case status.OK: {
+							$('#recaptcha_challenge_field').val('');
+							alertService.addMessage(res.code, 'Verification', res.message);
+						}
+					}
+				});
+		};
 	}])
 	.controller('userRecoveryCtrl', ['$scope', 'userFactory', '$location', 'status', function ($scope, userFactory, $location, status) {
 		$scope.form = {

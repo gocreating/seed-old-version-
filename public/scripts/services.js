@@ -27,7 +27,6 @@
 				// on success
 				response: function (config) {
 					var res = config.data;
-
 					switch (res.code) {
 						case status.ERR_VALIDATION: {
 							var errMsg = '';
@@ -41,7 +40,6 @@
 								}
 								errMsg += '\n';
 							}
-							// alert(errMsg);
 							alertService.addMessage(res.code, 'Server-side validation error', errMsg);
 							break;
 						}
@@ -51,6 +49,9 @@
 
 				// on error
 				responseError: function (config) {
+					if (config.status == 500) {
+						alertService.addMessage(null, 'Error', 'Internal server error');
+					}
 					return $q.reject(config);
 				}
 			};
@@ -63,7 +64,6 @@
 					// restrict to api scope
 					// console.log(config.url.substr(0, 3));
 					if (config.url.substr(0, 4) === '/api' && token) {
-						console.log('add token');
 						config.headers['x-access-token'] = token;
 					}
 					return config;
@@ -143,6 +143,10 @@
 
 			fac.logout = function () {
 				return $http.get(urlBase + '/logout');
+			};
+
+			fac.reverify = function (data) {
+				return $http.post(urlBase + '/reverify', data);
 			};
 
 			fac.recovery = function (_email) {

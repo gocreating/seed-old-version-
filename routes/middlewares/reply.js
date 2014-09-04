@@ -47,7 +47,7 @@ module.exports = function (req, res, next) {
 			data: _data
 		};
 		var encode = new Buffer(JSON.stringify(response)).toString('base64');
-		res.redirect('/#/?data=' + encode);
+		res.redirect('/#!/?data=' + encode);
 	};
 	next();
 };

@@ -6,7 +6,7 @@
 	});
 </script>
 
-{{'TITLE_REGISTER'|translate}}
+<h1>{{'TITLE_REGISTER'|translate}}</h1>
 
 <form name="fm" ng-submit="submit(fm)" novalidate>
 	<p>
@@ -19,7 +19,7 @@
 					'validation-error': (fm.email.$dirty && fm.email.$invalid) || error.isEmailExist,
 					'validation-succ': fm.email.$dirty && fm.email.$valid
 				}"
-				ng-change="error.isEmailExist=false">
+				ng-change="resetEmail(fm)">
 		</label>
 		<span ng-show="fm.email.$dirty">
 			<span ng-show="fm.email.$valid">V</span>
@@ -28,9 +28,9 @@
 			<span ng-show="fm.email.$error.email">{{'MSG_NOT_AN_EMAIL'|translate}}</span>
 			<span ng-show="fm.email.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
 			<span ng-show="fm.email.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
-			<span ng-show="fm.email.$error.failsend">Send Fail</span>
+			<span ng-show="fm.email.$error.sending">Cannot send mail to the address</span>
 		</span>
-		<span ng-show="error.isEmailExist">{{error.msg}}</span>
+		<span ng-show="fm.email.$error.exist">Email already exist</span>
 	</p>
 	<p>
 		<label>

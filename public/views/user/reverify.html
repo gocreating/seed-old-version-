@@ -1,0 +1,21 @@
+<button ng-click="resend()"></button>
+
+<script type="text/javascript">
+	$.getScript('http://www.google.com/recaptcha/api/js/recaptcha_ajax.js', function() {
+		Recaptcha.create('6LeVgfkSAAAAAL3-W5fDL0gbngKaFzqs4Aw7KVWn', 'recaptcha_display', {
+			theme: 'red'
+		});
+	});
+</script>
+
+<h1>Resend Verification Mail</h1>
+
+<form name="fm" ng-submit="submit()" novalidate>
+	<p>
+		<div id="recaptcha_display"></div>
+		<span ng-show="error.isWrongCaptcha">{{error.msg}}</span>
+	</p>
+	<p>
+		<input type="submit" value="Resend verification mail to me" ng-disabled="fm.$invalid">
+	</p>
+</form>

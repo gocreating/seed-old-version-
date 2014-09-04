@@ -184,6 +184,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 				url: '/user/logout',
 				controller: 'userLogoutCtrl'
 			})
+			.state('root.user.reverify', {
+				url: '/user/reverify',
+				templateUrl: 'views/user/reverify.html',
+				controller: 'userReverifyCtrl'
+			})
 			.state('root.user.recovery', {
 				url: '/user/recovery',
 				templateUrl: 'views/user/recovery.html',

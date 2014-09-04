@@ -13,4 +13,12 @@ module.exports = function (router) {
 			{field: 'address',   value: req.body.address,   checkers: checkData.checker.address}
 		], checkData.checkCallBack(req, res, next));
 	});
+
+	router.post('/api/user/reverify', captcha, function (req, res, next) {
+		next();
+	});
+
+	router.post('/api/user/recovery', captcha, function (req, res, next) {
+		next();
+	});
 };
