@@ -29,20 +29,27 @@ var SessionStore   = require('express-mysql-session'), // Store session in mysql
 	passport       = require('passport'),
 	compressor     = require('node-minify');
 
-new compressor.minify({
-    type: 'uglifyjs',
-    fileIn: [
-    	'public/scripts/app.js',
-    	'public/scripts/controllers.js',
-    	'public/scripts/directives.js',
-    	'public/scripts/filters.js',
-    	'public/scripts/services.js'
-    ],
-    fileOut: 'public/scripts/global.min.js',
-    callback: function(err, min){
-        console.log(err? err: '=== compress js file ===');
-    }
-});
+/**************************************************************
+ *                                                            *
+ * Compression                                                *
+ *                                                            *
+ **************************************************************/
+
+// compress js files
+// new compressor.minify({
+// 	type: 'uglifyjs',
+// 	fileIn: [
+// 		'public/scripts/app.js',
+// 		'public/scripts/controllers.js',
+// 		'public/scripts/directives.js',
+// 		'public/scripts/filters.js',
+// 		'public/scripts/services.js'
+// 	],
+// 	fileOut: 'public/scripts/global.min.js',
+// 	callback: function(err, min){
+// 		console.log(err? err: '=== compress js file ===');
+// 	}
+// });
 
 /**************************************************************
  *                                                            *
@@ -72,10 +79,10 @@ app.use(session({                                    // parse session (req.sessi
 	saveUninitialized: true,
 	store: new SessionStore({
 		host: config.db.host,
-	    port: config.db.port,
-	    user: config.db.user,
-	    password: config.db.password,
-	    database: config.db.database
+		port: config.db.port,
+		user: config.db.user,
+		password: config.db.password,
+		database: config.db.database
 	})
 }));
 app.use(passport.initialize());

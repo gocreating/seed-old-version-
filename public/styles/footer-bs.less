@@ -1,0 +1,58 @@
+/*********** custom value ***********/
+
+@bg-color: rgb(45, 62, 80);
+@color: rgb(187, 195, 198);
+@vertical-padding: 20px;
+@list-item-gap: 20px;
+
+/************************************/
+
+@screen-sm-min: 768px;
+@screen-md-min: 992px;
+@screen-lg-min: 1200px;
+
+@Phone: ~"(max-width: 768px)";
+@Tablet: ~"(min-width: 768px)";
+@Desktop: ~"(min-width: 992px)";
+@HD: ~"(min-width: 1200px)";
+
+footer.bs-footer.container-fluid {
+	background-color: @bg-color;
+	color: @color;
+	padding: @vertical-padding 0;
+
+	.copyright,
+	.social-links,
+	.general-links {
+		text-align: left;
+	}
+
+	ul {
+		list-style-type: none;
+		margin: 0px;
+
+		li {
+			display: block;
+			padding: (@list-item-gap / 2) 0px;
+
+			a {
+				color: @color;
+			}
+		}
+	}
+
+	@media @Desktop {
+		.social-links {
+			text-align: right;
+		}
+
+		.general-links {
+			text-align: center;
+		}
+
+		ul li {
+			display: inline-block;
+			padding: 0px (@list-item-gap / 2);
+		}
+	}
+}

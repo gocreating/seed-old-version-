@@ -23,7 +23,10 @@
 		SUCC_RESET:                0x00000010
 	};
 
-	app.constant('status', status);
+	app
+		.constant('status', status)
+		.constant('defaultStyle', 'default');
+
 
 	// ref: http://stackoverflow.com/questions/11956827/angularjs-intercept-all-http-json-responses
 	app

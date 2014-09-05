@@ -1,0 +1,70 @@
+<header>
+	<!-- begin nav -->
+	<nav class="navbar navbar-default navbar-static-top bs-nav" role="navigation" ng-controller="menuCtrl">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">
+					<img class="logo" src="/images/logo.svg">
+					<span>Seed</span>
+				</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="navbar-collapse" ng-controller="menuCtrl">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">
+							Languages
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu" ng-controller="langCtrl">
+							<li><a href="" ng-click="changeLanguage('tw')">中文</a></li>
+							<li><a href="" ng-click="changeLanguage('en')">English</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li
+						ng-repeat="menuitem in menuitems"
+						ng-class="isActive('{{menuitem.href}}')"
+						>
+						<a ng-href="{{menuitem.href}}" ng-bind="menuitem.title"></a>
+					</li>
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">
+							<span ng-hide="authService.isAuth">User</span>
+							<span ng-show="authService.isAuth" ng-bind="authService.user.name"></span>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li ng-hide="authService.isAuth"><a href="/user/new">Register</a></li>
+							<li ng-hide="authService.isAuth"><a href="/user/login">Login</a></li>
+							<li ng-show="authService.isAuth"><a href="/user/logout">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav><!-- nav-end  -->
+</header>
+
+<link rel="stylesheet" type="text/css" href="/styles/header-bs.css">
+
+<script type="text/javascript">
+	function menuCtrl ($scope, $location) {
+		$scope.menuitems = [
+			{title: 'Home', href: '/'},
+			{title: 'About', href: '/about'},
+			{title: 'Contact', href: '/contact'}
+		];
+		$scope.isActive = function (page) {
+			var currentRoute = $location.path() || '/';
+        	return page === currentRoute ? 'active' : '';
+		};
+	}
+</script>

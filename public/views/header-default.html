@@ -1,0 +1,27 @@
+<header>
+	<nav class="default-nav">
+		<div>
+			<h4>{{'MENU_TITLE_GENERAL'|translate}}</h4>
+			<ul>
+				<li><a href="/">{{'MENU_HOME'|translate}}</a></li>
+				<li><a href="/contact">{{'MENU_CONTACT'|translate}}</a></li>
+			</ul>
+		</div>
+		<div>
+			<h4>{{'MENU_TITLE_USER'|translate}}</h4>
+			<ul ng-cloak>
+				<li ng-hide="authService.isAuth"><a href="/user/new">{{'MENU_REGISTER'|translate}}</a></li>
+				<li ng-hide="authService.isAuth"><a href="/user/login">{{'MENU_LOGIN'|translate}}</a></li>
+				<li ng-show="authService.isAuth && !authService.user.is_verified"><a href="/user/reverify">Verify Account</a></li>
+				<li ng-show="authService.isAuth"><a href="/user/logout">{{'MENU_LOGOUT'|translate}}</a></li>
+			</ul>
+		</div>
+		<div ng-controller="langCtrl">
+			<h4>{{'MENU_TITLE_LANGUAGE'|translate}}</h4>
+			<ul>
+				<li><a href="" ng-click="changeLanguage('tw')">中文</a></li>
+				<li><a href="" ng-click="changeLanguage('en')">English</a></li>
+			</ul>
+		</div>
+	</nav>
+</header>

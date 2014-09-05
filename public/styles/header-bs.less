@@ -1,0 +1,82 @@
+/*********** custom value ***********/
+
+@brand-logo-height:         50px;
+@menu-item-height:          60px;
+@menu-item-vertical-margin: 0px;
+
+@brand-title-font-size:     32px;
+@menu-item-font-size:       16px;
+
+@menu-item-bg-color-hover:  #006ac3;
+@menu-item-color-hover:     #fff;
+@menu-item-bg-color-active: #006ac3;
+@menu-item-color-active:    #fff;
+
+@menu-item-transition-time: 300ms;
+
+/************************************/
+
+@screen-sm-min: 768px;
+@screen-md-min: 992px;
+@screen-lg-min: 1200px;
+
+@Phone: ~"(max-width: 768px)";
+@Tablet: ~"(min-width: 768px)";
+@Desktop: ~"(min-width: 992px)";
+@HD: ~"(min-width: 1200px)";
+
+nav.bs-nav.navbar {
+	margin-bottom: 0px;
+	background-color: white;
+
+	.navbar-header {
+		margin: @menu-item-vertical-margin;
+
+		.navbar-brand {
+			padding: 0px 5px 0px 0px;
+			margin-top: 0px;
+			vertical-align: middle;
+			font-size: @brand-title-font-size;
+
+			line-height: @brand-logo-height;
+			@media @Tablet {
+				line-height: max(@brand-logo-height, @menu-item-height);
+			}
+
+			.logo {
+				height: @brand-logo-height;
+			}
+		}
+	}
+
+	.navbar-nav {
+		margin: @menu-item-vertical-margin;
+		font-size: @menu-item-font-size;
+
+		&>li>a {
+			@media @Phone {
+				line-height: @menu-item-height - 28px;
+			}
+			line-height: max(@brand-logo-height, @menu-item-height) - 28px;
+		}
+	}
+}
+
+nav.bs-nav.navbar-default .navbar-nav {
+	li:hover,
+	li.dropdown.open,
+	li.dropdown ul.dropdown-menu>li:hover {
+		&>a {
+			transition: all @menu-item-transition-time linear;
+			color: @menu-item-color-hover;
+			background: @menu-item-bg-color-hover;
+		}
+	}
+}
+
+nav.bs-nav.navbar-default .navbar-nav > .active > a, 
+nav.bs-nav.navbar-default .navbar-nav > .active > a:hover, 
+nav.bs-nav.navbar-default .navbar-nav > .active > a:focus {
+	color: @menu-item-color-active;
+	background: @menu-item-bg-color-active;
+}

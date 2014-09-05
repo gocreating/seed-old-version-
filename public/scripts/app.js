@@ -84,23 +84,27 @@ app.run(['$rootScope', 'authService', function ($rootScope, authService) {
 	});
 }]);
 
-app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', 'defaultStyle', function ($stateProvider, $urlRouterProvider, defaultStyle) {
+	var s = function (view, style, suffix) {
+		return view.substr(0, view.length - 5) + '-' + (style || defaultStyle) + '.' + (suffix || 'html');
+	};
+
 	$stateProvider
 	.state('root', {
 		url: '',
 		views: {
 			'alert': {
-				templateUrl: 'views/alert.html'
+				templateUrl: s('views/alert.html')
 			},
 			'header': {
-				templateUrl: 'views/header.html'
+				templateUrl: s('views/header.html', 'bs')
 			},
 			'container':{
 				abstract: true,
 				template: '<ui-view />'
 			},
 			'footer': {
-				templateUrl: 'views/footer.html'
+				templateUrl: s('views/footer.html', 'bs')
 			}
 		}
 	})
@@ -111,59 +115,59 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 		})
 			.state('root.general.home', {
 				url: '/',
-				templateUrl: 'views/general/home.html'
+				templateUrl: s('views/general/home.html')
 			})
 			.state('root.general.contact', {
 				url: '/contact',
-				templateUrl: 'views/general/contact.html'
+				templateUrl: s('views/general/contact.html')
 			})
 			.state('root.general.faq', {
 				url: '/faq',
-				templateUrl: 'views/general/faq.html'
+				templateUrl: s('views/general/faq.html')
 			})
 
 		// policies
 		.state('root.policies', {
 			url: '/policies',
-			templateUrl: 'views/general/policies/index.html'
+			templateUrl: s('views/general/policies/index.html')
 		})
 			.state('root.policies.pricing', {
 				url: '/pricing',
-				templateUrl: 'views/general/policies/pricing.html'
+				templateUrl: s('views/general/policies/pricing.html')
 			})
 			.state('root.policies.support', {
 				url: '/support',
-				templateUrl: 'views/general/policies/support.html'
+				templateUrl: s('views/general/policies/support.html')
 			})
 			.state('root.policies.security', {
 				url: '/security',
-				templateUrl: 'views/general/policies/security.html'
+				templateUrl: s('views/general/policies/security.html')
 			})
 			.state('root.policies.terms', {
 				url: '/terms',
-				templateUrl: 'views/general/policies/terms.html'
+				templateUrl: s('views/general/policies/terms.html')
 			})
 			.state('root.policies.privacy', {
 				url: '/privacy',
-				templateUrl: 'views/general/policies/privacy.html'
+				templateUrl: s('views/general/policies/privacy.html')
 			})
 
 		// about
 		.state('root.about', {
 			url: '/about',
-			templateUrl: 'views/general/about/index.html'
+			templateUrl: s('views/general/about/index.html')
 		})
 			.state('root.about.company', {
 				url: '/company',
-				templateUrl: 'views/general/about/company.html'
+				templateUrl: s('views/general/about/company.html')
 			})
 			.state('root.about.team', {
 				url: '/team',
-				templateUrl: 'views/general/about/team.html'
+				templateUrl: s('views/general/about/team.html')
 			})
 			.state('root.about.service', {
 				url: '/service',
-				templateUrl: 'views/general/about/service.html'
+				templateUrl: s('views/general/about/service.html')
 			})
 
 		// user
@@ -173,12 +177,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 		})
 			.state('root.user.new', {
 				url: '/user/new',
-				templateUrl: 'views/user/new.html',
+				templateUrl: s('views/user/new.html'),
 				controller: 'userNewCtrl'
 			})
 			.state('root.user.login', {
 				url: '/user/login',
-				templateUrl: 'views/user/login.html',
+				templateUrl: s('views/user/login.html'),
 				controller: 'userLoginCtrl'
 			})
 			.state('root.user.logout', {
@@ -187,12 +191,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			})
 			.state('root.user.reverify', {
 				url: '/user/reverify',
-				templateUrl: 'views/user/reverify.html',
-				controller: 'userReverifyCtrl'
+				templateUrl: s('views/user/reverify.html'),
+				controller: 'userReverifyCtrl',
+				requireAuth: true
 			})
 			.state('root.user.recovery', {
 				url: '/user/recovery',
-				templateUrl: 'views/user/recovery.html',
+				templateUrl: s('views/user/recovery.html'),
 				controller: 'userRecoveryCtrl'
 			})
 
@@ -210,11 +215,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 		})
 			.state('root.special.403', {
 				url: '/403',
-				templateUrl: 'views/special/403.html'
+				templateUrl: s('views/special/403.html')
 			})
 			.state('root.special.404', {
 				url: '/404',
-				templateUrl: 'views/special/404.html'
+				templateUrl: s('views/special/404.html')
 			});
 
 	$urlRouterProvider.otherwise('/404');

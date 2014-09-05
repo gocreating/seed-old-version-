@@ -1,4 +1,4 @@
-<div ng-controller="alertCtrl" ng-cloak class="ng-cloak">
+<div ng-controller="alertCtrl" ng-show="messages.length>0" ng-cloak>
 	<ul>
 		<li ng-repeat="message in messages">
 			<span ng-bind="message.type"></span>
