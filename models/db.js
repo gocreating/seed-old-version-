@@ -11,4 +11,13 @@ var connection = mysql.createConnection({
 connection.connect();
 connection.query('SET time_zone = "' + config.db.timezone + '";');
 
+// var nativeQuery = connection.query;
+// connection.query = function () {
+// 	nativeQuery.apply(this, arguments);
+// };
+
+connection.on('error', function(err) {
+	console.log(err); // 'ER_BAD_DB_ERROR'
+});
+
 module.exports = connection;

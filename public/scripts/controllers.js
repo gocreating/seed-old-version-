@@ -21,6 +21,19 @@ app
 					alertService.addMessage(0, 'Verification', res.message);
 					break;
 				}
+				// recovery token expiration
+				case status.RECOVERY_TOKEN_EXPIRATION: {
+					alertService.addMessage(0, 'Recovery', res.message);
+					break;
+				}
+				// reset password success
+				case status.SUCC_RESET: {
+					if (authService.isAuth) {
+						$location.path('/user/logout');
+					}
+					alertService.addMessage(0, 'Recovery', res.message);
+					break;
+				}
 				// verification token expiration
 				case status.TOKEN_EXPIRATION: {
 					if (!authService.isAuth) {
@@ -238,17 +251,55 @@ app
 				});
 		};
 	}])
-	.controller('userRecoveryCtrl', ['$scope', 'userFactory', '$location', 'status', function ($scope, userFactory, $location, status) {
-		$scope.form = {
-			email:    'gocreating@gmail.com'
+	.controller('userRecoveryCtrl', ['$scope', 'userFactory', 'alertService', 'status', function ($scope, userFactory, alertService, status) {
+		$scope.error = {
+			isWrongCaptcha: false,
+			msg: ''
 		};
-		userFactory
-			.recovery($scope.form.email)
-			.success(function (res) {
-				switch (res.code) {
-					case status.OK: {
-						
+
+		$scope.form = {
+			email: 'gocreating@gmail.com'
+		};
+
+		$scope.resetEmail = function (fm) {
+			fm.email.$setValidity('notexist', true);
+			fm.email.$setValidity('sending', true);
+		};
+
+		$scope.submit = function(fm) {
+			$scope.form['captcha'] = {
+				challenge: $('#recaptcha_challenge_field').val(),
+				response: $('#recaptcha_response_field').val()
+			};
+
+			userFactory
+				.recover($scope.form)
+				.success(function (res) {
+					switch (res.code) {
+						case status.WRONG_CAPTCHA: {
+							$scope.error.isWrongCaptcha = true;
+							$scope.error.msg = res.message;
+							Recaptcha.reload();
+							Recaptcha.focus_response_field();
+							break;
+						}
+						case status.ERR_EMAIL_SEND: {
+							$scope.error.msg = res.message;
+							Recaptcha.reload();
+							alertService.addMessage(res.code, 'Recovery', res.message);
+							fm.email.$setValidity('sending', false);
+							break;
+						}
+						case status.USER_EMAIL_NOT_EXIST: {
+							fm.email.$setValidity('notexist', false);
+							Recaptcha.reload();
+							break;
+						}
+						case status.OK: {
+							$('#recaptcha_challenge_field').val('');
+							alertService.addMessage(res.code, 'Recovery', res.message);
+						}
 					}
-				}
-			});
+				});
+		};
 	}]);

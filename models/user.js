@@ -19,9 +19,21 @@ exports.SEX_TYPE = {
 	NO_NEED:  3
 };
 
+exports.read = function (condition, cb) {
+	db.query('SELECT * FROM ' + tableName + ' WHERE ?', [condition], function (err, rows) {
+		cb(err, rows[0]);
+	});
+};
+
 exports.readById = function (id, cb) {
 	db.query('SELECT * FROM ' + tableName + ' WHERE user_id = ?', [id], function (err, rows) {
 		cb(err, rows[0]);
+	});
+};
+
+exports.readByEmail = function (email, cb) {
+	db.query('SELECT * FROM ' + tableName + ' WHERE email = ?', [email], function (err, rows) {
+		cb(err, rows && rows[0]);
 	});
 };
 

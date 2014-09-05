@@ -6,12 +6,12 @@
 	});
 </script>
 
-<h1>{{'TITLE_RECOVERY'|translate}}</h1>
+<h1>Forgot Password</h1>
 
-<form name="fm" ng-submit="submit()" novalidate>
+<form name="fm" ng-submit="submit(fm)" novalidate>
 	<p>
 		<label>
-			{{'FORM_EMAIL'|translate}}*
+			Your E-mail
 			<input
 				name="email" type="email" placeholder="your_email@example.com"
 				ng-model="form.email" ng-minlength="3" ng-maxlength="63" required
@@ -19,7 +19,7 @@
 					'validation-error': (fm.email.$dirty && fm.email.$invalid) || error.isEmailExist,
 					'validation-succ': fm.email.$dirty && fm.email.$valid
 				}"
-				ng-change="error.isEmailExist=false">
+				ng-change="resetEmail(fm)">
 		</label>
 		<span ng-show="fm.email.$dirty">
 			<span ng-show="fm.email.$valid">V</span>
@@ -28,14 +28,15 @@
 			<span ng-show="fm.email.$error.email">{{'MSG_NOT_AN_EMAIL'|translate}}</span>
 			<span ng-show="fm.email.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
 			<span ng-show="fm.email.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+			<span ng-show="fm.email.$error.sending">Cannot send mail to the address</span>
 		</span>
-		<span ng-show="error.isEmailExist">{{error.msg}}</span>
+		<span ng-show="fm.email.$error.notexist">Email does not exist</span>
 	</p>
 	<p>
 		<div id="recaptcha_display"></div>
 		<span ng-show="error.isWrongCaptcha">{{error.msg}}</span>
 	</p>
 	<p>
-		<input type="submit" value="{{'FORM_SEND'|translate}}" ng-disabled="fm.$invalid || (form.password != form.confirm)">
+		<input type="submit" value="Send recovery instruction mail" ng-disabled="fm.$invalid">
 	</p>
 </form>

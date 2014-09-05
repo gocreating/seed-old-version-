@@ -4,20 +4,23 @@
 	var app = angular.module('myApp.services', []);
 
 	var status = {
-		OK:                    200,
-		INTERNAL_SERVER_ERROR: 500,
-		ERR_VALIDATION:        0x10000002,
-		USER_EMAIL_EXIST:      0x10000003,
-		USER_WRONG_ACCOUNT:    0x10000004,
-		TOKEN_WRONG_FORMAT:    0x10000005,
-		TOKEN_EXPIRATION:      0x10000006,
-		SUCC_SOCIAL_LOGIN:     0x00000007,
-		ERR_SOCIAL_LOGIN:      0x10000008,
-		WRONG_CAPTCHA:         0x10000009,
-		USER_NOT_VERIFIED:     0x1000000A,
-		ERR_EMAIL_SEND:        0x1000000B,
-		SUCC_VERIFICATION:     0x0000000C,
-		ERR_RE_VERIFICATION:   0x0000000D
+		OK:                        200,
+		INTERNAL_SERVER_ERROR:     500,
+		ERR_VALIDATION:            0x10000002,
+		USER_EMAIL_EXIST:          0x10000003,
+		USER_WRONG_ACCOUNT:        0x10000004,
+		TOKEN_WRONG_FORMAT:        0x10000005,
+		TOKEN_EXPIRATION:          0x10000006,
+		SUCC_SOCIAL_LOGIN:         0x00000007,
+		ERR_SOCIAL_LOGIN:          0x10000008,
+		WRONG_CAPTCHA:             0x10000009,
+		USER_NOT_VERIFIED:         0x1000000A,
+		ERR_EMAIL_SEND:            0x1000000B,
+		SUCC_VERIFICATION:         0x0000000C,
+		ERR_RE_VERIFICATION:       0x0000000D,
+		USER_EMAIL_NOT_EXIST:      0x1000000E,
+		RECOVERY_TOKEN_EXPIRATION: 0x1000000F,
+		SUCC_RESET:                0x00000010
 	};
 
 	app.constant('status', status);
@@ -92,54 +95,23 @@
 			};
 		}])
 		.factory('authService', ['$window', function ($window) {
-			var store = {};
-
-			store.isAuth = $window.localStorage['isAuth'];
-			store.user = $window.localStorage['user'];
-			store.token = $window.localStorage['token'];
-
-			store.setToken = function (token) {
-				return $window.localStorage['token'] = token;
-			};
-
-			store.getToken = function () {
-				return $window.localStorage['token'];
-			};
-
-			store.login = function (user) {
-				$window.localStorage['isAuth'] = true;
-				$window.localStorage['user'] = user;
-				store.isAuth = true;
-				store.user = user;
-			};
-
-			store.logout = function () {
-				$window.localStorage.removeItem('isAuth');
-				$window.localStorage.removeItem('user');
-				$window.localStorage.removeItem('token');
-				store.isAuth = false;
-				store.user = null;
-			};
-
-			return store;
-
 			// var store = {};
 
-			// store.isAuth = $window.localStorage.getItem('isAuth');
-			// store.user = JSON.parse($window.localStorage.getItem('user'));
-			// store.token = $window.localStorage.getItem('token');
+			// store.isAuth = $window.localStorage['isAuth'];
+			// store.user = $window.localStorage['user'];
+			// store.token = $window.localStorage['token'];
 
 			// store.setToken = function (token) {
-			// 	return $window.localStorage.setItem('token', token);
+			// 	return $window.localStorage['token'] = token;
 			// };
 
 			// store.getToken = function () {
-			// 	return $window.localStorage.getItem('token');
+			// 	return $window.localStorage['token'];
 			// };
 
 			// store.login = function (user) {
-			// 	$window.localStorage.setItem('isAuth', true);
-			// 	$window.localStorage.setItem('user', JSON.stringify(user));
+			// 	$window.localStorage['isAuth'] = true;
+			// 	$window.localStorage['user'] = user;
 			// 	store.isAuth = true;
 			// 	store.user = user;
 			// };
@@ -153,6 +125,37 @@
 			// };
 
 			// return store;
+
+			var store = {};
+
+			store.isAuth = $window.localStorage.getItem('isAuth');
+			store.user = JSON.parse($window.localStorage.getItem('user'));
+			store.token = $window.localStorage.getItem('token');
+
+			store.setToken = function (token) {
+				return $window.localStorage.setItem('token', token);
+			};
+
+			store.getToken = function () {
+				return $window.localStorage.getItem('token');
+			};
+
+			store.login = function (user) {
+				$window.localStorage.setItem('isAuth', true);
+				$window.localStorage.setItem('user', JSON.stringify(user));
+				store.isAuth = true;
+				store.user = user;
+			};
+
+			store.logout = function () {
+				$window.localStorage.removeItem('isAuth');
+				$window.localStorage.removeItem('user');
+				$window.localStorage.removeItem('token');
+				store.isAuth = false;
+				store.user = null;
+			};
+
+			return store;
 		}])
 		.factory('userFactory', ['$http', function ($http) {
 			var urlBase = '/api/user';
@@ -182,10 +185,8 @@
 				return $http.post(urlBase + '/reverify', data);
 			};
 
-			fac.recovery = function (_email) {
-				return $http.post(urlBase + '/recovery', {
-					email: _email
-				});
+			fac.recover = function (data) {
+				return $http.post(urlBase + '/password/recovery', data);
 			};
 
 			fac.update = function (user) {

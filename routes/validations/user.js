@@ -18,7 +18,7 @@ module.exports = function (router) {
 		next();
 	});
 
-	router.post('/api/user/recovery', captcha, function (req, res, next) {
+	router.post('/api/user/password/recovery', captcha, function (req, res, next) {
 		next();
 	});
 };

@@ -29,14 +29,49 @@ var sendVerificationMail = function (res, err, readUser, cb) {
 		to: readUser.email,
 		subject: 'Email Verification',
 		text: 'Email Verification',
-		html: 'Hi ' + readUser.name + ',<br>' +
-			  'Welcome to [Product Name]<br>' +
-			  'The only thing left to do before getting started is to verify this email, which you can do by clicking below:<br>' +
-			  '<a href="' + verificationUrl + '">Verify your account</a><br>' +
-			  'Alternatively, click the following link: ' +
-			  '<a href="' + verificationUrl + '">' + verificationUrl + '</a><br>' +
-			  '<br>' +
+		html: 'Hi ' + readUser.name + ',<br><br>' +
+			  'Welcome to [Product Name]<br><br>' +
+			  'The only thing left to do before getting started is to verify this email, which you can do by clicking below:<br><br>' +
+			  '<a href="' + verificationUrl + '">Verify my account</a><br><br>' +
+			  'Alternatively, click the following link:<br><br>' +
+			  '<a href="' + verificationUrl + '">' + verificationUrl + '</a><br><br>' +
 			  'If you didn\'t sign up for [Product Name], please ignore this email.'
+	}, cb);
+};
+
+function makePassword (length, sourceString) {
+	var index = (Math.random() * (sourceString.length - 1)).toFixed(0);
+	return length > 0 ? sourceString[index] + makePassword(length - 1, sourceString) : '';
+};
+
+var sendRecoveryMail = function (res, err, readUser, cb) {
+	// Send with SES
+	var ses = require('nodemailer-ses-transport');
+	var transporter = nodemailer.createTransport(ses({
+		accessKeyId: config.email.ses.accessKeyId,
+		secretAccessKey: config.email.ses.secretAccessKey
+	}));
+
+	var newPassword = makePassword(15, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+	var token = jwt.encode({
+		user_id: readUser.user_id,
+		newPassword: newPassword,
+		expiration: moment().add(config.expiration.recoveryMail[0], config.expiration.recoveryMail[1]).valueOf()
+	}, config.secret.tokenSecret);
+
+	var resetUrl = 'http://' + config.app.host + ':' + config.app.port.http + '/user/password/reset?resetToken=' + token;
+
+	transporter.sendMail({
+		from: 'no-reply@entrepreneurclub.tw',
+		to: readUser.email,
+		subject: 'Password Recovery Instruction',
+		text: 'Password Recovery Instruction',
+		html: 'Hi ' + readUser.name + ',<br><br>' +
+			  'Someone has requested a link to change your password. You can do this through the link below.<br><br>' +
+			  '<a href="' + resetUrl + '">Change my password</a><br><br>' +
+			  'Then, your new password will be: <b>' + newPassword + '</b> <br><br>' +
+			  'If you didn\'t request this, please ignore this email.<br><br>' +
+			  'Your password won\'t change until you access the link above.'
 	}, cb);
 };
 
@@ -120,6 +155,24 @@ module.exports = function (router) {
 			res.reply(null, '', 'logout successfully');
 		});
 
+	// send verification mail
+	router.route('/api/user/reverify')
+		.post(function (req, res) {
+			console.log('=== send verification mail ===');
+			if (req.user.is_verified) {
+				res.reply(true, 'You have been verified');
+			} else {
+				sendVerificationMail(res, null, req.user, function (err, response) {
+					if (err) {
+						res.reply(true, '', '', null, null, null, status.ERR_EMAIL_SEND);
+					} else {
+						res.reply(false, '', 'We have sent you an email, please verify it in 3 hours');
+					}
+				});
+			}
+		});
+
+	// verify user
 	router.route('/user/verification')
 		.get(function (req, res) {
 			try {
@@ -164,26 +217,57 @@ module.exports = function (router) {
 			}
 		});
 
-	router.route('/api/user/reverify')
+	// send password recovery instruction
+	router.route('/api/user/password/recovery')
 		.post(function (req, res) {
-			if (req.user.is_verified) {
-				res.reply(true, 'You have been verified');
-			} else {
-				sendVerificationMail(res, null, req.user, function (err, response) {
-					if (err) {
-						res.reply(true, '', '', null, null, null, status.ERR_EMAIL_SEND);
-					} else {
-						res.reply(false, '', 'We have sent you an email, please verify it in 3 hours');
-					}
-				});
-			}
+			console.log('=== send recovery mail ===');
+			User.read({
+				email: req.body.email
+			}, function (err, readUser) {
+				if (!readUser) {
+					res.reply(true, '', '', null, null, null, status.USER_EMAIL_NOT_EXIST);
+				} else {
+					sendRecoveryMail(res, err, readUser, function (err, response) {
+						if (err) {
+							res.reply(true, '', '', null, null, null, status.ERR_EMAIL_SEND);
+						} else {
+							res.reply(false, '', 'We have sent you an email with instructions, please check it in 1 hour');
+						}
+					});
+				}
+			});
 		});
 
-	router.route('/api/user/recovery')
-		.post(function (req, res) {
-
-			console.log(req.body.email);
-			// sendMail(req.body.email);
+	// reset password
+	router.route('/user/password/reset')
+		.get(function (req, res) {
+			try {
+				var decoded = jwt.decode(req.query.resetToken, config.secret.tokenSecret);
+				if (decoded.expiration <= Date.now()) {
+					res.replyByRedirect(
+						'/',
+						'Token has expired, fail to reset password',
+						null,
+						null,
+						status.RECOVERY_TOKEN_EXPIRATION
+					);
+				} else {
+					User.updateById(decoded.user_id, {
+						password_hash: pswd.hash(decoded.newPassword)
+					}, function (err) {
+						if (err) throw err;
+						res.replyByRedirect(
+							'/user/login',
+							'Your password has been reset. Please login with new password, and change password immediately',
+							null,
+							null,
+							status.SUCC_RESET
+						);
+					});			
+				}
+			} catch (err) {
+				res.send('Token format error');
+			}
 		});
 
 	router.route('/api/user/:user_id')
