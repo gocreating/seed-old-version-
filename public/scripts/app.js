@@ -1,4 +1,5 @@
 'use strict';
+(function () {
 
 var app = angular.module('seed', [
 	'pascalprecht.translate',
@@ -218,3 +219,5 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 
 	$urlRouterProvider.otherwise('/404');
 }]);
+
+}) ();

@@ -32,6 +32,7 @@
     "passport-twitter": "*",
     "passport-google-oauth": "*",
 
-    "recaptcha": "*"
+    "recaptcha": "*",
+    "node-minify": "*"
   }
 }

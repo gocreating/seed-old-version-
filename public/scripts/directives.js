@@ -1,5 +1,7 @@
 'use strict';
 
+(function () {
+
 var app = angular.module('myApp.directives', []);
 
 app
@@ -8,3 +10,5 @@ app
 			elm.text(version);
 		};
 	}]);
+
+}) ();

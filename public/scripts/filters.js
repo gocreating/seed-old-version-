@@ -1,5 +1,7 @@
 'use strict';
 
+(function () {
+
 var app = angular.module('myApp.filters', []);
 
 app
@@ -8,3 +10,5 @@ app
 			return String(text).replace(/\%VERSION\%/mg, version);
 		}
 	}]);
+
+}) ();

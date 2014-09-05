@@ -26,7 +26,23 @@ var http           = require('http'),
 var SessionStore   = require('express-mysql-session'), // Store session in mysql database
 	fs             = require("fs"),                    // To read ssl key and cert
 	lessMiddleware = require('less-middleware'),
-	passport       = require('passport');
+	passport       = require('passport'),
+	compressor     = require('node-minify');
+
+new compressor.minify({
+    type: 'uglifyjs',
+    fileIn: [
+    	'public/scripts/app.js',
+    	'public/scripts/controllers.js',
+    	'public/scripts/directives.js',
+    	'public/scripts/filters.js',
+    	'public/scripts/services.js'
+    ],
+    fileOut: 'public/scripts/global.min.js',
+    callback: function(err, min){
+        console.log(err? err: '=== compress js file ===');
+    }
+});
 
 /**************************************************************
  *                                                            *
