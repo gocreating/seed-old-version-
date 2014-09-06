@@ -1,0 +1,60 @@
+@block-bg-color: rgb(35, 43, 51);
+@block-text-color: rgb(220, 224, 227);
+
+@form-inner-gap: 20px;
+@form-bottom-gap: 40px;
+
+@form-bg-color: #fff;
+@form-text-color: rgb(65, 82, 89);
+
+@form-button-bg-color: rgb(27, 171, 140);
+@form-button-text-color: #fff;
+
+@import "../media";
+
+.bs-register {
+	color: @block-text-color;
+
+	&.container-fluid {
+		background-color: @block-bg-color;
+
+		@media @Desktop {
+			background-color: inherit;
+		}
+	}
+
+	.container {
+		background-color: @block-bg-color;
+	}
+
+	.bs-form {
+		background-color: @form-bg-color;
+		color: @form-text-color;
+		margin-bottom: @form-bottom-gap;
+		
+		.bs-inputs {
+			padding: @form-inner-gap;
+
+			.form-group:last-child {
+				margin-bottom: 0px;
+			}
+		}
+
+		button[type=submit] {
+			border-radius: 0px;
+			border-width: 0px;
+			background-color: @form-button-bg-color;
+			color: @form-button-text-color;
+
+			&:hover {
+				background-color: @form-button-bg-color + #111;
+			}
+		}
+	}
+
+	.bs-text-container {
+		@media @Desktop {
+			padding: 0 80px;
+		}
+	}
+}

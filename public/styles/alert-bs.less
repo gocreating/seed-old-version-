@@ -1,0 +1,32 @@
+@import "media";
+
+.bs-alert {
+	.border-radius(@radius) {
+		-webkit-border-radius: @radius;
+		-moz-border-radius: @radius;
+		border-radius: @radius;
+	}
+
+	.transition(@t) {
+		-webkit-transition: @t;
+		-moz-transition: @t;
+		transition: @t;
+	}
+
+	z-index: 999999999;
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+
+	.alert {
+		margin-bottom: 0px;
+		opacity: 0.7;
+		.border-radius(0px);
+		.transition(all 300ms ease);
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+}

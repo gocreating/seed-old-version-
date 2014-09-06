@@ -94,7 +94,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'defaultStyle', function ($s
 		url: '',
 		views: {
 			'alert': {
-				templateUrl: s('views/alert.html')
+				templateUrl: s('views/alert.html', 'bs')
 			},
 			'header': {
 				templateUrl: s('views/header.html', 'bs')
@@ -115,7 +115,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'defaultStyle', function ($s
 		})
 			.state('root.general.home', {
 				url: '/',
-				templateUrl: s('views/general/home.html')
+				templateUrl: s('views/general/home.html', 'bs')
 			})
 			.state('root.general.contact', {
 				url: '/contact',
@@ -177,12 +177,12 @@ app.config(['$stateProvider', '$urlRouterProvider', 'defaultStyle', function ($s
 		})
 			.state('root.user.new', {
 				url: '/user/new',
-				templateUrl: s('views/user/new.html'),
+				templateUrl: s('views/user/new.html', 'bs'),
 				controller: 'userNewCtrl'
 			})
 			.state('root.user.login', {
 				url: '/user/login',
-				templateUrl: s('views/user/login.html'),
+				templateUrl: s('views/user/login.html', 'bs'),
 				controller: 'userLoginCtrl'
 			})
 			.state('root.user.logout', {

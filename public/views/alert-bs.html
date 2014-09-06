@@ -1,0 +1,13 @@
+<div ng-controller="alertCtrl" ng-show="messages.length>0" ng-cloak class="bs-alert">
+	<div class="alert alert-info" role="alert" ng-repeat="message in messages">
+		<div class="container">
+			<button type="button" class="close" data-dismiss="alert" ng-click="deleteMessage($index)">
+				<span aria-hidden="true">&times;</span>
+				<span class="sr-only">Close</span>
+			</button>
+			<strong>{{message.title}}</strong> {{message.content}}
+		</div>
+	</div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="/styles/alert-bs.css">

@@ -1,0 +1,29 @@
+
+@block-headline-color: rgb(58, 77, 94);
+@block-text-color: rgb(41, 63, 86);
+
+
+@import "../media";
+
+.bs-features.container-fluid {
+	.container {
+		.bs-scene {
+			background: url(../../images/science/01.jpg);
+			min-height: 100px;
+
+			@media @Desktop {
+				min-height: 400px;
+			}
+		}
+
+		.bs-content {
+			h1, h2, h3, h4, h5 {
+				color: @block-headline-color;
+			}
+
+			p {
+				color: @block-text-color;
+			}
+		}
+	}
+}

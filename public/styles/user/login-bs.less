@@ -1,0 +1,76 @@
+@form-inner-gap: 38px;
+@form-outer-vertical-gap: 0px;
+
+@is_limit_width: true;
+@form-limit-width: 600px;
+
+@is_shadow: false;
+@shadow: 0 0 3px 3px #888888;
+
+@import "../media";
+
+.bs-login.container-fluid {
+	.box-shadow(@customShadow) {
+		-webkit-box-shadow: @customShadow;
+		   -moz-box-shadow: @customShadow;
+		        box-shadow: @customShadow;
+	}
+
+	.form-signin {
+		& when (@is_limit_width) {
+			max-width: @form-limit-width;
+		}
+
+		margin: @form-outer-vertical-gap auto;
+		background-color: #f7f7f7;
+
+		& when (@is_shadow) {
+			.box-shadow(@shadow);
+		}
+
+		.heading {
+			margin: 0px 0;
+			font-size: 20px;
+			font-weight: bold;
+			padding: @form-inner-gap @form-inner-gap 0px @form-inner-gap;
+		}
+
+		.social-login {
+			margin:0 auto;
+			padding: @form-inner-gap;
+			border-bottom:1px #dadada solid;
+
+			.row {
+				margin-bottom: 20px;
+
+				&:last-child {
+					margin-bottom: 0px;
+				}
+			}
+		}
+
+		.local-login {
+			padding: @form-inner-gap;
+		}
+
+		.login-footer {
+			background: #f0f0f0;
+			border-top: 1px solid #dadada;
+			padding: 0px @form-inner-gap 20px;
+
+			@media @Tablet {
+				padding: 20px @form-inner-gap;
+			}
+
+			.help-links a {
+				font-weight: bold;
+				color: #8a8a8a;
+				line-height: 40px;
+
+				@media @Tablet {
+					line-height: 19px;
+				}
+			}
+		}
+	}
+}

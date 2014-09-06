@@ -97,8 +97,7 @@ module.exports = function (router) {
 						sex: req.body.sex,
 						birthday: req.body.birthday,
 						extra: JSON.stringify({
-							phone: req.body.phone,
-							address: req.body.address
+							phone: req.body.phone
 						}),
 						create_at: new Date(),
 						update_at: new Date()

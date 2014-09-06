@@ -1,0 +1,104 @@
+<div class="container-fluid bs-login">
+	<div class="container">
+		<div class="row">
+			<form class="form-signin" role="form" name="fm" ng-submit="submit(fm)" novalidate ng-cloak>
+				<h3 class="heading">Login to Seed</h3>
+
+				<!-- Social login -->
+				<div class="social-login">
+					<div class="row mg-btm">
+						<div class="col-md-12">
+							<a class="btn btn-block btn-social btn-facebook" href="/auth/facebook" target="_self">
+								<i class="fa fa-facebook"></i> Facebook
+							</a>
+						</div>
+					</div>
+					<div class="row mg-btm">
+						<div class="col-md-12">
+							<a class="btn btn-block btn-social btn-twitter" href="/auth/twitter" target="_self">
+								<i class="fa fa-twitter"></i> Twitter
+							</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<a class="btn btn-block btn-social btn-google-plus" href="/auth/google" target="_self">
+								<i class="fa fa-google-plus"></i> Google Plus
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Local login -->
+				<div class="local-login">
+					<!-- Error message -->
+					<div class="alert alert-danger alert-dismissible" role="alert" ng-show="error.isLoginFail">
+						<strong>Rejection</strong> {{error.msg}}
+					</div>
+
+					<!-- Email -->
+					<div
+						class="form-group has-feedback"
+						ng-class="{
+							'has-error': error.email.isInvalid
+						}">
+						<input
+							name="email" id="email" type="email" placeholder="Email" autofocus
+							ng-model="form.email" ng-minlength="3" ng-maxlength="63" required
+							ng-change="resetVlidation('email')"
+							class="form-control input-lg">
+						<span ng-show="error.email.isInvalid">
+							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+							<span class="help-block">
+								<span ng-show="fm.email.$error.required">必填</span>
+								<span ng-show="fm.email.$error.email">信箱格式錯誤</span>
+								<span ng-show="!fm.email.$error.email && fm.email.$error.minlength">過短</span>
+								<span ng-show="!fm.email.$error.email && fm.email.$error.maxlength">過長</span>
+							</span>
+						</span>
+					</div>
+
+					<!-- Password -->
+					<div
+						class="form-group has-feedback"
+						ng-class="{
+							'has-error': error.password.isInvalid
+						}">	
+						<input
+							name="password" id="password" type="password" placeholder="Password"
+							ng-model="form.password" ng-minlength="8" ng-maxlength="20" required
+							ng-change="resetVlidation('password')"
+							class="form-control input-lg">
+						<span ng-show="error.password.isInvalid">
+							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+							<span class="help-block">
+								<span ng-show="fm.password.$error.required">必填</span>
+								<span ng-show="fm.password.$error.minlength">過短</span>
+								<span ng-show="fm.password.$error.maxlength">過長</span>
+							</span>
+						</span>
+					</div>
+					Are you a business? <a href=""> Get started here</a>
+				</div>
+
+				<div class="login-footer">
+					<div class="row">
+						<div class="col-xs-12 col-sm-8">
+							<div class="help-links">
+								<a href="/user/recovery">Forgot your password?</a>
+								<a href="/user/new">Sign up now</a>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<button type="submit" class="btn btn-lg btn-warning btn-block">Login</button>
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div><!-- /.row -->
+	</div><!-- /.container -->
+</div><!-- /.container-fluid -->
+
+<link rel="stylesheet" type="text/css" href="/libraries/bootstrap-social/bootstrap-social.css">
+<link rel="stylesheet" type="text/css" href="/styles/user/login-bs.css">

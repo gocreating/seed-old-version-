@@ -1,0 +1,215 @@
+<script type="text/javascript">
+	$.getScript('https://www.google.com/recaptcha/api/js/recaptcha_ajax.js', function() {
+		Recaptcha.create('6LeVgfkSAAAAAL3-W5fDL0gbngKaFzqs4Aw7KVWn', 'recaptcha_display', {
+			theme: 'red'
+		});
+	});
+</script>
+
+<div class="container-fluid bs-register">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<div class="row">
+					<div class="col-md-6">
+						<h3>Rister your account today and get free month trial</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<form class="bs-form" role="form" name="fm" ng-submit="submit()" novalidate>
+							<div class="bs-inputs">
+								<!-- Email -->
+								<div
+									class="form-group has-feedback"
+									ng-class="{
+										'has-success': fm.email.$dirty && fm.email.$valid,
+										'has-error': fm.email.$dirty && fm.email.$invalid
+									}">
+									<label for="email" class="control-label">{{'FORM_EMAIL'|translate}}*</label>
+									<input
+											name="email" id="email" type="email" placeholder="your_email@example.com"
+											ng-model="form.email" ng-minlength="3" ng-maxlength="63" required
+											class="form-control"
+											ng-change="resetEmail(fm)">
+									<span ng-show="fm.email.$dirty">
+										<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="fm.email.$valid"></span>
+										<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="fm.email.$invalid"></span>
+										<span class="help-block" ng-show="fm.email.$invalid">
+											<span ng-show="fm.email.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+											<span ng-show="fm.email.$error.email">{{'MSG_NOT_AN_EMAIL'|translate}}</span>
+											<span ng-show="fm.email.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+											<span ng-show="fm.email.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+											<span ng-show="fm.email.$error.sending">Cannot send mail to the address</span>
+										</span>
+									</span>
+									<span ng-show="fm.email.$error.exist">Email already exist</span>
+								</div>
+
+								<!-- Password -->
+								<div
+									class="form-group has-feedback"
+									ng-class="{
+										'has-success': fm.password.$dirty && fm.password.$valid,
+										'has-error': fm.password.$dirty && fm.password.$invalid
+									}">
+									<label for="password" class="control-label">{{'FORM_PASSWORD'|translate}}*</label>
+									<input
+										name="password" id="password" type="password" placeholder="Password"
+										ng-model="form.password" ng-minlength="8" ng-maxlength="20" required
+										class="form-control">
+									<span ng-show="fm.password.$dirty">
+										<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="fm.password.$valid"></span>
+										<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="fm.password.$invalid"></span>
+										<span class="help-block" ng-show="fm.password.$invalid">
+											<span ng-show="fm.password.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+											<span ng-show="fm.password.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+											<span ng-show="fm.password.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+										</span>
+									</span>
+								</div>
+
+								<!-- Confirm -->
+								<div
+									class="form-group has-feedback"
+									ng-class="{
+										'has-success': fm.confirm.$dirty && fm.password.$valid && (form.confirm == form.password),
+										'has-error': fm.confirm.$dirty && (fm.password.$invalid || (form.confirm != form.password))
+									}">
+									<label for="confirm" class="control-label">{{'FORM_CONFIRM'|translate}}*</label>
+									<input
+										name="confirm" id="confirm" type="password" placeholder="Confirm"
+										ng-model="form.confirm" ng-minlength="8" ng-maxlength="20" required
+										class="form-control">
+									<span ng-show="fm.confirm.$dirty">
+										<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="fm.password.$valid && (form.confirm == form.password)"></span>
+										<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="fm.password.$invalid || (form.confirm != form.password)"></span>
+										<span class="help-block" ng-show="fm.confirm.$dirty">
+											<span ng-show="fm.password.$invalid || (form.confirm != form.password)">{{'MSG_PASSWORD_CONFLICT'|translate}}</span>
+										</span>
+									</span>
+								</div>
+
+								<!-- Name -->
+								<div
+									class="form-group has-feedback"
+									ng-class="{
+										'has-success': fm.name.$dirty && fm.name.$valid,
+										'has-error': fm.name.$dirty && fm.name.$invalid
+									}">
+									<label for="name" class="control-label">{{'FORM_NAME'|translate}}*</label>
+									<input
+										name="name" id="name" type="text" placeholder="Name"
+										ng-model="form.name" ng-minlength="2" ng-maxlength="16" required
+										class="form-control">
+									<span ng-show="fm.name.$dirty">
+										<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="fm.name.$valid"></span>
+										<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="fm.name.$invalid"></span>
+										<span class="help-block" ng-show="fm.name.$invalid">
+											<span ng-show="fm.name.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+											<span ng-show="fm.name.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+											<span ng-show="fm.name.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+										</span>
+									</span>
+								</div>
+
+								<!-- Sex -->
+								<div class="form-group">
+									<label class="control-label">{{'FORM_SEX'|translate}}*</label>
+									<div class="radio">
+										<label class="radio-inline">
+											<input type="radio" value="0" ng-model="form.sex">{{'FORM_SEX_MALE'|translate}}
+										</label>
+										<label class="radio-inline">
+											<input type="radio" value="1" ng-model="form.sex">{{'FORM_SEX_FEMALE'|translate}}
+										</label>
+									</div>
+								</div>
+
+								<!-- Birthday -->
+								<div
+									class="form-group">
+									<label for="birthday" class="control-label">{{'FORM_BIRTHDAY'|translate}}</label>	
+									<input
+										name="birthday" id="birthday" type="date" placeholder="Birthday"
+										ng-model="form.birthday"
+										class="form-control">
+								</div>
+
+								<!-- Phone -->
+								<div
+									class="form-group has-feedback"
+									ng-class="{
+										'has-success': fm.phone.$dirty && fm.phone.$valid,
+										'has-error': fm.phone.$dirty && fm.phone.$invalid
+									}">
+									<label for="phone" class="control-label">{{'FORM_PHONE'|translate}}</label>
+									<input
+										name="phone" id="phone" type="text" placeholder="+886 9876 54321"
+										ng-model="form.phone" ng-maxlength="20"
+										class="form-control">
+									<span ng-show="fm.phone.$dirty">
+										<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="fm.phone.$valid"></span>
+										<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="fm.phone.$invalid"></span>
+										<span class="help-block" ng-show="fm.phone.$invalid">
+											<span ng-show="fm.phone.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+										</span>
+									</span>
+								</div>
+
+								<!-- Terms -->
+								<div
+									class="form-group has-feedback"
+									ng-class="{
+										'has-success': fm.agree.$dirty && fm.agree.$valid,
+										'has-error': fm.agree.$dirty && fm.agree.$invalid
+									}">
+									<div class="checkbox">
+										<label>
+											<input name="agree" type="checkbox" ng-model="isAgree" required>*{{'FORM_AGREE_DES'|translate}}<a href="/policies/terms" target="_new">{{'FORM_AGREE_LINK'|translate}}</a>
+											<span ng-show="fm.agree.$dirty">
+												<span class="help-block" ng-show="fm.agree.$invalid">
+													<span ng-show="fm.agree.$error.required">{{'MSG_MUST_AGREE'|translate}}</span>
+												</span>
+											</span>
+										</label>
+									</div>
+								</div>
+
+								<!-- Captcha -->
+								<div
+									class="form-group"
+									ng-class="{
+										'has-error': error.isWrongCaptcha
+									}">
+									<div id="recaptcha_display"></div>
+									<span class="help-block" ng-show="error.isWrongCaptcha">{{error.msg}}</span>
+								</div>
+							</div>
+
+							<!-- Submit -->
+							<button class="btn btn-lg btn-success btn-block" type="submit" ng-disabled="fm.$invalid || (form.password != form.confirm)">Sign Up</button>
+						</form>
+					</div>
+
+					<div class="col-md-6 bs-text-container">
+						<h4>The most important part of the Startup Dign Framework is the samples</h4>
+						<h3><b>Easy to use</b></h3>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua.
+						</p>
+						<h3><b>Veriety of designs</b></h3>
+						<p>
+							Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</p>
+					</div>
+				</div>
+			</div><!-- /.col-md-10 -->
+		</div><!-- /.row -->
+	</div><!-- /.container -->
+</div><!-- /.container-fluid -->
+
+<link rel="stylesheet" type="text/css" href="/libraries/bootstrap-social/bootstrap-social.css">
+<link rel="stylesheet" type="text/css" href="/styles/user/new-bs.css">

@@ -11,8 +11,8 @@ module.exports = function (req, res, next) {
 
 	recaptcha.verify(function (success, error_code) {
 		// debugging
-		success = true;
-		console.log('=== auto pass captcha ===');
+		// success = true;
+		// console.log('=== auto pass captcha ===');
 		// end debuging
 		if (!success) {
 			res.reply(true, 'wrong captcha', '', null, null, null, status.WRONG_CAPTCHA);
