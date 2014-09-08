@@ -6,18 +6,18 @@
 					<h1>Contact Us{{test}}</h1>
 					<p>Tell us what you think about our little operation.</p>
 				</div>
-				<form class="bs-form row" role="form" name="fm" ng-submit="submit()" novalidate>
+				<form class="bs-form row" role="form" name="fm" ng-submit="submit(fm)" novalidate>
 					<!-- Name -->
 					<div
 						class="form-group has-feedback col-sm-6"
 						ng-class="{
-							'has-error': fm.name.$dirty && fm.name.$invalid
+							'has-error': is_submitted && fm.name.$invalid
 						}">
 						<input
 							name="name" id="name" type="text" placeholder="Name"
 							ng-model="form.name" ng-minlength="1" ng-maxlength="16"
 							class="form-control input-lg">
-						<span ng-show="fm.name.$dirty">
+						<span ng-show="is_submitted">
 							<span class="help-block" ng-show="fm.name.$invalid">
 								<span ng-show="fm.name.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
 								<span ng-show="fm.name.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
@@ -29,13 +29,13 @@
 					<div
 						class="form-group has-feedback col-sm-6"
 						ng-class="{
-							'has-error': fm.email.$dirty && fm.email.$invalid
+							'has-error': is_submitted && fm.email.$invalid
 						}">
 						<input
 							name="email" id="email" type="email" placeholder="Email"
-							ng-model="form.email" ng-minlength="2" ng-maxlength="16"
+							ng-model="form.email" ng-minlength="3" ng-maxlength="63"
 							class="form-control input-lg">
-						<span ng-show="fm.email.$dirty">
+						<span ng-show="is_submitted">
 							<span class="help-block" ng-show="fm.email.$invalid">
 								<span ng-show="fm.email.$error.email">{{'MSG_NOT_AN_EMAIL'|translate}}</span>
 								<span ng-show="fm.email.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
@@ -48,13 +48,13 @@
 					<div
 						class="form-group has-feedback col-sm-12"
 						ng-class="{
-							'has-error': fm.subject.$dirty && fm.subject.$invalid
+							'has-error': is_submitted && fm.subject.$invalid
 						}">
 						<input
 							name="subject" id="subject" type="text" placeholder="Subject"
-							ng-model="form.subject" ng-minlength="2" ng-maxlength="16"
+							ng-model="form.subject" ng-minlength="1" ng-maxlength="64"
 							class="form-control input-lg">
-						<span ng-show="fm.subject.$dirty">
+						<span ng-show="is_submitted">
 							<span class="help-block" ng-show="fm.subject.$invalid">
 								<span ng-show="fm.subject.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
 								<span ng-show="fm.subject.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
@@ -66,13 +66,13 @@
 					<div
 						class="form-group has-feedback col-sm-12"
 						ng-class="{
-							'has-error': fm.message.$dirty && fm.message.$invalid
+							'has-error': is_submitted && fm.message.$invalid
 						}">
 						<textarea
 							name="message" id="message" type="text" placeholder="* Enter your message" rows="8"
 							ng-model="form.message" ng-maxlength="2048" required
 							class="form-control input-lg"></textarea>
-						<span ng-show="fm.message.$dirty">
+						<span ng-show="is_submitted">
 							<span class="help-block" ng-show="fm.message.$invalid">
 								<span ng-show="fm.message.$error.required">{{'MSG_REQUIRED'|translate}}</span>
 								<span ng-show="fm.message.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
@@ -82,7 +82,7 @@
 
 					<!-- Submit -->
 					<div class="form-group col-sm-offset-3 col-sm-6">
-						<button class="btn btn-lg btn-block" type="submit" ng-disabled="fm.$invalid">Send Message</button>
+						<button class="btn btn-lg btn-block" type="submit" ng-disabled="is_submitting">Send Message</button>
 					</div>
 				</form>
 			</div>
@@ -93,24 +93,37 @@
 <link rel="stylesheet" type="text/css" href="/styles/general/contact-bs.css">
 
 <script type="text/javascript">
-	app.controller('contactCtrl', ['$scope', '$http', 'alertService', function ($scope, $http, alertService) {
+	app.controller('contactCtrl', ['$scope', '$http', 'alertService', 'status', function ($scope, $http, alertService, status) {
+		$scope.is_submitting = false;
+
 		$scope.form = {
-			name:    '',
-			email:   '',
-			subject: '',
-			message: ''
+			name:    'John',
+			email:   'foo@example.com',
+			subject: 'About your product',
+			message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\nproident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 		};
 
-		$scope.submit = function() {
-			$http
-				.post('/api/contact', $scope.form)
-				.success(function (res) {
-					switch (res.code) {
-						case status.OK: {
-							alertService.addMessage(res.code, 'Contact', res.message);
+		$scope.submit = function(fm) {
+			$scope.is_submitted = true;
+			if (fm.$valid) {
+				$scope.is_submitting = true;
+				$http
+					.post('/api/contact', $scope.form)
+					.success(function (res) {
+						switch (res.code) {
+							case status.ERR_EMAIL_SEND: {
+								alertService.addMessage(res.code, 'Contact', res.message);
+							}
+							case status.OK: {
+								alertService.addMessage(res.code, 'Contact', res.message);
+								$scope.form.subject = '';
+								$scope.form.message = '';
+							}
 						}
-					}
-				});
+						$scope.is_submitted = false;
+						$scope.is_submitting = false;
+					});
+			}
 		};
 	}]);
 </script>

@@ -23,12 +23,25 @@
 
 	.alert {
 		margin-bottom: 0px;
-		opacity: 0.7;
+		text-shadow: 1px 1px 1px #fff;
+		font-size: 16px;
 		.border-radius(0px);
 		.transition(@alert-transition);
 
+		strong {
+			text-transform: uppercase;
+		}
+
 		&:hover {
-			opacity: 1;
+			text-shadow: none;
+		}
+	}
+
+	.alert-info {
+		background-color: rgba(217, 237, 247, 0.9);
+
+		&:hover {
+			background-color: rgba(217, 237, 247, 1);
 		}
 	}
 }

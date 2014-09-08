@@ -120,7 +120,7 @@ if ('development' === env) {
  *                                                            *
  **************************************************************/
 
-// require('./routes/main/general')(app);
+require('./routes/main/general')(router);
 require('./routes/validations/user')(router);
 require('./routes/main/user')(router);
 require('./routes/main/user-social')(router);
