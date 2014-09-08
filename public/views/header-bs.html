@@ -38,7 +38,7 @@
 					<li class="dropdown">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">
 							<span ng-hide="authService.isAuth">User</span>
-							<span ng-show="authService.isAuth" ng-bind="authService.user.name"></span>
+							<span ng-show="authService.isAuth">{{authService.user.name}}</span>
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu" role="menu">

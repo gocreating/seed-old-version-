@@ -31,6 +31,7 @@ passport.use(new FacebookStrategy({
 			user_type: User.USER_TYPE.FACEBOOK,
 			open_id: profile.id,
 			email: profile._json.email,
+			is_verified: true,
 			password_hash: '',
 			name: profile._json.name,
 			sex: (profile._json.gender==='male'? User.SEX_TYPE.MALE: User.SEX_TYPE.FEMALE),
@@ -56,6 +57,7 @@ passport.use(new TwitterStrategy({
 		user_type: User.USER_TYPE.TWITTER,
 		open_id: profile.id,
 		email: profile.username,
+		is_verified: false,
 		password_hash: '',
 		name: profile.displayName,
 		sex: User.SEX_TYPE.UNKNOWN,
@@ -80,6 +82,7 @@ passport.use(new GoogleStrategy({
 			user_type: User.USER_TYPE.GOOGLE,
 			open_id: profile.id,
 			email: profile._json.email,
+			is_verified: true,
 			password_hash: '',
 			name: profile.displayName,
 			sex: (profile._json.gender==='male'? User.SEX_TYPE.MALE: (profile._json.gender==='female'? User.SEX_TYPE.FEMALE: User.SEX_TYPE.UNKNOWN)),
@@ -116,19 +119,19 @@ module.exports = function (router) {
 				if (!readUser) {
 					res.replyByRedirect('/user/login', 'cannot login the user', 200, null, status.ERR_SOCIAL_LOGIN);
 				} else {
-					var user = {
+					var loginUser = {
 						user_id: readUser.user_id,
 						email: readUser.email,
 						name: readUser.name
 					};
 					var token = jwt.encode({
-						user: user,
-						expiration: moment().add('days', 7).valueOf()
+						user: loginUser,
+						expiration: moment().add(7, 'days').valueOf()
 					}, config.secret.tokenSecret);
 
 					res.replyByRedirect('/', 'login successfully', 200, {
 						token: token,
-						user: user
+						user: loginUser
 					}, status.SUCC_SOCIAL_LOGIN);
 				}
 			}) (req, res, next)
@@ -143,19 +146,19 @@ module.exports = function (router) {
 				if (!readUser) {
 					res.replyByRedirect('/user/login', 'cannot login the user', 200, null, status.ERR_SOCIAL_LOGIN);
 				} else {
-					var user = {
+					var loginUser = {
 						user_id: readUser.user_id,
 						email: readUser.email,
 						name: readUser.name
 					};
 					var token = jwt.encode({
-						user: user,
-						expiration: moment().add('days', 7).valueOf()
+						user: loginUser,
+						expiration: moment().add(7, 'days').valueOf()
 					}, config.secret.tokenSecret);
 
 					res.replyByRedirect('/', 'login successfully', 200, {
 						token: token,
-						user: user
+						user: loginUser
 					}, status.SUCC_SOCIAL_LOGIN);
 				}
 			}) (req, res, next)
@@ -170,19 +173,19 @@ module.exports = function (router) {
 				if (!readUser) {
 					res.replyByRedirect('/user/login', 'cannot login the user', 200, null, status.ERR_SOCIAL_LOGIN);
 				} else {
-					var user = {
+					var loginUser = {
 						user_id: readUser.user_id,
 						email: readUser.email,
 						name: readUser.name
 					};
 					var token = jwt.encode({
-						user: user,
-						expiration: moment().add('days', 7).valueOf()
+						user: loginUser,
+						expiration: moment().add(7, 'days').valueOf()
 					}, config.secret.tokenSecret);
 
 					res.replyByRedirect('/', 'login successfully', 200, {
 						token: token,
-						user: user
+						user: loginUser
 					}, status.SUCC_SOCIAL_LOGIN);
 				}
 			}) (req, res, next)

@@ -11,9 +11,10 @@ app
  *                                                            *
  **************************************************************/
 
-	.controller('rootCtrl', ['$scope', '$location', 'alertService', 'authService', 'status', '$translatePartialLoader', function ($scope, $location, alertService, authService, status, $translatePartialLoader) {
+	.controller('rootCtrl', ['$scope', '$location', 'alertService', 'authService', 'status', '$translatePartialLoader', 'codeService', function ($scope, $location, alertService, authService, status, $translatePartialLoader, codeService) {
 		if ($location.search().data) {
-			var res = JSON.parse(atob($location.search().data));
+			// var res = JSON.parse(atob($location.search().data));
+			var res = JSON.parse(codeService.decodeBase64($location.search().data));
 			console.log(res);
 			$location.path(res.path);
 			switch (res.code) {

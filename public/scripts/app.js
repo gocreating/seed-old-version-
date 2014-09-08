@@ -1,5 +1,6 @@
 'use strict';
 
+// expose variable 'app' to the global, then we can define controllers, directives, and etc. in a seperated file
 var app = angular.module('seed', [
 	'pascalprecht.translate',
 	'ui.router',
@@ -10,7 +11,6 @@ var app = angular.module('seed', [
 ]);
 
 (function () {
-
 
 /**************************************************************
  *                                                            *
@@ -77,14 +77,10 @@ app.run(['$rootScope', '$translatePartialLoader', '$translate', function ($rootS
 	});
 }]);
 
+// lazy loading configuration
+// ref: http://www.bennadel.com/blog/2553-loading-angularjs-components-after-your-application-has-been-bootstrapped.htm
 app.config(['$controllerProvider', '$provide', '$compileProvider', function ($controllerProvider, $provide, $compileProvider) {
-	// Since the "shorthand" methods for component
-	// definitions are no longer valid, we can just
-	// override them to use the providers for post-
-	// bootstrap loading.
-	console.log( "Config method executed." );
-
-	// Let's keep the older references.
+	// keep the older references
 	app._controller = app.controller;
 	app._service = app.service;
 	app._factory = app.factory;

@@ -93,7 +93,24 @@
 <link rel="stylesheet" type="text/css" href="/styles/general/contact-bs.css">
 
 <script type="text/javascript">
-	app.controller('contactCtrl', ['$scope', '$translate', function ($scope, $translate) {
-		$scope.test = 'sfsdofds爽喔kfsd';
+	app.controller('contactCtrl', ['$scope', '$http', 'alertService', function ($scope, $http, alertService) {
+		$scope.form = {
+			name:    '',
+			email:   '',
+			subject: '',
+			message: ''
+		};
+
+		$scope.submit = function() {
+			$http
+				.post('/api/contact', $scope.form)
+				.success(function (res) {
+					switch (res.code) {
+						case status.OK: {
+							alertService.addMessage(res.code, 'Contact', res.message);
+						}
+					}
+				});
+		};
 	}]);
 </script>
