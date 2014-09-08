@@ -1,0 +1,70 @@
+@block-bg-color: rgb(245, 245, 245);
+@form-bg-color: #fff;
+@form-border-radius: 10px;
+@form-inner-gap: 50px;
+@form-button-bg-color: #666;
+@form-button-text-color: #fff;
+
+@import "../media";
+
+.bs-contact.container-fluid {
+	.border-radius(@radius) {
+		-webkit-border-radius: @radius;
+		   -moz-border-radius: @radius;
+		        border-radius: @radius;
+	}
+
+	background-color: @block-bg-color;
+
+	@media @Desktop {
+		background-color: inherit;
+	}
+
+	.container {
+		background-color: @block-bg-color;
+
+		.heading {
+			margin-top: 60px;
+			margin-bottom: 60px;
+			font-family: "Source Sans Pro", sans-serif;
+
+			h1 {
+				color: #646464;
+				margin-bottom: 30px;
+			}
+
+			p {
+				display: inline-block;
+				padding-top: 30px;
+				color: #777;
+				border-top: solid 2px #e5e5e5;
+				font-size: 1.25em;
+			}
+		}
+		.bs-form {
+			padding: @form-inner-gap (@form-inner-gap - 15px);
+			margin-bottom: @form-inner-gap;
+			background-color: @form-bg-color;
+			.border-radius(@form-border-radius);
+
+			input, textarea {
+				background-color: #f8f8f8;
+			}
+
+			textarea {
+				resize: vertical;
+			}
+
+			button[type=submit] {
+				color: @form-button-text-color;
+				background-color: @form-button-bg-color;
+				margin-top: @form-inner-gap - 15px;
+				margin-bottom: 0px;
+
+				&:hover {
+					background-color: @form-button-bg-color + #111;
+				}
+			}
+		}
+	}
+}

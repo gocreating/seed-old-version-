@@ -1,0 +1,99 @@
+<div class="container-fluid bs-contact" ng-controller="contactCtrl">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-offset-2 col-sm-8">
+				<div class="heading text-center">
+					<h1>Contact Us{{test}}</h1>
+					<p>Tell us what you think about our little operation.</p>
+				</div>
+				<form class="bs-form row" role="form" name="fm" ng-submit="submit()" novalidate>
+					<!-- Name -->
+					<div
+						class="form-group has-feedback col-sm-6"
+						ng-class="{
+							'has-error': fm.name.$dirty && fm.name.$invalid
+						}">
+						<input
+							name="name" id="name" type="text" placeholder="Name"
+							ng-model="form.name" ng-minlength="1" ng-maxlength="16"
+							class="form-control input-lg">
+						<span ng-show="fm.name.$dirty">
+							<span class="help-block" ng-show="fm.name.$invalid">
+								<span ng-show="fm.name.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+								<span ng-show="fm.name.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+							</span>
+						</span>
+					</div>
+
+					<!-- Email -->
+					<div
+						class="form-group has-feedback col-sm-6"
+						ng-class="{
+							'has-error': fm.email.$dirty && fm.email.$invalid
+						}">
+						<input
+							name="email" id="email" type="email" placeholder="Email"
+							ng-model="form.email" ng-minlength="2" ng-maxlength="16"
+							class="form-control input-lg">
+						<span ng-show="fm.email.$dirty">
+							<span class="help-block" ng-show="fm.email.$invalid">
+								<span ng-show="fm.email.$error.email">{{'MSG_NOT_AN_EMAIL'|translate}}</span>
+								<span ng-show="fm.email.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+								<span ng-show="fm.email.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+							</span>
+						</span>
+					</div>
+					
+					<!-- Subject -->
+					<div
+						class="form-group has-feedback col-sm-12"
+						ng-class="{
+							'has-error': fm.subject.$dirty && fm.subject.$invalid
+						}">
+						<input
+							name="subject" id="subject" type="text" placeholder="Subject"
+							ng-model="form.subject" ng-minlength="2" ng-maxlength="16"
+							class="form-control input-lg">
+						<span ng-show="fm.subject.$dirty">
+							<span class="help-block" ng-show="fm.subject.$invalid">
+								<span ng-show="fm.subject.$error.minlength">{{'MSG_TOO_SHORT'|translate}}</span>
+								<span ng-show="fm.subject.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+							</span>
+						</span>
+					</div>
+
+					<!-- Message -->
+					<div
+						class="form-group has-feedback col-sm-12"
+						ng-class="{
+							'has-error': fm.message.$dirty && fm.message.$invalid
+						}">
+						<textarea
+							name="message" id="message" type="text" placeholder="* Enter your message" rows="8"
+							ng-model="form.message" ng-maxlength="2048" required
+							class="form-control input-lg"></textarea>
+						<span ng-show="fm.message.$dirty">
+							<span class="help-block" ng-show="fm.message.$invalid">
+								<span ng-show="fm.message.$error.required">{{'MSG_REQUIRED'|translate}}</span>
+								<span ng-show="fm.message.$error.maxlength">{{'MSG_TOO_LONG'|translate}}</span>
+							</span>
+						</span>
+					</div>
+
+					<!-- Submit -->
+					<div class="form-group col-sm-offset-3 col-sm-6">
+						<button class="btn btn-lg btn-block" type="submit" ng-disabled="fm.$invalid">Send Message</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="/styles/general/contact-bs.css">
+
+<script type="text/javascript">
+	app.controller('contactCtrl', ['$scope', '$translate', function ($scope, $translate) {
+		$scope.test = 'sfsdofds爽喔kfsd';
+	}]);
+</script>

@@ -5,10 +5,31 @@
 @brand-title-font-size:     32px;
 @menu-item-font-size:       16px;
 
-@menu-item-bg-color-hover:  #006ac3;
+@menu-border-bottom:        1px solid #e7e7e7;
+
+/* Style 1 */
+@block-bg-color:            rgb(248, 248, 248);
+@block-text-color:          #777;
+@menu-item-bg-color-hover:  rgb(66, 139, 202);
 @menu-item-color-hover:     #fff;
-@menu-item-bg-color-active: #006ac3;
+@menu-item-bg-color-active: rgb(66, 139, 202);
 @menu-item-color-active:    #fff;
+
+/* Style 2 */
+// @block-bg-color:            rgb(223, 105, 26);
+// @block-text-color:          #fff;
+// @menu-item-bg-color-hover:  rgb(200, 94, 23);
+// @menu-item-color-hover:     #fff;
+// @menu-item-bg-color-active: rgb(200, 94, 23);
+// @menu-item-color-active:    #fff;
+
+/* Style 3 */
+// @block-bg-color:            rgb(0, 140, 186);
+// @block-text-color:          #fff;
+// @menu-item-bg-color-hover:  rgb(0, 102, 135);
+// @menu-item-color-hover:     #fff;
+// @menu-item-bg-color-active: rgb(0, 102, 135);
+// @menu-item-color-active:    #fff;
 
 @menu-item-transition-time: 300ms;
 
@@ -16,7 +37,8 @@
 
 nav.bs-nav.navbar {
 	margin-bottom: 0px;
-	background-color: white;
+	background-color: @block-bg-color;
+	border-bottom: @menu-border-bottom;
 
 	.navbar-header {
 		margin: @menu-item-vertical-margin;
@@ -26,8 +48,9 @@ nav.bs-nav.navbar {
 			margin-top: 0px;
 			vertical-align: middle;
 			font-size: @brand-title-font-size;
-
+			color: @block-text-color;
 			line-height: @brand-logo-height;
+
 			@media @Tablet {
 				line-height: max(@brand-logo-height, @menu-item-height);
 			}
@@ -43,9 +66,12 @@ nav.bs-nav.navbar {
 		font-size: @menu-item-font-size;
 
 		&>li>a {
+			color: @block-text-color;
+
 			@media @Phone {
 				line-height: @menu-item-height - 28px;
 			}
+
 			line-height: max(@brand-logo-height, @menu-item-height) - 28px;
 		}
 	}

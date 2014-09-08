@@ -1,3 +1,5 @@
+@alert-transition: all 600ms ease;
+
 @import "media";
 
 .bs-alert {
@@ -23,7 +25,7 @@
 		margin-bottom: 0px;
 		opacity: 0.7;
 		.border-radius(0px);
-		.transition(all 300ms ease);
+		.transition(@alert-transition);
 
 		&:hover {
 			opacity: 1;
